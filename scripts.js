@@ -7,42 +7,24 @@
  */
 
 const cards = document.querySelectorAll('.memory-card');
-const moveDisplay = document.getElementById('move-counter');
-const bestDisplay = document.getElementById('best-score');
-const timerDisplay = document.getElementById('timer');
-
 let hasFlippedCard = false;
 let lockBoard = false;
 let firstCard, secondCard;
-let matchedPairs = 0;
 let moves = 0;
-const totalPairs = 12;
-
+let matchedPairs = 0;
+let timerStarted = false;
 let seconds = 0;
-let timerInterval = null;
-let gameStarted = false;
-
-let bestScore = localStorage.getItem('tradicionBestScore') || "-";
-bestDisplay.innerText = bestScore;
-
-function startTimer() {
-  if (!gameStarted) {
-    gameStarted = true;
-    timerInterval = setInterval(() => {
-      seconds++;
-      let mins = Math.floor(seconds / 60);
-      let secs = seconds % 60;
-      timerDisplay.innerText = 
-        `${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
-    }, 1000);
-  }
-}
+let timerInterval;
 
 function flipCard() {
   if (lockBoard) return;
   if (this === firstCard) return;
 
-  startTimer();
+  if (!timerStarted) {
+    startTimer();
+    timerStarted = true;
+  }
+
   this.classList.add('flip');
 
   if (!hasFlippedCard) {
@@ -53,12 +35,11 @@ function flipCard() {
 
   secondCard = this;
   checkForMatch();
+  updateMoves();
 }
 
 function checkForMatch() {
   let isMatch = firstCard.dataset.framework === secondCard.dataset.framework;
-  moves++;
-  moveDisplay.innerText = moves;
   isMatch ? disableCards() : unflipCards();
 }
 
@@ -66,23 +47,21 @@ function disableCards() {
   firstCard.removeEventListener('click', flipCard);
   secondCard.removeEventListener('click', flipCard);
   matchedPairs++;
-  if (matchedPairs === totalPairs) {
+  
+  if (matchedPairs === 12) {
     clearInterval(timerInterval);
-    handleGameOver();
+    showWinMessage();
   }
   resetBoard();
 }
 
 function unflipCards() {
   lockBoard = true;
-  firstCard.classList.add('shake');
-  secondCard.classList.add('shake');
-
   setTimeout(() => {
-    firstCard.classList.remove('flip', 'shake');
-    secondCard.classList.remove('flip', 'shake');
+    firstCard.classList.remove('flip');
+    secondCard.classList.remove('flip');
     resetBoard();
-  }, 1200);
+  }, 1000);
 }
 
 function resetBoard() {
@@ -90,17 +69,26 @@ function resetBoard() {
   [firstCard, secondCard] = [null, null];
 }
 
-function handleGameOver() {
-  if (bestScore === "-" || moves < parseInt(bestScore)) {
-    localStorage.setItem('tradicionBestScore', moves);
-    bestScore = moves;
-    bestDisplay.innerText = moves;
-  }
-  document.getElementById('final-stats').innerText = 
-    `Time: ${timerDisplay.innerText} | Moves: ${moves}`;
-  setTimeout(() => {
-    document.getElementById('win-message').style.display = 'flex';
-  }, 600);
+function updateMoves() {
+  moves++;
+  document.getElementById('move-counter').innerText = moves;
+}
+
+function startTimer() {
+  timerInterval = setInterval(() => {
+    seconds++;
+    let mins = Math.floor(seconds / 60);
+    let secs = seconds % 60;
+    document.getElementById('timer').innerText = 
+      `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  }, 1000);
+}
+
+function showWinMessage() {
+  const overlay = document.getElementById('win-message');
+  const stats = document.getElementById('final-stats');
+  stats.innerText = `You finished in ${moves} moves and ${document.getElementById('timer').innerText}!`;
+  overlay.style.display = 'flex';
 }
 
 (function shuffle() {
