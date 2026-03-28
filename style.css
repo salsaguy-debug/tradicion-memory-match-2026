@@ -1,0 +1,100 @@
+/**
+ * ==============================================================================
+ * PROJECT: Tradición Memory Match
+ * BTG REV: 1.1.7
+ * UPDATES: Added .shake animation and responsive grid gap.
+ * ==============================================================================
+ */
+
+* { padding: 0; margin: 0; box-sizing: border-box; }
+
+body {
+  height: 100vh;
+  background-color: #1a1a1a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Segoe UI', sans-serif;
+  color: #f1c40f;
+  overflow: hidden;
+}
+
+.game-header { text-align: center; margin-bottom: 15px; }
+
+.stats-container {
+  font-size: 1.2rem;
+  margin-top: 10px;
+  background: #333;
+  padding: 8px 20px;
+  border-radius: 25px;
+  border: 2px solid #f1c40f;
+  display: inline-block;
+}
+
+.memory-game {
+  width: 900px;
+  height: 600px;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 12px;
+  perspective: 1000px;
+}
+
+.memory-card {
+  position: relative;
+  background: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transition: transform .5s;
+}
+
+.memory-card.flip { transform: rotateY(180deg); }
+
+.front-face, .back-face {
+  width: 100%; height: 100%;
+  position: absolute;
+  border-radius: 8px;
+  backface-visibility: hidden;
+}
+
+.front-face { 
+  transform: rotateY(180deg); 
+  object-fit: contain; 
+  padding: 5px; 
+  background: #fff;
+}
+
+.back-face { object-fit: cover; border: 3px solid #f1c40f; }
+
+/* Shake animation logic */
+.shake { animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both; }
+
+@keyframes shake {
+  10%, 90% { transform: translate3d(-1px, 0, 0) rotateY(180deg); }
+  20%, 80% { transform: translate3d(2px, 0, 0) rotateY(180deg); }
+  30%, 50%, 70% { transform: translate3d(-4px, 0, 0) rotateY(180deg); }
+  40%, 60% { transform: translate3d(4px, 0, 0) rotateY(180deg); }
+}
+
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.9);
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.message-content {
+  background: #e67e22;
+  padding: 40px;
+  border-radius: 20px;
+  text-align: center;
+  border: 5px solid #f1c40f;
+  color: white;
+}
