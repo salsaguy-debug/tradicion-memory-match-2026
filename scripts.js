@@ -12,11 +12,10 @@ function flipCard() {
   if (lockBoard) return;
   if (this === firstCard) return;
 
-  // Music starts on the first interaction
   if (!timerStarted) {
     const music = document.getElementById('bg-music');
     music.volume = 0.3; 
-    music.play().catch(e => console.log("Audio waiting for user interaction."));
+    music.play().catch(e => console.log("Audio waiting for user click."));
     startTimer();
     timerStarted = true;
   }
@@ -37,10 +36,8 @@ function checkForMatch() {
   let isMatch = firstCard.dataset.framework === secondCard.dataset.framework;
   
   if (isMatch) {
-    document.getElementById('match-sound').play();
     disableCards();
   } else {
-    document.getElementById('mismatch-sound').play();
     unflipCards();
   }
   
@@ -54,7 +51,7 @@ function disableCards() {
   matchedPairs++;
   if (matchedPairs === 12) {
     clearInterval(timerInterval);
-    document.getElementById('bg-music').pause(); // Stop music on win
+    document.getElementById('bg-music').pause(); 
     showWinMessage();
   }
   resetBoard();
@@ -62,9 +59,14 @@ function disableCards() {
 
 function unflipCards() {
   lockBoard = true;
+  
+  // Apply shake effect
+  firstCard.classList.add('shake');
+  secondCard.classList.add('shake');
+
   setTimeout(() => {
-    firstCard.classList.remove('flip');
-    secondCard.classList.remove('flip');
+    firstCard.classList.remove('shake', 'flip');
+    secondCard.classList.remove('shake', 'flip');
     resetBoard();
   }, 1000);
 }
