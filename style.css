@@ -8,7 +8,8 @@ body {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  background: #fdf6e3;
+  /* Use this line for that specific blue background */
+  background-color: #2c7a9b; 
   font-family: sans-serif;
 }
 
