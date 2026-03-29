@@ -21,8 +21,8 @@ body {
 }
 
 .memory-game {
-  width: 900px; /* Wider for 6 columns */
-  height: 600px; /* Shorter for 4 rows */
+  width: 640px;      /* Narrower for 4 columns */
+  height: 900px;     /* Taller for 6 rows */
   margin: auto;
   display: flex;
   flex-wrap: wrap;
@@ -30,8 +30,12 @@ body {
 }
 
 .memory-card {
-  width: calc(16.66% - 10px); /* 6 columns */
-  height: calc(25% - 10px);    /* 4 rows */
+  /* 4 columns: 100% / 4 = 25% */
+  width: calc(25% - 10px); 
+  
+  /* 6 rows: 100% / 6 = 16.66% */
+  height: calc(16.66% - 10px); 
+  
   margin: 5px;
   position: relative;
   transform: scale(1);
