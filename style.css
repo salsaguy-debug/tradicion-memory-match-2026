@@ -1,10 +1,3 @@
-/**
- * ==============================================================================
- * PROJECT: Tradición Memory Match
- * BTG REV: 1.1.7
- * UPDATES: Added .shake animation and responsive grid gap.
- * ==============================================================================
- */
 * {
   padding: 0;
   margin: 0;
@@ -15,25 +8,20 @@ body {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  background: #fdf6e3; /* Soft cream color */
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #fdf6e3;
+  font-family: sans-serif;
 }
 
 .game-header {
   text-align: center;
-  padding: 20px;
-  background: #ffffff;
+  padding: 15px;
+  background: white;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-.stats-container {
-  margin-top: 10px;
-  font-size: 1.2rem;
-}
-
 .memory-game {
-  width: 640px;
-  height: 640px;
+  width: 900px; /* Wider for 6 columns */
+  height: 600px; /* Shorter for 4 rows */
   margin: auto;
   display: flex;
   flex-wrap: wrap;
@@ -41,43 +29,40 @@ body {
 }
 
 .memory-card {
-  width: calc(25% - 10px);
-  height: calc(33.333% - 10px);
+  width: calc(16.66% - 10px); /* 6 columns */
+  height: calc(25% - 10px);    /* 4 rows */
   margin: 5px;
   position: relative;
   transform: scale(1);
   transform-style: preserve-3d;
   transition: transform .5s;
-  box-shadow: 1px 1px 1px rgba(0,0,0,.3);
   cursor: pointer;
 }
 
 .memory-card:active {
   transform: scale(0.97);
-  transition: transform .2s;
 }
 
 .memory-card.flip {
   transform: rotateY(180deg);
 }
 
-.front-face,
-.back-face {
+.front-face, .back-face {
   width: 100%;
   height: 100%;
-  padding: 10px;
+  padding: 5px;
   position: absolute;
   border-radius: 5px;
-  background: #ffffff;
+  background: white;
   backface-visibility: hidden;
   object-fit: contain;
+  border: 1px solid #ddd;
 }
 
 .front-face {
   transform: rotateY(180deg);
 }
 
-/* Win Overlay */
 .overlay {
   display: none;
   position: fixed;
@@ -90,18 +75,7 @@ body {
 
 .message-content {
   background: white;
-  padding: 40px;
+  padding: 30px;
   border-radius: 10px;
   text-align: center;
-}
-
-button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 1rem;
-  background: #2ecc71;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
 }
