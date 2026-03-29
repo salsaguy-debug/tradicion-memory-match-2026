@@ -12,7 +12,11 @@ function flipCard() {
   if (lockBoard) return;
   if (this === firstCard) return;
 
+  // Music starts on the first interaction
   if (!timerStarted) {
+    const music = document.getElementById('bg-music');
+    music.volume = 0.3; 
+    music.play().catch(e => console.log("Audio waiting for user interaction."));
     startTimer();
     timerStarted = true;
   }
@@ -31,7 +35,15 @@ function flipCard() {
 
 function checkForMatch() {
   let isMatch = firstCard.dataset.framework === secondCard.dataset.framework;
-  isMatch ? disableCards() : unflipCards();
+  
+  if (isMatch) {
+    document.getElementById('match-sound').play();
+    disableCards();
+  } else {
+    document.getElementById('mismatch-sound').play();
+    unflipCards();
+  }
+  
   moves++;
   document.getElementById('move-counter').innerText = moves;
 }
@@ -42,6 +54,7 @@ function disableCards() {
   matchedPairs++;
   if (matchedPairs === 12) {
     clearInterval(timerInterval);
+    document.getElementById('bg-music').pause(); // Stop music on win
     showWinMessage();
   }
   resetBoard();
@@ -74,7 +87,7 @@ function startTimer() {
 function showWinMessage() {
   const overlay = document.getElementById('win-message');
   const stats = document.getElementById('final-stats');
-  stats.innerText = `Matched all in ${moves} moves and ${document.getElementById('timer').innerText}!`;
+  stats.innerText = `Finished in ${moves} moves and ${document.getElementById('timer').innerText}!`;
   overlay.style.display = 'flex';
 }
 
