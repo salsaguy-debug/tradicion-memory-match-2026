@@ -29,9 +29,7 @@ body {
 }
 
 .memory-card {
-  /* 4 columns: 25% width */
   width: calc(25% - 10px); 
-  /* 6 rows: 16.66% height */
   height: calc(16.66% - 10px); 
   margin: 5px;
   position: relative;
@@ -43,6 +41,19 @@ body {
 
 .memory-card.flip {
   transform: rotateY(180deg);
+}
+
+/* Shake Animation */
+@keyframes shake {
+  0% { transform: rotateY(180deg) translateX(0); }
+  25% { transform: rotateY(180deg) translateX(-8px); }
+  50% { transform: rotateY(180deg) translateX(8px); }
+  75% { transform: rotateY(180deg) translateX(-8px); }
+  100% { transform: rotateY(180deg) translateX(0); }
+}
+
+.shake {
+  animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
 }
 
 .front-face, .back-face {
@@ -86,10 +97,8 @@ button {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-weight: bold;
 }
 
-/* Make it fit on smaller screens */
 @media (max-width: 660px) {
   .memory-game {
     width: 95vw;
