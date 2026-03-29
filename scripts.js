@@ -8,6 +8,15 @@ let timerStarted = false;
 let seconds = 0;
 let timerInterval;
 
+// Hide loading screen when window is fully loaded
+window.addEventListener('load', () => {
+  const loadingScreen = document.getElementById('loading-screen');
+  loadingScreen.style.opacity = '0';
+  setTimeout(() => {
+    loadingScreen.style.display = 'none';
+  }, 500);
+});
+
 function flipCard() {
   if (lockBoard) return;
   if (this === firstCard) return;
@@ -60,7 +69,6 @@ function disableCards() {
 function unflipCards() {
   lockBoard = true;
   
-  // Apply shake effect
   firstCard.classList.add('shake');
   secondCard.classList.add('shake');
 
