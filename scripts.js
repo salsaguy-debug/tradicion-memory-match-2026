@@ -1,11 +1,3 @@
-/**
- * ==============================================================================
- * PROJECT: Tradición Memory Match
- * BTG REV: 1.1.7
- * UPDATES: Stabilized lockBoard logic; Added 1-second interval Timer.
- * ==============================================================================
- */
-
 const cards = document.querySelectorAll('.memory-card');
 let hasFlippedCard = false;
 let lockBoard = false;
@@ -35,19 +27,19 @@ function flipCard() {
 
   secondCard = this;
   checkForMatch();
-  updateMoves();
 }
 
 function checkForMatch() {
   let isMatch = firstCard.dataset.framework === secondCard.dataset.framework;
   isMatch ? disableCards() : unflipCards();
+  moves++;
+  document.getElementById('move-counter').innerText = moves;
 }
 
 function disableCards() {
   firstCard.removeEventListener('click', flipCard);
   secondCard.removeEventListener('click', flipCard);
   matchedPairs++;
-  
   if (matchedPairs === 12) {
     clearInterval(timerInterval);
     showWinMessage();
@@ -69,11 +61,6 @@ function resetBoard() {
   [firstCard, secondCard] = [null, null];
 }
 
-function updateMoves() {
-  moves++;
-  document.getElementById('move-counter').innerText = moves;
-}
-
 function startTimer() {
   timerInterval = setInterval(() => {
     seconds++;
@@ -87,7 +74,7 @@ function startTimer() {
 function showWinMessage() {
   const overlay = document.getElementById('win-message');
   const stats = document.getElementById('final-stats');
-  stats.innerText = `You finished in ${moves} moves and ${document.getElementById('timer').innerText}!`;
+  stats.innerText = `Matched all in ${moves} moves and ${document.getElementById('timer').innerText}!`;
   overlay.style.display = 'flex';
 }
 
