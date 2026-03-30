@@ -1,30 +1,21 @@
 const cards = document.querySelectorAll('.memory-card');
-const bgMusic = document.getElementById('bg-music');
-const flipSound = document.getElementById('sound-flip');
-const matchSound = document.getElementById('sound-match');
-const mismatchSound = document.getElementById('sound-mismatch');
 
 let hasFlippedCard = false;
 let lockBoard = false;
 let firstCard, secondCard;
-let moves = 0;
-let matchedPairs = 0;
-let timerStarted = false;
-let seconds = 0;
-let timerInterval;
 
-let highScore = localStorage.getItem('tradicionBest') || null;
+// 1. Create the Audio Objects
+const flipSound = new Audio('flip.mp3');
+const matchSound = new Audio('match.mp3');
+const errorSound = new Audio('mismatch.mp3');
 
 function flipCard() {
-  if (lockBoard || this === firstCard) return;
+  if (lockBoard) return;
+  if (this === firstCard) return;
 
-  if (!timerStarted) {
-    bgMusic.play().catch(() => console.log("Music Active"));
-    startTimer();
-    timerStarted = true;
-  }
+  // 2. THE SOUND FIX: Start audio on first click to "unlock" the browser
+  flipSound.play().catch(e => console.log("Audio waiting for user interaction"));
 
-  if (flipSound) { flipSound.currentTime = 0; flipSound.play(); }
   this.classList.add('flip');
 
   if (!hasFlippedCard) {
@@ -32,72 +23,51 @@ function flipCard() {
     firstCard = this;
     return;
   }
+
   secondCard = this;
   checkForMatch();
 }
 
 function checkForMatch() {
   let isMatch = firstCard.dataset.framework === secondCard.dataset.framework;
-  isMatch ? disableCards() : unflipCards();
-  moves++;
-  document.getElementById('move-counter').innerText = moves;
+
+  if (isMatch) {
+    disableCards();
+    // Play Match Sound
+    setTimeout(() => { matchSound.play(); }, 300);
+  } else {
+    unflipCards();
+    // Play Error Sound
+    setTimeout(() => { errorSound.play(); }, 500);
+  }
 }
 
 function disableCards() {
-  setTimeout(() => { if (matchSound) matchSound.play(); }, 300);
   firstCard.removeEventListener('click', flipCard);
   secondCard.removeEventListener('click', flipCard);
-  matchedPairs++;
-  if (matchedPairs === 12) {
-    clearInterval(timerInterval);
-    bgMusic.pause();
-    if (!highScore || seconds < highScore) {
-      localStorage.setItem('tradicionBest', seconds);
-      highScore = seconds;
-    }
-    showWinMessage();
-  }
   resetBoard();
 }
 
 function unflipCards() {
   lockBoard = true;
+
   setTimeout(() => {
-    if (mismatchSound) mismatchSound.play();
     firstCard.classList.remove('flip');
     secondCard.classList.remove('flip');
     resetBoard();
-  }, 1000);
+  }, 1500);
 }
 
-function resetBoard() { [hasFlippedCard, lockBoard] = [false, false]; [firstCard, secondCard] = [null, null]; }
-
-function startTimer() {
-  timerInterval = setInterval(() => {
-    seconds++;
-    let m = Math.floor(seconds / 60).toString().padStart(2, '0');
-    let s = (seconds % 60).toString().padStart(2, '0');
-    document.getElementById('timer').innerText = `${m}:${s}`;
-  }, 1000);
+function resetBoard() {
+  [hasFlippedCard, lockBoard] = [false, false];
+  [firstCard, secondCard] = [null, null];
 }
 
-function showWinMessage() {
-  const m = Math.floor(highScore / 60).toString().padStart(2, '0');
-  const s = (highScore % 60).toString().padStart(2, '0');
-  document.getElementById('final-stats').innerHTML = `Final Time: ${document.getElementById('timer').innerText}<br>Personal Best: ${m}:${s}`;
-  document.getElementById('win-message').style.display = 'flex';
-}
+(function shuffle() {
+  cards.forEach(card => {
+    let randomPos = Math.floor(Math.random() * 12);
+    card.style.order = randomPos;
+  });
+})();
 
-function resetGame() { location.reload(); }
-
-function toggleSettings() {
-  const p = document.getElementById('audio-settings');
-  p.style.display = p.style.display === 'block' ? 'none' : 'block';
-}
-
-function updateVolume() { bgMusic.volume = document.getElementById('bg-volume').value; }
-
-cards.forEach(card => {
-  card.style.order = Math.floor(Math.random() * 24);
-  card.addEventListener('click', flipCard);
-});
+cards.forEach(card => card.addEventListener('click', flipCard));
