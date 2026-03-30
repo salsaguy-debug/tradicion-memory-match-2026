@@ -1,3 +1,8 @@
+/** * REVISION LEVEL: 3.1 
+ * STATUS: BASE CODE - PERMANENT REFERENCE
+ * DEVELOPER NOTE: Use this specific logic for all future iterative changes.
+ */
+
 const cards = document.querySelectorAll('.memory-card');
 const bgMusic = document.getElementById('bg-music');
 const flipSound = document.getElementById('sound-flip');
@@ -19,7 +24,7 @@ function flipCard() {
   if (lockBoard || this === firstCard) return;
 
   if (!timerStarted) {
-    bgMusic.play().catch(() => console.log("Music Active"));
+    bgMusic.play().catch(() => console.log("Audio waiting for interaction"));
     startTimer();
     timerStarted = true;
   }
@@ -32,6 +37,7 @@ function flipCard() {
     firstCard = this;
     return;
   }
+
   secondCard = this;
   checkForMatch();
 }
@@ -48,14 +54,10 @@ function disableCards() {
   firstCard.removeEventListener('click', flipCard);
   secondCard.removeEventListener('click', flipCard);
   matchedPairs++;
+  
   if (matchedPairs === 12) {
     clearInterval(timerInterval);
-    bgMusic.pause();
-    if (!highScore || seconds < highScore) {
-      localStorage.setItem('tradicionBest', seconds);
-      highScore = seconds;
-    }
-    showWinMessage();
+    processWin();
   }
   resetBoard();
 }
@@ -70,7 +72,17 @@ function unflipCards() {
   }, 1000);
 }
 
-function resetBoard() { [hasFlippedCard, lockBoard] = [false, false]; [firstCard, secondCard] = [null, null]; }
+function resetBoard() {
+  [hasFlippedCard, lockBoard] = [false, false];
+  [firstCard, secondCard] = [null, null];
+}
+
+function shuffle() {
+  cards.forEach(card => {
+    let randomPos = Math.floor(Math.random() * 24);
+    card.style.order = randomPos;
+  });
+}
 
 function startTimer() {
   timerInterval = setInterval(() => {
@@ -81,23 +93,42 @@ function startTimer() {
   }, 1000);
 }
 
-function showWinMessage() {
+function processWin() {
+  if (!highScore || seconds < highScore) {
+    localStorage.setItem('tradicionBest', seconds);
+    highScore = seconds;
+  }
   const m = Math.floor(highScore / 60).toString().padStart(2, '0');
   const s = (highScore % 60).toString().padStart(2, '0');
-  document.getElementById('final-stats').innerHTML = `Final Time: ${document.getElementById('timer').innerText}<br>Personal Best: ${m}:${s}`;
+  document.getElementById('final-stats').innerHTML = 
+    `Time: ${document.getElementById('timer').innerText}<br>Best: ${m}:${s}`;
   document.getElementById('win-message').style.display = 'flex';
 }
 
-function resetGame() { location.reload(); }
+function resetGame() {
+  clearInterval(timerInterval);
+  seconds = 0;
+  moves = 0;
+  matchedPairs = 0;
+  timerStarted = false;
+  document.getElementById('timer').innerText = '00:00';
+  document.getElementById('move-counter').innerText = '0';
+  document.getElementById('win-message').style.display = 'none';
+  cards.forEach(card => {
+    card.classList.remove('flip');
+    card.addEventListener('click', flipCard);
+  });
+  setTimeout(shuffle, 500);
+}
 
 function toggleSettings() {
   const p = document.getElementById('audio-settings');
-  p.style.display = p.style.display === 'block' ? 'none' : 'block';
+  p.style.display = (p.style.display === 'none' || p.style.display === '') ? 'flex' : 'none';
 }
 
-function updateVolume() { bgMusic.volume = document.getElementById('bg-volume').value; }
+function updateVolume() {
+  bgMusic.volume = document.getElementById('bg-volume').value;
+}
 
-cards.forEach(card => {
-  card.style.order = Math.floor(Math.random() * 24);
-  card.addEventListener('click', flipCard);
-});
+shuffle();
+cards.forEach(card => card.addEventListener('click', flipCard));
