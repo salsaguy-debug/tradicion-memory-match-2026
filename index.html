@@ -22,6 +22,7 @@
     <div class="stats-container">
       <span>Time: <b id="timer">00:00</b></span>
       <span style="margin-left: 20px;">Moves: <b id="move-counter">0</b></span>
+      <button id="reset-btn" onclick="resetGame()">Reset Game</button>
     </div>
   </div>
 
@@ -56,7 +57,7 @@
     <div class="message-content">
       <h2>¡Felicidades!</h2>
       <p id="final-stats"></p>
-      <button onclick="location.reload()">Play Again</button>
+      <button onclick="resetGame()">Play Again</button>
     </div>
   </div>
 
