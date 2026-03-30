@@ -18,17 +18,17 @@ body {
 .stats-container {
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 15px;
   margin-top: 10px;
 }
 
 .memory-game {
-  width: 95vw;
-  max-width: 800px;
+  width: 98vw;
+  max-width: 900px;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  grid-gap: 8px;
-  margin: 20px auto;
+  grid-gap: 5px;
+  margin: 15px auto;
   perspective: 1000px;
 }
 
@@ -46,17 +46,19 @@ body {
   width: 100%;
   height: 100%;
   position: absolute;
-  border-radius: 8px;
+  border-radius: 6px;
   backface-visibility: hidden;
   background-color: white;
 }
 
+/* WIDEN CHARACTER IMAGES BY 50% */
 .front-face {
-  transform: rotateY(180deg);
+  transform: rotateY(180deg) scaleX(1.5); 
   object-fit: contain;
   padding: 5px;
 }
 
+/* STRETCH LOGO TO CORNERS */
 .back-face {
   background-image: url('img/card-back.png');
   background-size: 100% 100%;
@@ -64,15 +66,20 @@ body {
   background-repeat: no-repeat;
 }
 
-button {
-  padding: 8px 12px;
-  background: #f39c12;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: bold;
+.settings-panel {
+  display: none; position: fixed; top: 50%; left: 50%;
+  transform: translate(-50%, -50%); background: white; color: #333;
+  padding: 20px; border-radius: 10px; z-index: 100;
 }
+
+.overlay {
+  display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.85); justify-content: center; align-items: center; z-index: 1000;
+}
+
+.message-content { background: white; color: #333; padding: 30px; border-radius: 10px; text-align: center; }
+
+button { padding: 8px 12px; background: #f39c12; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
 
 @media (max-width: 600px) {
   .memory-game { grid-template-columns: repeat(4, 1fr); }
