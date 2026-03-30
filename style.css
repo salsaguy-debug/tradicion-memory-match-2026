@@ -85,7 +85,7 @@ body {
   border-radius: 8px;
   background: white;
   backface-visibility: hidden;
-  object-fit: cover; /* Stretches image to fill card area */
+  object-fit: cover; 
 }
 
 .front-face { transform: rotateY(180deg); }
