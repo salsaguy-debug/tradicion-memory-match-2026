@@ -8,31 +8,71 @@
 </head>
 <body>
 
+  <div id="loading-screen">
+    <div class="loader-content">
+      <div class="spinner"></div>
+      <h2>Preparing the Stage...</h2>
+    </div>
+  </div>
+
   <div class="game-header">
     <h1>Memory Match</h1>
     <div class="stats-container">
       <span>Time: <b id="timer">00:00</b></span>
       <span>Moves: <b id="move-counter">0</b></span>
-      <button onclick="toggleSettings()">Audio</button>
-      <button onclick="resetGame()">Reset</button>
+      <button id="settings-btn" onclick="toggleSettings()">Audio</button>
+      <button id="reset-btn" onclick="resetGame()">Reset</button>
     </div>
   </div>
 
   <div id="audio-settings" class="settings-panel">
-    <h3>Volume</h3>
-    <input type="range" id="bg-volume" min="0" max="1" step="0.1" value="0.3" oninput="updateVolume()">
+    <h3>Volume Controls</h3>
+    <div class="control-group">
+      <label>Music</label>
+      <input type="range" id="bg-volume" min="0" max="1" step="0.1" value="0.3" oninput="updateVolume()">
+    </div>
     <button onclick="toggleSettings()">Close</button>
   </div>
 
   <section class="memory-game">
     <div class="memory-card" data-framework="bomba"><img class="front-face" src="img/bomba.png"><div class="back-face"></div></div>
     <div class="memory-card" data-framework="bomba"><img class="front-face" src="img/bomba.png"><div class="back-face"></div></div>
-    </section>
+    <div class="memory-card" data-framework="azul"><img class="front-face" src="img/Azul Transparent.png"><div class="back-face"></div></div>
+    <div class="memory-card" data-framework="azul"><img class="front-face" src="img/Azul Transparent.png"><div class="back-face"></div></div>
+    <div class="memory-card" data-framework="musician"><img class="front-face" src="img/bomba-musician.png"><div class="back-face"></div></div>
+    <div class="memory-card" data-framework="musician"><img class="front-face" src="img/bomba-musician.png"><div class="back-face"></div></div>
+    <div class="memory-card" data-framework="edna"><img class="front-face" src="img/cabezudos-edna-gabriel.png"><div class="back-face"></div></div>
+    <div class="memory-card" data-framework="edna"><img class="front-face" src="img/cabezudos-edna-gabriel.png"><div class="back-face"></div></div>
+    <div class="memory-card" data-framework="cano"><img class="front-face" src="img/cano-barracuda.png"><div class="back-face"></div></div>
+    <div class="memory-card" data-framework="cano"><img class="front-face" src="img/cano-barracuda.png"><div class="back-face"></div></div>
+    <div class="memory-card" data-framework="comalera"><img class="front-face" src="img/comalera.png"><div class="back-face"></div></div>
+    <div class="memory-card" data-framework="comalera"><img class="front-face" src="img/comalera.png"><div class="back-face"></div></div>
+    <div class="memory-card" data-framework="mapale"><img class="front-face" src="img/mapale.png"><div class="back-face"></div></div>
+    <div class="memory-card" data-framework="mapale"><img class="front-face" src="img/mapale.png"><div class="back-face"></div></div>
+    <div class="memory-card" data-framework="viejito"><img class="front-face" src="img/viejito.png"><div class="back-face"></div></div>
+    <div class="memory-card" data-framework="viejito"><img class="front-face" src="img/viejito.png"><div class="back-face"></div></div>
+    <div class="memory-card" data-framework="salsaguy"><img class="front-face" src="img/salsa-guy.png"><div class="back-face"></div></div>
+    <div class="memory-card" data-framework="salsaguy"><img class="front-face" src="img/salsa-guy.png"><div class="back-face"></div></div>
+    <div class="memory-card" data-framework="mex"><img class="front-face" src="img/mex.png"><div class="back-face"></div></div>
+    <div class="memory-card" data-framework="mex"><img class="front-face" src="img/mex.png"><div class="back-face"></div></div>
+    <div class="memory-card" data-framework="tango"><img class="front-face" src="img/tango.png"><div class="back-face"></div></div>
+    <div class="memory-card" data-framework="tango"><img class="front-face" src="img/tango.png"><div class="back-face"></div></div>
+    <div class="memory-card" data-framework="barril"><img class="front-face" src="img/barril.png"><div class="back-face"></div></div>
+    <div class="memory-card" data-framework="barril"><img class="front-face" src="img/barril.png"><div class="back-face"></div></div>
+  </section>
 
-  <audio id="bg-music" src="bg-music.mp3" loop></audio>
-  <audio id="sound-flip" src="flip.mp3"></audio>
-  <audio id="sound-match" src="match.mp3"></audio>
-  <audio id="sound-mismatch" src="mismatch.mp3"></audio>
+  <div id="win-message" class="overlay">
+    <div class="message-content">
+      <h2>¡Felicidades!</h2>
+      <p id="final-stats"></p>
+      <button onclick="resetGame()">Play Again</button>
+    </div>
+  </div>
+
+  <audio id="bg-music" src="img/bg-music.mp3" loop></audio>
+  <audio id="sound-flip" src="img/flip.mp3"></audio>
+  <audio id="sound-match" src="img/match.mp3"></audio>
+  <audio id="sound-mismatch" src="img/mismatch.mp3"></audio>
 
   <script src="scripts.js"></script>
 </body>
