@@ -13,11 +13,17 @@ let timerStarted = false;
 let seconds = 0;
 let timerInterval;
 
-// Volume Controls
+window.addEventListener('load', () => {
+  const loadingScreen = document.getElementById('loading-screen');
+  setTimeout(() => {
+    loadingScreen.style.opacity = '0';
+    setTimeout(() => { loadingScreen.style.display = 'none'; }, 500);
+  }, 1000); 
+});
+
 function updateVolume() {
   const bgVol = document.getElementById('bg-volume').value;
   const sfxVol = document.getElementById('sfx-volume').value;
-  
   bgMusic.volume = bgVol;
   flipSound.volume = sfxVol;
   matchSound.volume = sfxVol;
@@ -34,14 +40,13 @@ function flipCard() {
   if (this === firstCard) return;
 
   if (!timerStarted) {
-    updateVolume(); // Apply user volume choices on start
-    bgMusic.play();
+    updateVolume();
+    bgMusic.play().catch(() => console.log("Music waiting for interaction"));
     startTimer();
     timerStarted = true;
   }
 
   if (flipSound) { flipSound.currentTime = 0; flipSound.play(); }
-
   this.classList.add('flip');
 
   if (!hasFlippedCard) {
@@ -49,7 +54,6 @@ function flipCard() {
     firstCard = this;
     return;
   }
-
   secondCard = this;
   checkForMatch();
 }
@@ -66,11 +70,7 @@ function disableCards() {
   firstCard.removeEventListener('click', flipCard);
   secondCard.removeEventListener('click', flipCard);
   matchedPairs++;
-  if (matchedPairs === 12) {
-    clearInterval(timerInterval);
-    bgMusic.pause();
-    showWinMessage();
-  }
+  if (matchedPairs === 12) { clearInterval(timerInterval); bgMusic.pause(); showWinMessage(); }
   resetBoard();
 }
 
@@ -84,35 +84,15 @@ function unflipCards() {
   }, 1000);
 }
 
-function resetBoard() {
-  [hasFlippedCard, lockBoard] = [false, false];
-  [firstCard, secondCard] = [null, null];
-}
+function resetBoard() { [hasFlippedCard, lockBoard] = [false, false]; [firstCard, secondCard] = [null, null]; }
 
 function startTimer() {
   timerInterval = setInterval(() => {
     seconds++;
     let mins = Math.floor(seconds / 60);
     let secs = seconds % 60;
-    document.getElementById('timer').innerText = 
-      `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    document.getElementById('timer').innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   }, 1000);
-}
-
-function resetGame() {
-  clearInterval(timerInterval);
-  bgMusic.pause();
-  bgMusic.currentTime = 0;
-  seconds = 0; moves = 0; matchedPairs = 0; timerStarted = false;
-  document.getElementById('timer').innerText = "00:00";
-  document.getElementById('move-counter').innerText = "0";
-  document.getElementById('win-message').style.display = 'none';
-  cards.forEach(card => {
-    card.classList.remove('flip');
-    card.addEventListener('click', flipCard);
-  });
-  setTimeout(shuffle, 500); 
-  resetBoard();
 }
 
 function showWinMessage() {
@@ -121,11 +101,17 @@ function showWinMessage() {
   overlay.style.display = 'flex';
 }
 
-function shuffle() {
-  cards.forEach(card => {
-    let randomPos = Math.floor(Math.random() * 24);
-    card.style.order = randomPos;
-  });
+function shuffle() { cards.forEach(card => card.style.order = Math.floor(Math.random() * 24)); }
+
+function resetGame() {
+  clearInterval(timerInterval);
+  bgMusic.pause(); bgMusic.currentTime = 0;
+  seconds = 0; moves = 0; matchedPairs = 0; timerStarted = false;
+  document.getElementById('timer').innerText = "00:00";
+  document.getElementById('move-counter').innerText = "0";
+  document.getElementById('win-message').style.display = 'none';
+  cards.forEach(card => { card.classList.remove('flip'); card.addEventListener('click', flipCard); });
+  setTimeout(shuffle, 500); resetBoard();
 }
 
 shuffle();
