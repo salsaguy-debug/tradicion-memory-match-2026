@@ -55,6 +55,27 @@ body {
   background: rgba(255, 255, 255, 0.1);
 }
 
+.stats-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  gap: 20px;
+}
+
+#reset-btn {
+  background: #f39c12;
+  color: white;
+  padding: 5px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.3s;
+}
+
+#reset-btn:hover { background: #e67e22; }
+
 .memory-game {
   width: 640px;      
   height: 960px;     
