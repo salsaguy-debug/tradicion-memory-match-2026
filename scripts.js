@@ -13,13 +13,11 @@ let timerStarted = false;
 let seconds = 0;
 let timerInterval;
 
-let highScore = localStorage.getItem('tradicionBest') || null;
-
 function flipCard() {
   if (lockBoard || this === firstCard) return;
 
   if (!timerStarted) {
-    bgMusic.play().catch(() => console.log("Audio waiting for interaction"));
+    bgMusic.play().catch(() => console.log("Music ready"));
     startTimer();
     timerStarted = true;
   }
@@ -51,10 +49,6 @@ function disableCards() {
   if (matchedPairs === 12) {
     clearInterval(timerInterval);
     bgMusic.pause();
-    if (!highScore || seconds < highScore) {
-      localStorage.setItem('tradicionBest', seconds);
-      highScore = seconds;
-    }
     showWinMessage();
   }
   resetBoard();
@@ -82,9 +76,7 @@ function startTimer() {
 }
 
 function showWinMessage() {
-  const m = Math.floor(highScore / 60).toString().padStart(2, '0');
-  const s = (highScore % 60).toString().padStart(2, '0');
-  document.getElementById('final-stats').innerHTML = `Time: ${document.getElementById('timer').innerText}<br>Best: ${m}:${s}`;
+  document.getElementById('final-stats').innerHTML = `Time: ${document.getElementById('timer').innerText}<br>Moves: ${moves}`;
   document.getElementById('win-message').style.display = 'flex';
 }
 
@@ -101,5 +93,3 @@ cards.forEach(card => {
   card.style.order = Math.floor(Math.random() * 24);
   card.addEventListener('click', flipCard);
 });
-
-window.onload = () => { document.getElementById('loading-screen').style.display = 'none'; };
