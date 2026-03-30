@@ -27,7 +27,7 @@ body {
   max-width: 900px;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  grid-gap: 5px;
+  grid-gap: 8px;
   margin: 15px auto;
   perspective: 1000px;
 }
@@ -38,6 +38,9 @@ body {
   transform-style: preserve-3d;
   transition: transform .5s;
   cursor: pointer;
+  /* CRITICAL: This hides the parts of the character that scale past the card edges */
+  overflow: hidden; 
+  border-radius: 6px;
 }
 
 .memory-card.flip { transform: rotateY(180deg); }
@@ -46,19 +49,19 @@ body {
   width: 100%;
   height: 100%;
   position: absolute;
-  border-radius: 6px;
   backface-visibility: hidden;
   background-color: white;
 }
 
-/* WIDEN CHARACTER IMAGES BY 50% */
+/* THE CHARACTER FIX: Scaling 1.5x while maintaining proportions */
 .front-face {
-  transform: rotateY(180deg) scaleX(1.5); 
+  transform: rotateY(180deg) scale(1.5); 
   object-fit: contain;
-  padding: 5px;
+  /* Adjusting top/bottom padding to center the larger character */
+  padding: 2px;
 }
 
-/* STRETCH LOGO TO CORNERS */
+/* THE LOGO FIX: Perfectly filled card back */
 .back-face {
   background-image: url('img/card-back.png');
   background-size: 100% 100%;
