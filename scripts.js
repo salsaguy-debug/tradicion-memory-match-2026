@@ -14,17 +14,15 @@ let seconds = 0;
 let timerInterval;
 
 window.addEventListener('load', () => {
-  const loadingScreen = document.getElementById('loading-screen');
   setTimeout(() => {
-    loadingScreen.style.opacity = '0';
-    setTimeout(() => { loadingScreen.style.display = 'none'; }, 500);
-  }, 1000); 
+    document.getElementById('loading-screen').style.opacity = '0';
+    setTimeout(() => { document.getElementById('loading-screen').style.display = 'none'; }, 500);
+  }, 1000);
 });
 
 function updateVolume() {
-  const bgVol = document.getElementById('bg-volume').value;
+  bgMusic.volume = document.getElementById('bg-volume').value;
   const sfxVol = document.getElementById('sfx-volume').value;
-  bgMusic.volume = bgVol;
   flipSound.volume = sfxVol;
   matchSound.volume = sfxVol;
   mismatchSound.volume = sfxVol;
@@ -36,12 +34,11 @@ function toggleSettings() {
 }
 
 function flipCard() {
-  if (lockBoard) return;
-  if (this === firstCard) return;
+  if (lockBoard || this === firstCard) return;
 
   if (!timerStarted) {
     updateVolume();
-    bgMusic.play().catch(() => console.log("Music waiting for interaction"));
+    bgMusic.play();
     startTimer();
     timerStarted = true;
   }
@@ -60,7 +57,11 @@ function flipCard() {
 
 function checkForMatch() {
   let isMatch = firstCard.dataset.framework === secondCard.dataset.framework;
-  isMatch ? disableCards() : unflipCards();
+  if (isMatch) {
+    disableCards();
+  } else {
+    unflipCards();
+  }
   moves++;
   document.getElementById('move-counter').innerText = moves;
 }
@@ -96,9 +97,8 @@ function startTimer() {
 }
 
 function showWinMessage() {
-  const overlay = document.getElementById('win-message');
   document.getElementById('final-stats').innerText = `Matched in ${moves} moves and ${document.getElementById('timer').innerText}!`;
-  overlay.style.display = 'flex';
+  document.getElementById('win-message').style.display = 'flex';
 }
 
 function shuffle() { cards.forEach(card => card.style.order = Math.floor(Math.random() * 24)); }
@@ -111,7 +111,7 @@ function resetGame() {
   document.getElementById('move-counter').innerText = "0";
   document.getElementById('win-message').style.display = 'none';
   cards.forEach(card => { card.classList.remove('flip'); card.addEventListener('click', flipCard); });
-  setTimeout(shuffle, 500); resetBoard();
+  shuffle(); resetBoard();
 }
 
 shuffle();
