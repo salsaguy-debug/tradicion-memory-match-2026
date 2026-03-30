@@ -38,9 +38,8 @@ body {
   transform-style: preserve-3d;
   transition: transform .5s;
   cursor: pointer;
-  /* CRITICAL: This hides the parts of the character that scale past the card edges */
-  overflow: hidden; 
-  border-radius: 6px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
 .memory-card.flip { transform: rotateY(180deg); }
@@ -51,22 +50,24 @@ body {
   position: absolute;
   backface-visibility: hidden;
   background-color: white;
+  border-radius: 8px;
 }
 
-/* THE CHARACTER FIX: Scaling 1.5x while maintaining proportions */
+/* THE CHARACTER FIX: Fills the white box naturally */
 .front-face {
-  transform: rotateY(180deg) scale(1.5); 
-  object-fit: contain;
-  /* Adjusting top/bottom padding to center the larger character */
-  padding: 2px;
+  transform: rotateY(180deg); 
+  object-fit: cover; /* This makes the image fill the frame without distortion */
+  object-position: center;
 }
 
-/* THE LOGO FIX: Perfectly filled card back */
+/* THE LOGO FIX: Custom Tradición Backing */
 .back-face {
   background-image: url('img/card-back.png');
-  background-size: 100% 100%;
+  background-size: contain; /* Keeps the logo proportions perfect */
   background-position: center;
   background-repeat: no-repeat;
+  background-color: #ffffff; /* Ensures white borders if logo is slim */
+  border: 4px solid #ffffff;
 }
 
 .settings-panel {
