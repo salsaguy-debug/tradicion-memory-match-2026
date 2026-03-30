@@ -10,10 +10,10 @@ let timerInterval;
 
 window.addEventListener('load', () => {
   const loadingScreen = document.getElementById('loading-screen');
-  loadingScreen.style.opacity = '0';
   setTimeout(() => {
-    loadingScreen.style.display = 'none';
-  }, 500);
+    loadingScreen.style.opacity = '0';
+    setTimeout(() => { loadingScreen.style.display = 'none'; }, 500);
+  }, 1000); 
 });
 
 function flipCard() {
@@ -39,13 +39,11 @@ function flipCard() {
 
 function checkForMatch() {
   let isMatch = firstCard.dataset.framework === secondCard.dataset.framework;
-  
   if (isMatch) {
     disableCards();
   } else {
     unflipCards();
   }
-  
   moves++;
   document.getElementById('move-counter').innerText = moves;
 }
@@ -63,13 +61,9 @@ function disableCards() {
 
 function unflipCards() {
   lockBoard = true;
-  
-  firstCard.classList.add('shake');
-  secondCard.classList.add('shake');
-
   setTimeout(() => {
-    firstCard.classList.remove('shake', 'flip');
-    secondCard.classList.remove('shake', 'flip');
+    firstCard.classList.remove('flip');
+    secondCard.classList.remove('flip');
     resetBoard();
   }, 1000);
 }
