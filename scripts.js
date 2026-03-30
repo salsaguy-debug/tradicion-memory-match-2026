@@ -1,8 +1,8 @@
 const cards = document.querySelectorAll('.memory-card');
+const bgMusic = document.getElementById('bg-music');
 const flipSound = document.getElementById('sound-flip');
 const matchSound = document.getElementById('sound-match');
 const mismatchSound = document.getElementById('sound-mismatch');
-const bgMusic = document.getElementById('bg-music');
 
 let hasFlippedCard = false;
 let lockBoard = false;
@@ -13,32 +13,16 @@ let timerStarted = false;
 let seconds = 0;
 let timerInterval;
 
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    document.getElementById('loading-screen').style.opacity = '0';
-    setTimeout(() => { document.getElementById('loading-screen').style.display = 'none'; }, 500);
-  }, 1000);
-});
-
-function updateVolume() {
-  bgMusic.volume = document.getElementById('bg-volume').value;
-  const sfxVol = document.getElementById('sfx-volume').value;
-  flipSound.volume = sfxVol;
-  matchSound.volume = sfxVol;
-  mismatchSound.volume = sfxVol;
-}
-
-function toggleSettings() {
-  const panel = document.getElementById('audio-settings');
-  panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
-}
+// High Score
+let highScore = localStorage.getItem('tradicionHighScore') || null;
 
 function flipCard() {
-  if (lockBoard || this === firstCard) return;
+  if (lockBoard) return;
+  if (this === firstCard) return;
 
+  // ACTIVATE MUSIC ON FIRST CLICK
   if (!timerStarted) {
-    updateVolume();
-    bgMusic.play();
+    startMusic();
     startTimer();
     timerStarted = true;
   }
@@ -55,6 +39,17 @@ function flipCard() {
   checkForMatch();
 }
 
+function startMusic() {
+  bgMusic.volume = 0.3;
+  // Browser workaround: play returns a promise
+  let playPromise = bgMusic.play();
+  if (playPromise !== undefined) {
+    playPromise.catch(error => {
+      console.log("Playback prevented. Ensure audio files are in the main folder.");
+    });
+  }
+}
+
 function checkForMatch() {
   let isMatch = firstCard.dataset.framework === secondCard.dataset.framework;
   if (isMatch) {
@@ -67,51 +62,77 @@ function checkForMatch() {
 }
 
 function disableCards() {
-  setTimeout(() => { if (matchSound) { matchSound.currentTime = 0; matchSound.play(); } }, 300);
+  setTimeout(() => { if (matchSound) matchSound.play(); }, 300);
   firstCard.removeEventListener('click', flipCard);
   secondCard.removeEventListener('click', flipCard);
   matchedPairs++;
-  if (matchedPairs === 12) { clearInterval(timerInterval); bgMusic.pause(); showWinMessage(); }
+  
+  if (matchedPairs === 12) {
+    clearInterval(timerInterval);
+    bgMusic.pause();
+    saveHighScore();
+    showWinMessage();
+  }
   resetBoard();
 }
 
 function unflipCards() {
   lockBoard = true;
   setTimeout(() => {
-    if (mismatchSound) { mismatchSound.currentTime = 0; mismatchSound.play(); }
+    if (mismatchSound) mismatchSound.play();
     firstCard.classList.remove('flip');
     secondCard.classList.remove('flip');
     resetBoard();
   }, 1000);
 }
 
-function resetBoard() { [hasFlippedCard, lockBoard] = [false, false]; [firstCard, secondCard] = [null, null]; }
+function resetBoard() {
+  [hasFlippedCard, lockBoard] = [false, false];
+  [firstCard, secondCard] = [null, null];
+}
 
 function startTimer() {
   timerInterval = setInterval(() => {
     seconds++;
     let mins = Math.floor(seconds / 60);
     let secs = seconds % 60;
-    document.getElementById('timer').innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    document.getElementById('timer').innerText = 
+      `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   }, 1000);
 }
 
-function showWinMessage() {
-  document.getElementById('final-stats').innerText = `Matched in ${moves} moves and ${document.getElementById('timer').innerText}!`;
-  document.getElementById('win-message').style.display = 'flex';
+function saveHighScore() {
+  if (!highScore || seconds < highScore) {
+    localStorage.setItem('tradicionHighScore', seconds);
+    highScore = seconds;
+  }
 }
 
-function shuffle() { cards.forEach(card => card.style.order = Math.floor(Math.random() * 24)); }
+function showWinMessage() {
+  const overlay = document.getElementById('win-message');
+  const bestTime = highScore ? Math.floor(highScore/60).toString().padStart(2,'0') + ":" + (highScore%60).toString().padStart(2,'0') : "--:--";
+  document.getElementById('final-stats').innerHTML = `
+    Moves: ${moves} | Time: ${document.getElementById('timer').innerText}<br>
+    🏆 Best Time: ${bestTime}
+  `;
+  overlay.style.display = 'flex';
+}
+
+function shuffle() {
+  cards.forEach(card => card.style.order = Math.floor(Math.random() * 24));
+}
 
 function resetGame() {
-  clearInterval(timerInterval);
-  bgMusic.pause(); bgMusic.currentTime = 0;
-  seconds = 0; moves = 0; matchedPairs = 0; timerStarted = false;
-  document.getElementById('timer').innerText = "00:00";
-  document.getElementById('move-counter').innerText = "0";
-  document.getElementById('win-message').style.display = 'none';
-  cards.forEach(card => { card.classList.remove('flip'); card.addEventListener('click', flipCard); });
-  shuffle(); resetBoard();
+  location.reload(); // Cleanest way to reset everything and shuffle
+}
+
+function toggleSettings() {
+  const panel = document.getElementById('audio-settings');
+  panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+}
+
+function updateVolume() {
+  bgMusic.volume = document.getElementById('bg-volume').value;
 }
 
 shuffle();
