@@ -16,38 +16,60 @@ body {
   background-color: #2c7a9b;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   overflow-x: hidden;
+  color: white;
 }
 
 .game-header {
-  color: white;
   text-align: center;
-  padding: 15px;
+  padding: 20px 10px;
+}
+
+.game-header h1 {
+  margin-bottom: 10px;
+  font-size: 2.5rem;
 }
 
 .stats-container {
-  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
-.stats-container span {
-  margin: 0 15px;
+/* Match the Orange Buttons from Screenshot */
+.btn-orange {
+  background-color: #f39c12;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn-orange:hover {
+  background-color: #e67e22;
 }
 
 /* Board Layout */
 .memory-game {
-  width: 640px;
-  height: 640px;
-  margin: auto;
+  width: 900px;
+  max-width: 95%;
+  height: auto;
+  margin: 20px auto;
   display: flex;
   flex-wrap: wrap;
   perspective: 1000px;
+  justify-content: center;
 }
 
 .memory-card {
-  width: calc(25% - 10px);
-  height: calc(33.333% - 10px);
+  width: calc(16.666% - 10px); /* 6 cards per row for 24 cards total */
+  height: 180px;
   margin: 5px;
   position: relative;
-  transform: scale(1);
   transform-style: preserve-3d;
   transition: transform .5s;
   cursor: pointer;
@@ -61,14 +83,14 @@ body {
   width: 100%;
   height: 100%;
   position: absolute;
-  border-radius: 8px;
+  border-radius: 10px;
   background: #ffffff;
   backface-visibility: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 10px;
-  box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
 }
 
 .front-face {
@@ -96,35 +118,16 @@ body {
 .message-content {
   background: #fff;
   color: #333;
-  padding: 30px;
-  border-radius: 12px;
+  padding: 40px;
+  border-radius: 15px;
   text-align: center;
-  box-shadow: 0 0 20px rgba(0,0,0,0.5);
-}
-
-button {
-  padding: 8px 16px;
-  border-radius: 5px;
-  border: none;
-  background-color: #fff;
-  color: #2c7a9b;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-button:hover {
-  background-color: #f0f0f0;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
 /* Mobile Adjustments */
-@media (max-width: 640px) {
-  .memory-game {
-    width: 95vw;
-    height: 70vh;
-  }
+@media (max-width: 768px) {
   .memory-card {
-    width: calc(33.333% - 10px);
-    height: calc(25% - 10px);
+    width: calc(33.333% - 10px); /* 3 cards per row */
+    height: 140px;
   }
 }
