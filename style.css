@@ -1,7 +1,6 @@
-/* 1. HARD RESET - DO NOT REMOVE */
 * {
-  padding: 0 !important;
-  margin: 0 !important;
+  padding: 0;
+  margin: 0;
   box-sizing: border-box;
 }
 
@@ -12,9 +11,9 @@ body {
   background-color: #2c7a9b;
   font-family: sans-serif;
   color: white;
+  overflow-x: hidden;
 }
 
-/* 2. LOADING SCREEN */
 #loading-screen {
   position: fixed;
   top: 0; left: 0; width: 100%; height: 100%;
@@ -23,28 +22,26 @@ body {
   justify-content: center;
   align-items: center;
   z-index: 200;
+  transition: opacity 0.5s ease-out;
 }
 
-.loader-logo {
-  max-width: 280px;
-  width: 80%;
-  height: auto;
-}
+.loader-logo { max-width: 250px; margin-bottom: 20px; }
 
-/* 3. THE GAME BOARD */
+.game-header { text-align: center; padding: 15px; background: rgba(0,0,0,0.2); }
+
 .memory-game {
   width: 640px;      
-  height: 960px;     
-  margin: 20px auto !important;
+  height: 900px;     
+  margin: 20px auto;
   display: flex;
   flex-wrap: wrap;
   perspective: 1000px;
 }
 
 .memory-card {
-  width: calc(25% - 10px) !important; 
-  height: calc(16.66% - 10px) !important; 
-  margin: 5px !important;
+  width: calc(25% - 10px); 
+  height: calc(16.66% - 10px); 
+  margin: 5px;
   position: relative;
   transform-style: preserve-3d;
   transition: transform .5s;
@@ -53,36 +50,57 @@ body {
 
 .memory-card.flip { transform: rotateY(180deg); }
 
-/* 4. THE CARD FACES - THE FIX IS HERE */
+/* --- THE STRETCH FIXES --- */
+
 .front-face, .back-face {
   width: 100% !important;
   height: 100% !important;
   position: absolute;
-  top: 0 !important;
-  left: 0 !important;
+  top: 0;
+  left: 0;
   border-radius: 8px;
   backface-visibility: hidden;
-  display: block !important;
 }
 
-/* The Tradición Side (STRETCHED TO EDGES) */
+/* The Tradición side (The forced stretch) */
 .back-face {
-  object-fit: fill !important; 
-  background-color: white; /* Ensures no transparency gaps */
+  background-image: url('card-back.png');
+  background-size: 100% 100% !important; /* This forces it to all 4 edges */
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: white; 
 }
 
-/* The Character Side (PROPORTIONAL) */
 .front-face {
-  object-fit: contain !important; 
   background-color: white;
+  object-fit: contain;
+  padding: 5px;
   transform: rotateY(180deg);
 }
 
-/* 5. WIN MESSAGE */
+/* --- OVERLAYS --- */
 .overlay {
   display: none;
   position: fixed;
-  top: 0; left: 0; width: 100%; height: 100%;
+  top: 0; left: 0; right: 0; bottom: 0;
   background: rgba(0,0,0,0.8);
   justify-content: center; align-items: center;
+  z-index: 10;
+}
+
+.message-content {
+  background: white; color: #333;
+  padding: 30px; border-radius: 10px;
+  text-align: center;
+}
+
+button {
+  margin-top: 15px; padding: 10px 20px;
+  background: #e74c3c; color: white;
+  border: none; border-radius: 5px;
+  cursor: pointer;
+}
+
+@media (max-width: 660px) {
+  .memory-game { width: 95vw; height: 80vh; }
 }
