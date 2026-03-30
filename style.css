@@ -80,17 +80,16 @@ body {
 .front-face, .back-face {
   width: 100%;
   height: 100%;
-  padding: 0; /* Ensures no white borders */
+  padding: 0;
   position: absolute;
   border-radius: 8px;
   background: white;
   backface-visibility: hidden;
-  object-fit: cover; /* STRETCH TO FIT */
+  object-fit: cover; /* Stretches image to fill card area */
 }
 
 .front-face { transform: rotateY(180deg); }
 
-/* Message Overlay */
 .overlay {
   display: none;
   position: fixed;
