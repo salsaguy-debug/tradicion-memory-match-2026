@@ -2,21 +2,21 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tradición Memory Match</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-  <div class="game-header">
-    <h1>Tradición Memory Match</h1>
-    <div class="stats-container">
-      <span>Time: <b id="timer">00:00</b></span>
-      <span>Moves: <b id="move-counter">0</b></span>
-      <button onclick="toggleSettings()">Audio Settings</button>
-      <button onclick="resetGame()">Reset Game</button>
+  <section class="memory-game">
+    <div class="memory-card" data-framework="bomba">
+      <img class="front-face" src="img/bomba.png" alt="Bomba">
+      <img class="back-face" src="img/card-back.png" alt="Tradicion Logo">
     </div>
-  </div>
+    <div class="memory-card" data-framework="bomba">
+      <img class="front-face" src="img/bomba.png" alt="Bomba">
+      <img class="back-face" src="img/card-back.png" alt="Tradicion Logo">
+    </div>
+
+    </section>
 
   <div id="audio-settings" class="settings-panel">
     <h3>Volume</h3>
