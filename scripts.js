@@ -8,7 +8,6 @@ let timerStarted = false;
 let seconds = 0;
 let timerInterval;
 
-// Hide loading screen when window is fully loaded
 window.addEventListener('load', () => {
   const loadingScreen = document.getElementById('loading-screen');
   loadingScreen.style.opacity = '0';
@@ -22,9 +21,6 @@ function flipCard() {
   if (this === firstCard) return;
 
   if (!timerStarted) {
-    const music = document.getElementById('bg-music');
-    music.volume = 0.3; 
-    music.play().catch(e => console.log("Audio waiting for user click."));
     startTimer();
     timerStarted = true;
   }
@@ -60,7 +56,6 @@ function disableCards() {
   matchedPairs++;
   if (matchedPairs === 12) {
     clearInterval(timerInterval);
-    document.getElementById('bg-music').pause(); 
     showWinMessage();
   }
   resetBoard();
@@ -97,7 +92,7 @@ function startTimer() {
 function showWinMessage() {
   const overlay = document.getElementById('win-message');
   const stats = document.getElementById('final-stats');
-  stats.innerText = `Finished in ${moves} moves and ${document.getElementById('timer').innerText}!`;
+  stats.innerText = `Matched in ${moves} moves and ${document.getElementById('timer').innerText}!`;
   overlay.style.display = 'flex';
 }
 
