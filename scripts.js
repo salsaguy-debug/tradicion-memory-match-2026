@@ -92,11 +92,38 @@ function showWinMessage() {
   overlay.style.display = 'flex';
 }
 
-(function shuffle() {
+function shuffle() {
   cards.forEach(card => {
     let randomPos = Math.floor(Math.random() * 24);
     card.style.order = randomPos;
   });
-})();
+}
+
+function resetGame() {
+  // Reset Variables
+  clearInterval(timerInterval);
+  seconds = 0;
+  moves = 0;
+  matchedPairs = 0;
+  timerStarted = false;
+  
+  // Reset UI
+  document.getElementById('timer').innerText = "00:00";
+  document.getElementById('move-counter').innerText = "0";
+  document.getElementById('win-message').style.display = 'none';
+  
+  // Flip all cards back and re-enable clicks
+  cards.forEach(card => {
+    card.classList.remove('flip');
+    card.addEventListener('click', flipCard);
+  });
+
+  // Shuffle again
+  setTimeout(shuffle, 500); 
+  resetBoard();
+}
+
+// Initial Shuffle
+shuffle();
 
 cards.forEach(card => card.addEventListener('click', flipCard));
