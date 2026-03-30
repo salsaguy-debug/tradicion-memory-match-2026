@@ -23,13 +23,19 @@ let highScore = localStorage.getItem('tradicionBest') || null;
 function flipCard() {
   if (lockBoard || this === firstCard) return;
 
+  // Initialize Audio & Timer on first flip
   if (!timerStarted) {
-    bgMusic.play().catch(() => console.log("Audio waiting for interaction"));
+    bgMusic.volume = 0.3;
+    bgMusic.play().catch(() => console.log("User interaction required for audio"));
     startTimer();
     timerStarted = true;
   }
 
-  if (flipSound) { flipSound.currentTime = 0; flipSound.play(); }
+  if (flipSound) { 
+    flipSound.currentTime = 0; 
+    flipSound.play(); 
+  }
+
   this.classList.add('flip');
 
   if (!hasFlippedCard) {
