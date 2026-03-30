@@ -32,28 +32,9 @@ body {
   width: 80%;
   height: auto;
   margin-bottom: 25px;
-  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));
 }
 
-.spinner {
-  width: 50px; height: 50px;
-  border: 5px solid rgba(255,255,255,0.3);
-  border-top: 5px solid white;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin: 0 auto 20px;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.game-header {
-  text-align: center;
-  padding: 15px;
-  background: rgba(255, 255, 255, 0.1);
-}
+/* --- THE FIX IS HERE --- */
 
 .memory-game {
   width: 640px;      
@@ -69,7 +50,6 @@ body {
   height: calc(16.66% - 10px); 
   margin: 5px;
   position: relative;
-  transform: scale(1);
   transform-style: preserve-3d;
   transition: transform .5s;
   cursor: pointer;
@@ -77,30 +57,38 @@ body {
 
 .memory-card.flip { transform: rotateY(180deg); }
 
-.front-face {
-  width: 100%;
-  height: 100%;
-  padding: 0;
+/* Front and Back Face Settings */
+.front-face, .back-face {
+  width: 100% !important;
+  height: 100% !important;
+  padding: 0 !important;      /* Removes the white border padding */
+  margin: 0 !important;
   position: absolute;
   border-radius: 8px;
   background: white;
   backface-visibility: hidden;
-  object-fit: contain; /* Keeps the character portraits proportional */
+}
+
+/* The character side */
+.front-face {
+  object-fit: contain;       /* Keeps characters looking normal */
   transform: rotateY(180deg);
 }
 
+/* The Tradición side - THE CRITICAL STRETCH FIX */
 .back-face {
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  position: absolute;
-  border-radius: 8px;
-  background: white;
-  backface-visibility: hidden;
-  object-fit: fill; /* FORCES IMAGE TO STRETCH TO ALL EDGES */
+  object-fit: fill !important; /* FORCES the image to stretch top-to-bottom */
+  display: block;
 }
 
-/* Win Message */
+/* --- END OF FIX --- */
+
+.game-header {
+  text-align: center;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
 .overlay {
   display: none;
   position: fixed;
