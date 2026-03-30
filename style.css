@@ -11,9 +11,9 @@ body {
   background-color: #2c7a9b;
   font-family: sans-serif;
   color: white;
-  overflow-x: hidden;
 }
 
+/* Loading Screen */
 #loading-screen {
   position: fixed;
   top: 0; left: 0; width: 100%; height: 100%;
@@ -25,13 +25,20 @@ body {
   transition: opacity 0.5s ease-out;
 }
 
-.loader-logo { max-width: 250px; margin-bottom: 20px; }
+.loader-content { text-align: center; }
 
-.game-header { text-align: center; padding: 15px; background: rgba(0,0,0,0.2); }
+.loader-logo {
+  max-width: 280px;
+  width: 80%;
+  height: auto;
+  margin-bottom: 25px;
+}
+
+/* --- THE FIX IS HERE --- */
 
 .memory-game {
   width: 640px;      
-  height: 900px;     
+  height: 960px;     
   margin: 20px auto;
   display: flex;
   flex-wrap: wrap;
@@ -50,35 +57,38 @@ body {
 
 .memory-card.flip { transform: rotateY(180deg); }
 
-/* --- THE STRETCH FIXES --- */
-
+/* Front and Back Face Settings */
 .front-face, .back-face {
   width: 100% !important;
   height: 100% !important;
+  padding: 0 !important;      /* Removes the white border padding */
+  margin: 0 !important;
   position: absolute;
-  top: 0;
-  left: 0;
   border-radius: 8px;
+  background: white;
   backface-visibility: hidden;
 }
 
-/* The Tradición side (The forced stretch) */
-.back-face {
-  background-image: url('card-back.png');
-  background-size: 100% 100% !important; /* This forces it to all 4 edges */
-  background-repeat: no-repeat;
-  background-position: center;
-  background-color: white; 
-}
-
+/* The character side */
 .front-face {
-  background-color: white;
-  object-fit: contain;
-  padding: 5px;
+  object-fit: contain;       /* Keeps characters looking normal */
   transform: rotateY(180deg);
 }
 
-/* --- OVERLAYS --- */
+/* The Tradición side - THE CRITICAL STRETCH FIX */
+.back-face {
+  object-fit: fill !important; /* FORCES the image to stretch top-to-bottom */
+  display: block;
+}
+
+/* --- END OF FIX --- */
+
+.game-header {
+  text-align: center;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
 .overlay {
   display: none;
   position: fixed;
@@ -98,9 +108,9 @@ button {
   margin-top: 15px; padding: 10px 20px;
   background: #e74c3c; color: white;
   border: none; border-radius: 5px;
-  cursor: pointer;
+  cursor: pointer; font-weight: bold;
 }
 
 @media (max-width: 660px) {
-  .memory-game { width: 95vw; height: 80vh; }
+  .memory-game { width: 95vw; height: 85vh; }
 }
