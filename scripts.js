@@ -13,21 +13,28 @@ let timerStarted = false;
 let seconds = 0;
 let timerInterval;
 
-window.addEventListener('load', () => {
-  const loadingScreen = document.getElementById('loading-screen');
-  setTimeout(() => {
-    loadingScreen.style.opacity = '0';
-    setTimeout(() => { loadingScreen.style.display = 'none'; }, 500);
-  }, 1000); 
-});
+// Volume Controls
+function updateVolume() {
+  const bgVol = document.getElementById('bg-volume').value;
+  const sfxVol = document.getElementById('sfx-volume').value;
+  
+  bgMusic.volume = bgVol;
+  flipSound.volume = sfxVol;
+  matchSound.volume = sfxVol;
+  mismatchSound.volume = sfxVol;
+}
+
+function toggleSettings() {
+  const panel = document.getElementById('audio-settings');
+  panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+}
 
 function flipCard() {
   if (lockBoard) return;
   if (this === firstCard) return;
 
-  // Start Music/Timer on first click
   if (!timerStarted) {
-    bgMusic.volume = 0.3;
+    updateVolume(); // Apply user volume choices on start
     bgMusic.play();
     startTimer();
     timerStarted = true;
@@ -92,19 +99,6 @@ function startTimer() {
   }, 1000);
 }
 
-function showWinMessage() {
-  const overlay = document.getElementById('win-message');
-  document.getElementById('final-stats').innerText = `Matched in ${moves} moves and ${document.getElementById('timer').innerText}!`;
-  overlay.style.display = 'flex';
-}
-
-function shuffle() {
-  cards.forEach(card => {
-    let randomPos = Math.floor(Math.random() * 24);
-    card.style.order = randomPos;
-  });
-}
-
 function resetGame() {
   clearInterval(timerInterval);
   bgMusic.pause();
@@ -119,6 +113,19 @@ function resetGame() {
   });
   setTimeout(shuffle, 500); 
   resetBoard();
+}
+
+function showWinMessage() {
+  const overlay = document.getElementById('win-message');
+  document.getElementById('final-stats').innerText = `Matched in ${moves} moves and ${document.getElementById('timer').innerText}!`;
+  overlay.style.display = 'flex';
+}
+
+function shuffle() {
+  cards.forEach(card => {
+    let randomPos = Math.floor(Math.random() * 24);
+    card.style.order = randomPos;
+  });
 }
 
 shuffle();
