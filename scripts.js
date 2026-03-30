@@ -1,4 +1,9 @@
 const cards = document.querySelectorAll('.memory-card');
+const flipSound = document.getElementById('sound-flip');
+const matchSound = document.getElementById('sound-match');
+const mismatchSound = document.getElementById('sound-mismatch');
+const bgMusic = document.getElementById('bg-music');
+
 let hasFlippedCard = false;
 let lockBoard = false;
 let firstCard, secondCard;
@@ -12,9 +17,7 @@ window.addEventListener('load', () => {
   const loadingScreen = document.getElementById('loading-screen');
   setTimeout(() => {
     loadingScreen.style.opacity = '0';
-    setTimeout(() => {
-      loadingScreen.style.display = 'none';
-    }, 500);
+    setTimeout(() => { loadingScreen.style.display = 'none'; }, 500);
   }, 1000); 
 });
 
@@ -22,10 +25,15 @@ function flipCard() {
   if (lockBoard) return;
   if (this === firstCard) return;
 
+  // Start Music/Timer on first click
   if (!timerStarted) {
+    bgMusic.volume = 0.3;
+    bgMusic.play();
     startTimer();
     timerStarted = true;
   }
+
+  if (flipSound) { flipSound.currentTime = 0; flipSound.play(); }
 
   this.classList.add('flip');
 
@@ -41,21 +49,19 @@ function flipCard() {
 
 function checkForMatch() {
   let isMatch = firstCard.dataset.framework === secondCard.dataset.framework;
-  if (isMatch) {
-    disableCards();
-  } else {
-    unflipCards();
-  }
+  isMatch ? disableCards() : unflipCards();
   moves++;
   document.getElementById('move-counter').innerText = moves;
 }
 
 function disableCards() {
+  setTimeout(() => { if (matchSound) { matchSound.currentTime = 0; matchSound.play(); } }, 300);
   firstCard.removeEventListener('click', flipCard);
   secondCard.removeEventListener('click', flipCard);
   matchedPairs++;
   if (matchedPairs === 12) {
     clearInterval(timerInterval);
+    bgMusic.pause();
     showWinMessage();
   }
   resetBoard();
@@ -64,6 +70,7 @@ function disableCards() {
 function unflipCards() {
   lockBoard = true;
   setTimeout(() => {
+    if (mismatchSound) { mismatchSound.currentTime = 0; mismatchSound.play(); }
     firstCard.classList.remove('flip');
     secondCard.classList.remove('flip');
     resetBoard();
@@ -87,8 +94,7 @@ function startTimer() {
 
 function showWinMessage() {
   const overlay = document.getElementById('win-message');
-  const stats = document.getElementById('final-stats');
-  stats.innerText = `Matched in ${moves} moves and ${document.getElementById('timer').innerText}!`;
+  document.getElementById('final-stats').innerText = `Matched in ${moves} moves and ${document.getElementById('timer').innerText}!`;
   overlay.style.display = 'flex';
 }
 
@@ -100,30 +106,20 @@ function shuffle() {
 }
 
 function resetGame() {
-  // Reset Variables
   clearInterval(timerInterval);
-  seconds = 0;
-  moves = 0;
-  matchedPairs = 0;
-  timerStarted = false;
-  
-  // Reset UI
+  bgMusic.pause();
+  bgMusic.currentTime = 0;
+  seconds = 0; moves = 0; matchedPairs = 0; timerStarted = false;
   document.getElementById('timer').innerText = "00:00";
   document.getElementById('move-counter').innerText = "0";
   document.getElementById('win-message').style.display = 'none';
-  
-  // Flip all cards back and re-enable clicks
   cards.forEach(card => {
     card.classList.remove('flip');
     card.addEventListener('click', flipCard);
   });
-
-  // Shuffle again
   setTimeout(shuffle, 500); 
   resetBoard();
 }
 
-// Initial Shuffle
 shuffle();
-
 cards.forEach(card => card.addEventListener('click', flipCard));
