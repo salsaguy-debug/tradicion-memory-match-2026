@@ -1,40 +1,88 @@
-/* Ensure the parent card has no hidden padding */
+/* 1. HARD RESET - DO NOT REMOVE */
+* {
+  padding: 0 !important;
+  margin: 0 !important;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #2c7a9b;
+  font-family: sans-serif;
+  color: white;
+}
+
+/* 2. LOADING SCREEN */
+#loading-screen {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: #2c7a9b;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 200;
+}
+
+.loader-logo {
+  max-width: 280px;
+  width: 80%;
+  height: auto;
+}
+
+/* 3. THE GAME BOARD */
+.memory-game {
+  width: 640px;      
+  height: 960px;     
+  margin: 20px auto !important;
+  display: flex;
+  flex-wrap: wrap;
+  perspective: 1000px;
+}
+
 .memory-card {
-  width: calc(25% - 10px); 
-  height: calc(16.66% - 10px); 
-  margin: 5px;
+  width: calc(25% - 10px) !important; 
+  height: calc(16.66% - 10px) !important; 
+  margin: 5px !important;
   position: relative;
   transform-style: preserve-3d;
   transition: transform .5s;
   cursor: pointer;
-  overflow: hidden; /* This crops any tiny overlaps */
 }
 
-/* THE ABSOLUTE STRETCH FIX */
-.back-face {
+.memory-card.flip { transform: rotateY(180deg); }
+
+/* 4. THE CARD FACES - THE FIX IS HERE */
+.front-face, .back-face {
+  width: 100% !important;
+  height: 100% !important;
   position: absolute;
   top: 0 !important;
   left: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  display: block !important;
-  object-fit: fill !important; /* This forces vertical stretch */
   border-radius: 8px;
   backface-visibility: hidden;
+  display: block !important;
 }
 
-/* Keep portraits proportional but centered */
+/* The Tradición Side (STRETCHED TO EDGES) */
+.back-face {
+  object-fit: fill !important; 
+  background-color: white; /* Ensures no transparency gaps */
+}
+
+/* The Character Side (PROPORTIONAL) */
 .front-face {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  object-fit: contain; 
-  background: white;
-  border-radius: 8px;
+  object-fit: contain !important; 
+  background-color: white;
   transform: rotateY(180deg);
-  backface-visibility: hidden;
+}
+
+/* 5. WIN MESSAGE */
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.8);
+  justify-content: center; align-items: center;
 }
