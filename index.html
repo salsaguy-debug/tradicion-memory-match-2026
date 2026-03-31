@@ -13,17 +13,7 @@
     <div class="stats-container">
       <span>Time: <b id="timer">00:00</b></span>
       <span>Moves: <b id="move-counter">0</b></span>
-      <button class="btn-orange" onclick="toggleSettings()">Audio Settings</button>
       <button class="btn-orange" onclick="resetGame()">Reset Game</button>
-    </div>
-  </div>
-
-  <div id="audio-settings" class="overlay" style="display: none;">
-    <div class="message-content">
-      <h3>Volume Control</h3>
-      <input type="range" id="bg-volume" min="0" max="1" step="0.1" value="0.3" oninput="updateVolume()">
-      <br><br>
-      <button class="btn-orange" onclick="toggleSettings()">Close</button>
     </div>
   </div>
 
@@ -136,14 +126,6 @@
       <div class="back-face"><img src="img/back-face.png" alt="Tradición"></div>
     </div>
   </section>
-
-  <div id="win-message" class="overlay" style="display: none;">
-    <div class="message-content">
-      <h2>¡Felicidades!</h2>
-      <p id="final-stats"></p>
-      <button class="btn-orange" onclick="resetGame()">Play Again</button>
-    </div>
-  </div>
 
   <audio id="bg-music" src="audio/bg-music.mp3" loop></audio>
   <audio id="sound-flip" src="audio/flip.mp3"></audio>
