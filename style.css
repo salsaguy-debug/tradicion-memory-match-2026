@@ -1,239 +1,94 @@
 /** ============================================================================== 
 PROJECT: Tradición Memory Match 2026
-BRIDGE THE GAP (BTG) VERSION: 3.2.2
-EFFECTIVE DATE: March 31, 2026
-DESCRIPTION OF UPDATES: Full CSS restoration. Added styling for Score Display, 
-Intro Overlay with Logo, and responsive game board for 24 cards.
-==============================================================================
-*/
+BRIDGE THE GAP (BTG) VERSION: 3.2.3
+============================================================================== */
 
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
+* { padding: 0; margin: 0; box-sizing: border-box; }
 
 body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: #2c7a9b; /* Tradición Blue */
+  background-color: #2c7a9b;
   color: white;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: sans-serif;
   overflow-x: hidden;
 }
 
-/* --- HEADER & STATS --- */
-
-.game-header {
-  text-align: center;
-  padding: 20px;
-  background: rgba(0, 0, 0, 0.2);
-  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-}
-
-.game-header h1 {
-  margin-bottom: 10px;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-}
+.game-header { text-align: center; padding: 20px; background: rgba(0,0,0,0.2); }
 
 .stats-container {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 25px;
-  flex-wrap: wrap;
-}
-
-.stats-container span {
-  font-size: 1.2rem;
-}
-
-#score-display {
-  color: #f39c12; /* Salsa Orange */
-  font-weight: bold;
-}
-
-.btn-orange {
-  background: #f39c12;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  border-radius: 5px;
-  font-weight: bold;
-  transition: background 0.3s, transform 0.1s;
-}
-
-.btn-orange:hover {
-  background: #e67e22;
-}
-
-.btn-orange:active {
-  transform: scale(0.95);
-}
-
-/* --- GAME BOARD --- */
-
-.memory-game {
-  width: 900px;
-  max-width: 95%;
-  margin: 40px auto;
-  display: flex;
-  flex-wrap: wrap;
-  perspective: 1000px;
-  justify-content: center;
-}
-
-.memory-card {
-  width: calc(16.666% - 10px); /* 6 cards per row for desktop */
-  height: 160px;
-  margin: 5px;
-  position: relative;
-  transform-style: preserve-3d;
-  transition: transform .5s;
-  cursor: pointer;
-}
-
-.memory-card.flip {
-  transform: rotateY(180deg);
-}
-
-.front-face, .back-face {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  border-radius: 8px;
-  backface-visibility: hidden;
-  box-shadow: 2px 2px 8px rgba(0,0,0,0.3);
-}
-
-.front-face {
-  transform: rotateY(180deg);
-  background: #ffffff; /* Contrast for the icons */
-  padding: 15px;
-}
-
-.back-face {
-  background: transparent; /* Removes white box around the logo */
-}
-
-.back-face img, .front-face img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-/* --- OVERLAYS (Intro, Win, Audio) --- */
-
-.overlay {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.9);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-
-.flex-column {
-  flex-direction: column;
-}
-
-#intro-logo {
-  max-width: 280px;
-  margin-bottom: 25px;
-}
-
-.message-content {
-  background: white;
-  color: #333;
-  padding: 35px;
-  border-radius: 12px;
-  text-align: center;
-  max-width: 500px;
-  width: 90%;
-  box-shadow: 0 0 30px rgba(0,0,0,0.5);
-}
-
-.intro-text {
-  background: transparent;
-  color: white;
-}
-
-.promo-text {
-  margin: 25px 0;
-  line-height: 1.6;
-}
-
-.promo-text a {
-  color: #f39c12;
-  text-decoration: none;
-  font-weight: bold;
+  margin-top: 10px;
   font-size: 1.1rem;
 }
 
-.promo-text a:hover {
-  text-decoration: underline;
+#score-display { color: #f39c12; font-weight: bold; }
+
+.btn-orange {
+  background: #f39c12; color: white; border: none; padding: 10px 20px;
+  cursor: pointer; border-radius: 5px; font-weight: bold;
 }
 
-#countdown-display {
-  font-size: 1.4rem;
-  margin-top: 20px;
+/* OVERLAYS */
+.overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.9); display: flex; justify-content: center;
+  align-items: center; z-index: 9999;
 }
 
-#count-num {
-  font-size: 3.5rem;
-  color: #f39c12;
-  display: block;
+.flex-column { flex-direction: column; }
+
+.message-content {
+  background: white; color: #333; padding: 40px; border-radius: 12px;
+  text-align: center; max-width: 550px; width: 90%;
 }
 
-#final-score-big {
-  font-size: 4rem;
-  color: #f39c12;
-  margin: 15px 0;
+.intro-text { background: transparent; color: white; }
+
+#intro-logo { max-width: 280px; margin-bottom: 20px; }
+
+.promo-text { margin: 20px 0; line-height: 1.6; font-size: 1.1rem; }
+
+.promo-text a { color: #f39c12; font-weight: bold; text-decoration: underline; }
+
+#count-num { font-size: 3.5rem; color: #f39c12; display: block; }
+
+#final-score-big { font-size: 3.5rem; color: #f39c12; margin: 20px 0; }
+
+/* GAME BOARD */
+.memory-game {
+  width: 900px; max-width: 95%; margin: 30px auto;
+  display: flex; flex-wrap: wrap; perspective: 1000px; justify-content: center;
 }
 
-/* --- VOLUME UI --- */
-
-.volume-control {
-  margin: 20px 0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+.memory-card {
+  width: calc(16.666% - 10px); height: 160px; margin: 5px;
+  position: relative; transform-style: preserve-3d; transition: transform .5s; cursor: pointer;
 }
 
-.volume-control label {
-  font-weight: bold;
-  color: #555;
+.memory-card.flip { transform: rotateY(180deg); }
+
+.front-face, .back-face {
+  width: 100%; height: 100%; position: absolute;
+  border-radius: 5px; backface-visibility: hidden;
 }
 
-input[type="range"] {
-  width: 100%;
-  cursor: pointer;
-  accent-color: #f39c12;
-}
+.front-face { transform: rotateY(180deg); background: #fff; padding: 10px; }
 
-/* --- RESPONSIVENESS --- */
+.back-face { background: transparent; }
 
+.back-face img, .front-face img { width: 100%; height: 100%; object-fit: contain; }
+
+.volume-control { margin: 15px 0; display: flex; flex-direction: column; gap: 5px; }
+
+/* RESPONSIVE */
 @media (max-width: 850px) {
-  .memory-game {
-    width: 100%;
-  }
-  .memory-card {
-    width: calc(25% - 10px); /* 4 cards per row */
-    height: 140px;
-  }
+  .memory-card { width: calc(25% - 10px); height: 140px; }
 }
-
 @media (max-width: 480px) {
-  .memory-card {
-    width: calc(33.333% - 10px); /* 3 cards per row */
-    height: 110px;
-  }
-  .game-header h1 {
-    font-size: 1.4rem;
-  }
+  .memory-card { width: calc(33.333% - 10px); height: 110px; }
 }
