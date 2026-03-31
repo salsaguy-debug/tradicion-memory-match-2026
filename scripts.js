@@ -1,3 +1,9 @@
+/** ============================================================================== 
+PROJECT: Tradición Memory Match 2026
+BRIDGE THE GAP (BTG) VERSION: 3.2.5
+DESCRIPTION: Finalized timing for game-end and high-visibility confetti cannons.
+============================================================================== */
+
 const cards = document.querySelectorAll('.memory-card');
 const bgMusic = document.getElementById('bg-music');
 const flipSound = document.getElementById('sound-flip');
@@ -76,33 +82,54 @@ function disableCards() {
   matchedPairs++;
   
   if (matchedPairs === 12) {
-    // PAUSE: Wait 1.2 seconds before showing the win screen/confetti
-    setTimeout(showWinScreen, 1200);
+    // WAIT 1.5 SECONDS before showing results so player sees the last match
+    setTimeout(showWinScreen, 1500);
   }
   resetBoard();
 }
 
 function showWinScreen() {
   clearInterval(timerInterval);
-  fireConfetti();
   
-  const winModal = document.getElementById('win-modal');
-  winModal.style.display = 'flex';
-  document.getElementById('final-stats-text').innerHTML = `Completed in <b>${moves}</b> moves and <b>${seconds}</b> seconds.`;
-  document.getElementById('final-score-big').innerText = `Score: ${currentScore}`;
+  // 1. Launch Confetti
+  fireConfetti();
+
+  // 2. Show Modal after a tiny delay so it doesn't block the initial burst
+  setTimeout(() => {
+    const winModal = document.getElementById('win-modal');
+    winModal.style.display = 'flex';
+    document.getElementById('final-stats-text').innerHTML = `Completed in <b>${moves}</b> moves and <b>${seconds}</b> seconds.`;
+    document.getElementById('final-score-big').innerText = `Score: ${currentScore}`;
+  }, 300);
 }
 
 function fireConfetti() {
   const duration = 3 * 1000;
-  const animationEnd = Date.now() + duration;
-  const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 10000, colors: ['#2c7a9b', '#f39c12', '#ffffff'] };
+  const end = Date.now() + duration;
+  const colors = ['#2c7a9b', '#f39c12', '#ffffff'];
 
-  const interval = setInterval(function() {
-    const timeLeft = animationEnd - Date.now();
-    if (timeLeft <= 0) return clearInterval(interval);
-    const particleCount = 50 * (timeLeft / duration);
-    confetti(Object.assign({}, defaults, { particleCount, origin: { x: Math.random(), y: Math.random() - 0.2 } }));
-  }, 250);
+  (function frame() {
+    confetti({
+      particleCount: 4,
+      angle: 60,
+      spread: 55,
+      origin: { x: 0 },
+      colors: colors,
+      zIndex: 10001
+    });
+    confetti({
+      particleCount: 4,
+      angle: 120,
+      spread: 55,
+      origin: { x: 1 },
+      colors: colors,
+      zIndex: 10001
+    });
+
+    if (Date.now() < end) {
+      requestAnimationFrame(frame);
+    }
+  }());
 }
 
 function unflipCards() {
