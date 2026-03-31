@@ -1,9 +1,8 @@
 /** ============================================================================== 
 PROJECT: Tradición Memory Match 2026
-BRIDGE THE GAP (BTG) VERSION: 3.1.7
+BRIDGE THE GAP (BTG) VERSION: 3.1.8
 EFFECTIVE DATE: March 31, 2026
-DESCRIPTION OF UPDATES: Finalized audio trigger. Background music starts on 
-the very first card flip.
+DESCRIPTION OF UPDATES: Integrated dual-channel volume control logic.
 ==============================================================================
 */
 
@@ -25,15 +24,18 @@ let timerInterval;
 function flipCard() {
   if (lockBoard || this === firstCard) return;
 
-  // Music Trigger: Browsers require a click/flip to start audio
   if (!timerStarted) {
-    bgMusic.volume = 0.2;
-    bgMusic.play().catch(e => console.log("Audio waiting for user."));
+    updateVolume(); // Initialize volumes from UI
+    bgMusic.play().catch(e => console.log("Waiting for interaction..."));
     startTimer();
     timerStarted = true;
   }
 
-  if (flipSound) { flipSound.currentTime = 0; flipSound.play(); }
+  if (flipSound) { 
+    flipSound.currentTime = 0; 
+    flipSound.play(); 
+  }
+  
   this.classList.add('flip');
 
   if (!hasFlippedCard) {
@@ -44,6 +46,24 @@ function flipCard() {
 
   secondCard = this;
   checkForMatch();
+}
+
+function updateVolume() {
+  const musicVal = document.getElementById('music-vol').value;
+  const sfxVal = document.getElementById('sfx-vol').value;
+
+  // Set Music
+  bgMusic.volume = musicVal;
+
+  // Set SFX
+  [flipSound, matchSound, mismatchSound].forEach(sound => {
+    if (sound) sound.volume = sfxVal;
+  });
+}
+
+function toggleAudioSettings() {
+  const modal = document.getElementById('audio-modal');
+  modal.style.display = (modal.style.display === 'none') ? 'flex' : 'none';
 }
 
 function checkForMatch() {
@@ -61,7 +81,7 @@ function disableCards() {
   
   if (matchedPairs === 12) {
     clearInterval(timerInterval);
-    alert("¡Felicidades! You matched all pairs.");
+    alert("¡Excelente! Game Finished.");
   }
   resetBoard();
 }
