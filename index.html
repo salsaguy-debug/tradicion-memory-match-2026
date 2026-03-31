@@ -13,13 +13,13 @@
     <div class="message-content intro-text">
       <h2>Welcome to Tradición Memory Match!</h2>
       <p>Prepare your mind to match the vibrant heritage of Puerto Rico and beyond.</p>
-      <p class="promo-text">
+      <div class="promo-text">
         Dance Lessons are available with the Salsa Guy: 
-        <a href="https://salguyrichmond.com" target="_blank">salguyrichmond.com</a>
-        <br>
+        <a href="https://www.salsarichmond.com/" target="_blank">salsarichmond.com</a>
+        <br><br>
         For performances, go to 
-        <a href="https://tradicion.org" target="_blank">tradicion.org</a>
-      </p>
+        <a href="https://www.tradicion.org/" target="_blank">tradicion.org</a>
+      </div>
       <div id="countdown-display">Game starting in: <b id="count-num">6</b></div>
     </div>
   </div>
@@ -29,6 +29,7 @@
     <div class="stats-container">
       <span>Time: <b id="timer">00:00</b></span>
       <span>Moves: <b id="move-counter">0</b></span>
+      <span>Score: <b id="score-display">1000</b></span>
       <button class="btn-orange" onclick="toggleAudioSettings()">Audio Settings</button>
       <button class="btn-orange" onclick="resetGame()">Reset Game</button>
     </div>
@@ -37,127 +38,46 @@
   <div id="audio-modal" class="overlay" style="display: none;">
     <div class="message-content">
       <h2>Audio Settings</h2>
-      <div class="volume-control">
-        <label>Background Music</label>
-        <input type="range" id="music-vol" min="0" max="1" step="0.1" value="0.3" oninput="updateVolume()">
-      </div>
-      <div class="volume-control">
-        <label>Sound Effects</label>
-        <input type="range" id="sfx-vol" min="0" max="1" step="0.1" value="0.7" oninput="updateVolume()">
-      </div>
-      <br>
+      <div class="volume-control"><label>Background Music</label><input type="range" id="music-vol" min="0" max="1" step="0.1" value="0.3" oninput="updateVolume()"></div>
+      <div class="volume-control"><label>Sound Effects</label><input type="range" id="sfx-vol" min="0" max="1" step="0.1" value="0.7" oninput="updateVolume()"></div>
       <button class="btn-orange" onclick="toggleAudioSettings()">Close</button>
     </div>
   </div>
 
+  <div id="win-modal" class="overlay" style="display: none;">
+    <div class="message-content">
+      <h2>¡Felicidades!</h2>
+      <p id="final-stats-text"></p>
+      <h1 id="final-score-big" style="color: #f39c12; margin: 20px 0;">0</h1>
+      <button class="btn-orange" onclick="resetGame()">Play Again</button>
+    </div>
+  </div>
+
   <section class="memory-game" id="game-board">
-    <div class="memory-card" data-framework="bomba">
-      <img class="front-face" src="img/bomba.png" alt="Bomba">
-      <div class="back-face"><img src="img/back-face.png" alt="Tradición"></div>
-    </div>
-    <div class="memory-card" data-framework="bomba">
-      <img class="front-face" src="img/bomba.png" alt="Bomba">
-      <div class="back-face"><img src="img/back-face.png" alt="Tradición"></div>
-    </div>
-
-    <div class="memory-card" data-framework="azul">
-      <img class="front-face" src="img/Azul Transparent.png" alt="Azul">
-      <div class="back-face"><img src="img/back-face.png" alt="Tradición"></div>
-    </div>
-    <div class="memory-card" data-framework="azul">
-      <img class="front-face" src="img/Azul Transparent.png" alt="Azul">
-      <div class="back-face"><img src="img/back-face.png" alt="Tradición"></div>
-    </div>
-
-    <div class="memory-card" data-framework="musician">
-      <img class="front-face" src="img/bomba-musician.png" alt="Musician">
-      <div class="back-face"><img src="img/back-face.png" alt="Tradición"></div>
-    </div>
-    <div class="memory-card" data-framework="musician">
-      <img class="front-face" src="img/bomba-musician.png" alt="Musician">
-      <div class="back-face"><img src="img/back-face.png" alt="Tradición"></div>
-    </div>
-
-    <div class="memory-card" data-framework="edna">
-      <img class="front-face" src="img/cabezudos-edna-gabriel.png" alt="Edna">
-      <div class="back-face"><img src="img/back-face.png" alt="Tradición"></div>
-    </div>
-    <div class="memory-card" data-framework="edna">
-      <img class="front-face" src="img/cabezudos-edna-gabriel.png" alt="Edna">
-      <div class="back-face"><img src="img/back-face.png" alt="Tradición"></div>
-    </div>
-
-    <div class="memory-card" data-framework="cano">
-      <img class="front-face" src="img/cano-barracuda.png" alt="Cano">
-      <div class="back-face"><img src="img/back-face.png" alt="Tradición"></div>
-    </div>
-    <div class="memory-card" data-framework="cano">
-      <img class="front-face" src="img/cano-barracuda.png" alt="Cano">
-      <div class="back-face"><img src="img/back-face.png" alt="Tradición"></div>
-    </div>
-
-    <div class="memory-card" data-framework="comalera">
-      <img class="front-face" src="img/comalera.png" alt="Comalera">
-      <div class="back-face"><img src="img/back-face.png" alt="Tradición"></div>
-    </div>
-    <div class="memory-card" data-framework="comalera">
-      <img class="front-face" src="img/comalera.png" alt="Comalera">
-      <div class="back-face"><img src="img/back-face.png" alt="Tradición"></div>
-    </div>
-
-    <div class="memory-card" data-framework="mapale">
-      <img class="front-face" src="img/mapale.png" alt="Mapale">
-      <div class="back-face"><img src="img/back-face.png" alt="Tradición"></div>
-    </div>
-    <div class="memory-card" data-framework="mapale">
-      <img class="front-face" src="img/mapale.png" alt="Mapale">
-      <div class="back-face"><img src="img/back-face.png" alt="Tradición"></div>
-    </div>
-
-    <div class="memory-card" data-framework="viejito">
-      <img class="front-face" src="img/viejito.png" alt="Viejito">
-      <div class="back-face"><img src="img/back-face.png" alt="Tradición"></div>
-    </div>
-    <div class="memory-card" data-framework="viejito">
-      <img class="front-face" src="img/viejito.png" alt="Viejito">
-      <div class="back-face"><img src="img/back-face.png" alt="Tradición"></div>
-    </div>
-
-    <div class="memory-card" data-framework="salsaguy">
-      <img class="front-face" src="img/salsa-guy.png" alt="Salsa Guy">
-      <div class="back-face"><img src="img/back-face.png" alt="Tradición"></div>
-    </div>
-    <div class="memory-card" data-framework="salsaguy">
-      <img class="front-face" src="img/salsa-guy.png" alt="Salsa Guy">
-      <div class="back-face"><img src="img/back-face.png" alt="Tradición"></div>
-    </div>
-
-    <div class="memory-card" data-framework="mex">
-      <img class="front-face" src="img/mex.png" alt="Mex">
-      <div class="back-face"><img src="img/back-face.png" alt="Tradición"></div>
-    </div>
-    <div class="memory-card" data-framework="mex">
-      <img class="front-face" src="img/mex.png" alt="Mex">
-      <div class="back-face"><img src="img/back-face.png" alt="Tradición"></div>
-    </div>
-
-    <div class="memory-card" data-framework="tango">
-      <img class="front-face" src="img/tango.png" alt="Tango">
-      <div class="back-face"><img src="img/back-face.png" alt="Tradición"></div>
-    </div>
-    <div class="memory-card" data-framework="tango">
-      <img class="front-face" src="img/tango.png" alt="Tango">
-      <div class="back-face"><img src="img/back-face.png" alt="Tradición"></div>
-    </div>
-
-    <div class="memory-card" data-framework="barril">
-      <img class="front-face" src="img/barril.png" alt="Barril">
-      <div class="back-face"><img src="img/back-face.png" alt="Tradición"></div>
-    </div>
-    <div class="memory-card" data-framework="barril">
-      <img class="front-face" src="img/barril.png" alt="Barril">
-      <div class="back-face"><img src="img/back-face.png" alt="Tradición"></div>
-    </div>
+    <div class="memory-card" data-framework="bomba"><img class="front-face" src="img/bomba.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="bomba"><img class="front-face" src="img/bomba.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="azul"><img class="front-face" src="img/Azul Transparent.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="azul"><img class="front-face" src="img/Azul Transparent.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="musician"><img class="front-face" src="img/bomba-musician.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="musician"><img class="front-face" src="img/bomba-musician.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="edna"><img class="front-face" src="img/cabezudos-edna-gabriel.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="edna"><img class="front-face" src="img/cabezudos-edna-gabriel.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="cano"><img class="front-face" src="img/cano-barracuda.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="cano"><img class="front-face" src="img/cano-barracuda.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="comalera"><img class="front-face" src="img/comalera.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="comalera"><img class="front-face" src="img/comalera.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="mapale"><img class="front-face" src="img/mapale.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="mapale"><img class="front-face" src="img/mapale.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="viejito"><img class="front-face" src="img/viejito.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="viejito"><img class="front-face" src="img/viejito.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="salsaguy"><img class="front-face" src="img/salsa-guy.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="salsaguy"><img class="front-face" src="img/salsa-guy.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="mex"><img class="front-face" src="img/mex.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="mex"><img class="front-face" src="img/mex.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="tango"><img class="front-face" src="img/tango.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="tango"><img class="front-face" src="img/tango.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="barril"><img class="front-face" src="img/barril.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="barril"><img class="front-face" src="img/barril.png"><div class="back-face"><img src="img/back-face.png"></div></div>
   </section>
 
   <audio id="bg-music" src="audio/bg-music.mp3" loop></audio>
