@@ -1,9 +1,9 @@
 /** ============================================================================== 
-* PROJECT: Tradición Memory Match 2026
-* BRIDGE THE GAP (BTG) VERSION: 3.1.5
-* EFFECTIVE DATE: March 31, 2026
-* DESCRIPTION OF UPDATES: Fixed Background Music by adding a user-interaction 
-* trigger on the first card flip to bypass browser autoplay blocks.
+PROJECT: Tradición Memory Match 2026
+BRIDGE THE GAP (BTG) VERSION: 3.1.7
+EFFECTIVE DATE: March 31, 2026
+DESCRIPTION OF UPDATES: Finalized audio trigger. Background music starts on 
+the very first card flip.
 ==============================================================================
 */
 
@@ -25,17 +25,13 @@ let timerInterval;
 function flipCard() {
   if (lockBoard || this === firstCard) return;
 
-  // --- AUDIO FIX START ---
-  // Browsers require a click to play sound. This triggers on the very first flip.
+  // Music Trigger: Browsers require a click/flip to start audio
   if (!timerStarted) {
-    bgMusic.volume = 0.2; // Set a comfortable background volume
-    bgMusic.play().catch(error => {
-      console.log("Autoplay prevented. Music will start on next interaction.");
-    });
+    bgMusic.volume = 0.2;
+    bgMusic.play().catch(e => console.log("Audio waiting for user."));
     startTimer();
     timerStarted = true;
   }
-  // --- AUDIO FIX END ---
 
   if (flipSound) { flipSound.currentTime = 0; flipSound.play(); }
   this.classList.add('flip');
@@ -52,11 +48,7 @@ function flipCard() {
 
 function checkForMatch() {
   let isMatch = firstCard.dataset.framework === secondCard.dataset.framework;
-  if (isMatch) {
-    disableCards();
-  } else {
-    unflipCards();
-  }
+  isMatch ? disableCards() : unflipCards();
   moves++;
   document.getElementById('move-counter').innerText = moves;
 }
@@ -69,7 +61,7 @@ function disableCards() {
   
   if (matchedPairs === 12) {
     clearInterval(timerInterval);
-    document.getElementById('win-message').style.display = 'flex';
+    alert("¡Felicidades! You matched all pairs.");
   }
   resetBoard();
 }
@@ -106,7 +98,7 @@ function startTimer() {
 }
 
 function resetGame() {
-  location.reload(); // Simplest way to reset all states and audio
+  location.reload();
 }
 
 shuffle();
