@@ -1,10 +1,3 @@
-/** ============================================================================== 
-PROJECT: Tradición Memory Match 2026
-BRIDGE THE GAP (BTG) VERSION: 3.2.3
-DESCRIPTION: Logic for Intro Sequence, Score calculation, Volume Control, 
-and Final Celebration with Confetti.
-============================================================================== */
-
 const cards = document.querySelectorAll('.memory-card');
 const bgMusic = document.getElementById('bg-music');
 const flipSound = document.getElementById('sound-flip');
@@ -21,7 +14,6 @@ let seconds = 0;
 let timerInterval;
 let currentScore = 1000;
 
-// Initialize Sequence
 window.addEventListener('load', runIntroSequence);
 
 function runIntroSequence() {
@@ -29,10 +21,8 @@ function runIntroSequence() {
   const board = document.getElementById('game-board');
   const header = document.querySelector('.game-header');
   const countDisplay = document.getElementById('count-num');
-
   board.style.visibility = 'hidden';
   header.style.visibility = 'hidden';
-
   let countdown = 6;
   const introInterval = setInterval(() => {
     countdown--;
@@ -48,23 +38,19 @@ function runIntroSequence() {
 
 function flipCard() {
   if (lockBoard || this === firstCard) return;
-
   if (!timerStarted) {
     updateVolume();
-    bgMusic.play().catch(() => console.log("Audio waiting for interaction..."));
+    bgMusic.play().catch(() => {});
     startTimer();
     timerStarted = true;
   }
-
   if (flipSound) { flipSound.currentTime = 0; flipSound.play(); }
   this.classList.add('flip');
-
   if (!hasFlippedCard) {
     hasFlippedCard = true;
     firstCard = this;
     return;
   }
-
   secondCard = this;
   checkForMatch();
 }
@@ -88,7 +74,11 @@ function disableCards() {
   firstCard.removeEventListener('click', flipCard);
   secondCard.removeEventListener('click', flipCard);
   matchedPairs++;
-  if (matchedPairs === 12) showWinScreen();
+  
+  if (matchedPairs === 12) {
+    // PAUSE: Wait 1.2 seconds before showing the win screen/confetti
+    setTimeout(showWinScreen, 1200);
+  }
   resetBoard();
 }
 
@@ -98,19 +88,21 @@ function showWinScreen() {
   
   const winModal = document.getElementById('win-modal');
   winModal.style.display = 'flex';
-  document.getElementById('final-stats-text').innerHTML = `You completed the challenge in <b>${moves}</b> moves and <b>${seconds}</b> seconds.`;
-  document.getElementById('final-score-big').innerText = `Final Score: ${currentScore}`;
+  document.getElementById('final-stats-text').innerHTML = `Completed in <b>${moves}</b> moves and <b>${seconds}</b> seconds.`;
+  document.getElementById('final-score-big').innerText = `Score: ${currentScore}`;
 }
 
 function fireConfetti() {
-  const count = 200;
-  const defaults = { origin: { y: 0.7 }, colors: ['#2c7a9b', '#f39c12', '#ffffff'] };
-  function fire(ratio, opts) {
-    confetti({ ...defaults, ...opts, particleCount: Math.floor(count * ratio) });
-  }
-  fire(0.25, { spread: 26, startVelocity: 55 });
-  fire(0.2, { spread: 60 });
-  fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
+  const duration = 3 * 1000;
+  const animationEnd = Date.now() + duration;
+  const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 10000, colors: ['#2c7a9b', '#f39c12', '#ffffff'] };
+
+  const interval = setInterval(function() {
+    const timeLeft = animationEnd - Date.now();
+    if (timeLeft <= 0) return clearInterval(interval);
+    const particleCount = 50 * (timeLeft / duration);
+    confetti(Object.assign({}, defaults, { particleCount, origin: { x: Math.random(), y: Math.random() - 0.2 } }));
+  }, 250);
 }
 
 function unflipCards() {
