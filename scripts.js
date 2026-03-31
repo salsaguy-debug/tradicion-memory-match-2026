@@ -1,15 +1,8 @@
 /** ============================================================================== 
 PROJECT: Tradición Memory Match 2026
-BRIDGE THE GAP (BTG) VERSION: 3.2.0
-EFFECTIVE DATE: March 31, 2026
-DESCRIPTION OF UPDATES: Added Intro Sequence Logic:
-  1. Hides game board and header initially.
-  2. Runs 6-second countdown.
-  3. Activates Background Music (Music Channel Only) during countdown.
-  4. Automatically transitions to Game State after countdown.
-  5. Audio can also be activated by user clicking any active link.
-==============================================================================
-*/
+BRIDGE THE GAP (BTG) VERSION: 3.2.2
+DESCRIPTION: Integrated 6s Countdown, corrected links, and Score Keeping.
+============================================================================== */
 
 const cards = document.querySelectorAll('.memory-card');
 const bgMusic = document.getElementById('bg-music');
@@ -25,17 +18,9 @@ let matchedPairs = 0;
 let timerStarted = false;
 let seconds = 0;
 let timerInterval;
-let musicUnlocked = false; // Tracks if autoplay block is bypassed
+let currentScore = 1000;
 
-// --- NEW INTRO SEQUENCE LOGIC ---
-
-// Start sequence when page loads
 window.addEventListener('load', runIntroSequence);
-
-// Unlock audio if user clicks links during intro
-document.querySelectorAll('#intro-overlay a').forEach(link => {
-  link.addEventListener('click', unlockMusic);
-});
 
 function runIntroSequence() {
   const intro = document.getElementById('intro-overlay');
@@ -43,24 +28,15 @@ function runIntroSequence() {
   const header = document.querySelector('.game-header');
   const countDisplay = document.getElementById('count-num');
 
-  // Ensure game is hidden during intro
   board.style.visibility = 'hidden';
   header.style.visibility = 'hidden';
 
   let countdown = 6;
-  countDisplay.innerText = countdown;
-
-  // Attempt to play music (Music Channel Only) immediately.
-  // Modern browsers may block this until a click, but we handle the error.
-  initializeMusicChannel();
-
   const introInterval = setInterval(() => {
     countdown--;
-    if (countdown > 0) {
-      countDisplay.innerText = countdown;
-    } else {
+    countDisplay.innerText = countdown;
+    if (countdown === 0) {
       clearInterval(introInterval);
-      // Countdown finished: Transition to Game
       intro.style.display = 'none';
       board.style.visibility = 'visible';
       header.style.visibility = 'visible';
@@ -68,52 +44,17 @@ function runIntroSequence() {
   }, 1000);
 }
 
-function initializeMusicChannel() {
-  // Set default volumes from UI values
-  updateVolume(); 
-  
-  // Try autoplaying the music channel.
-  // SFX channels remain silent until game start.
-  bgMusic.play()
-    .then(() => {
-      musicUnlocked = true;
-      console.log("Music channel started successfully.");
-    })
-    .catch(error => {
-      // Browsers often block non-muted autoplay.
-      console.log("Autoplay blocked. Music will start upon user interaction (click/link).");
-    });
-}
-
-// Function to force unlock music if user interacts (like clicking a promo link)
-function unlockMusic() {
-  if (!musicUnlocked && bgMusic) {
-    updateVolume();
-    bgMusic.play().catch(e => console.log("Failed final play attempt:", e));
-    musicUnlocked = true;
-  }
-}
-
-// --- PREVIOUS GAME LOGIC (Restored & Optimized) ---
-
 function flipCard() {
   if (lockBoard || this === firstCard) return;
 
-  // SFX and Game Timer trigger on first actual interaction/flip
   if (!timerStarted) {
-    // If music was still blocked, this interaction unlocks it.
-    unlockMusic();
-    
+    updateVolume();
+    bgMusic.play().catch(() => console.log("Audio waiting..."));
     startTimer();
     timerStarted = true;
   }
 
-  // Play Flip Sound (SFX Channel)
-  if (flipSound) { 
-    flipSound.currentTime = 0; 
-    flipSound.play(); 
-  }
-  
+  if (flipSound) { flipSound.currentTime = 0; flipSound.play(); }
   this.classList.add('flip');
 
   if (!hasFlippedCard) {
@@ -126,54 +67,41 @@ function flipCard() {
   checkForMatch();
 }
 
-// Independent volume control: Music vs SFX
-function updateVolume() {
-  const musicVal = document.getElementById('music-vol').value;
-  const sfxVal = document.getElementById('sfx-vol').value;
-
-  // Set Background Music volume
-  if (bgMusic) bgMusic.volume = musicVal;
-
-  // Set Sound Effects volumes (SFX Channels)
-  const sfxChannels = [flipSound, matchSound, mismatchSound];
-  sfxChannels.forEach(sound => {
-    if (sound) sound.volume = sfxVal;
-  });
-}
-
-function toggleAudioSettings() {
-  const modal = document.getElementById('audio-modal');
-  modal.style.display = (modal.style.display === 'none' || modal.style.display === '') ? 'flex' : 'none';
-}
-
 function checkForMatch() {
   let isMatch = firstCard.dataset.framework === secondCard.dataset.framework;
   isMatch ? disableCards() : unflipCards();
   moves++;
   document.getElementById('move-counter').innerText = moves;
+  calculateScore();
+}
+
+function calculateScore() {
+  // Score Formula: 1000 - (moves * 10) - (seconds * 2)
+  currentScore = 1000 - (moves * 10) - (seconds * 2);
+  if (currentScore < 100) currentScore = 100;
+  document.getElementById('score-display').innerText = currentScore;
 }
 
 function disableCards() {
-  // Match Sound (SFX Channel)
   setTimeout(() => { if (matchSound) matchSound.play(); }, 300);
-  
   firstCard.removeEventListener('click', flipCard);
   secondCard.removeEventListener('click', flipCard);
   matchedPairs++;
-  
-  if (matchedPairs === 12) {
-    clearInterval(timerInterval);
-    alert("¡Excelente! Game Finished.");
-  }
+  if (matchedPairs === 12) showWinScreen();
   resetBoard();
+}
+
+function showWinScreen() {
+  clearInterval(timerInterval);
+  document.getElementById('win-modal').style.display = 'flex';
+  document.getElementById('final-stats-text').innerText = `Finished in ${moves} moves and ${seconds} seconds.`;
+  document.getElementById('final-score-big').innerText = `Score: ${currentScore}`;
 }
 
 function unflipCards() {
   lockBoard = true;
   setTimeout(() => {
-    // Mismatch Sound (SFX Channel)
     if (mismatchSound) mismatchSound.play();
-    
     firstCard.classList.remove('flip');
     secondCard.classList.remove('flip');
     resetBoard();
@@ -185,11 +113,15 @@ function resetBoard() {
   [firstCard, secondCard] = [null, null];
 }
 
-function shuffle() {
-  cards.forEach(card => {
-    let randomPos = Math.floor(Math.random() * 24);
-    card.style.order = randomPos;
-  });
+function updateVolume() {
+  bgMusic.volume = document.getElementById('music-vol').value;
+  const sfxVal = document.getElementById('sfx-vol').value;
+  [flipSound, matchSound, mismatchSound].forEach(s => { if(s) s.volume = sfxVal; });
+}
+
+function toggleAudioSettings() {
+  const modal = document.getElementById('audio-modal');
+  modal.style.display = (modal.style.display === 'none') ? 'flex' : 'none';
 }
 
 function startTimer() {
@@ -198,12 +130,11 @@ function startTimer() {
     let m = Math.floor(seconds / 60).toString().padStart(2, '0');
     let s = (seconds % 60).toString().padStart(2, '0');
     document.getElementById('timer').innerText = `${m}:${s}`;
+    calculateScore();
   }, 1000);
 }
 
-function resetGame() {
-  location.reload();
-}
-
+function resetGame() { location.reload(); }
+function shuffle() { cards.forEach(c => c.style.order = Math.floor(Math.random() * 24)); }
 shuffle();
-cards.forEach(card => card.addEventListener('click', flipCard));
+cards.forEach(c => c.addEventListener('click', flipCard));
