@@ -1,8 +1,3 @@
-/** ============================================================================== 
-PROJECT: Tradición Memory Match 2026
-BRIDGE THE GAP (BTG) VERSION: 3.2.3
-============================================================================== */
-
 * { padding: 0; margin: 0; box-sizing: border-box; }
 
 body {
@@ -33,7 +28,6 @@ body {
   cursor: pointer; border-radius: 5px; font-weight: bold;
 }
 
-/* OVERLAYS */
 .overlay {
   position: fixed; top: 0; left: 0; width: 100%; height: 100%;
   background: rgba(0,0,0,0.9); display: flex; justify-content: center;
@@ -59,7 +53,6 @@ body {
 
 #final-score-big { font-size: 3.5rem; color: #f39c12; margin: 20px 0; }
 
-/* GAME BOARD */
 .memory-game {
   width: 900px; max-width: 95%; margin: 30px auto;
   display: flex; flex-wrap: wrap; perspective: 1000px; justify-content: center;
@@ -85,7 +78,6 @@ body {
 
 .volume-control { margin: 15px 0; display: flex; flex-direction: column; gap: 5px; }
 
-/* RESPONSIVE */
 @media (max-width: 850px) {
   .memory-card { width: calc(25% - 10px); height: 140px; }
 }
