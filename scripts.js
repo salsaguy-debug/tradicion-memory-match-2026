@@ -1,8 +1,13 @@
 /** ============================================================================== 
 PROJECT: Tradición Memory Match 2026
-BRIDGE THE GAP (BTG) VERSION: 3.1.8
+BRIDGE THE GAP (BTG) VERSION: 3.2.0
 EFFECTIVE DATE: March 31, 2026
-DESCRIPTION OF UPDATES: Integrated dual-channel volume control logic.
+DESCRIPTION OF UPDATES: Added Intro Sequence Logic:
+  1. Hides game board and header initially.
+  2. Runs 6-second countdown.
+  3. Activates Background Music (Music Channel Only) during countdown.
+  4. Automatically transitions to Game State after countdown.
+  5. Audio can also be activated by user clicking any active link.
 ==============================================================================
 */
 
@@ -20,17 +25,90 @@ let matchedPairs = 0;
 let timerStarted = false;
 let seconds = 0;
 let timerInterval;
+let musicUnlocked = false; // Tracks if autoplay block is bypassed
+
+// --- NEW INTRO SEQUENCE LOGIC ---
+
+// Start sequence when page loads
+window.addEventListener('load', runIntroSequence);
+
+// Unlock audio if user clicks links during intro
+document.querySelectorAll('#intro-overlay a').forEach(link => {
+  link.addEventListener('click', unlockMusic);
+});
+
+function runIntroSequence() {
+  const intro = document.getElementById('intro-overlay');
+  const board = document.getElementById('game-board');
+  const header = document.querySelector('.game-header');
+  const countDisplay = document.getElementById('count-num');
+
+  // Ensure game is hidden during intro
+  board.style.visibility = 'hidden';
+  header.style.visibility = 'hidden';
+
+  let countdown = 6;
+  countDisplay.innerText = countdown;
+
+  // Attempt to play music (Music Channel Only) immediately.
+  // Modern browsers may block this until a click, but we handle the error.
+  initializeMusicChannel();
+
+  const introInterval = setInterval(() => {
+    countdown--;
+    if (countdown > 0) {
+      countDisplay.innerText = countdown;
+    } else {
+      clearInterval(introInterval);
+      // Countdown finished: Transition to Game
+      intro.style.display = 'none';
+      board.style.visibility = 'visible';
+      header.style.visibility = 'visible';
+    }
+  }, 1000);
+}
+
+function initializeMusicChannel() {
+  // Set default volumes from UI values
+  updateVolume(); 
+  
+  // Try autoplaying the music channel.
+  // SFX channels remain silent until game start.
+  bgMusic.play()
+    .then(() => {
+      musicUnlocked = true;
+      console.log("Music channel started successfully.");
+    })
+    .catch(error => {
+      // Browsers often block non-muted autoplay.
+      console.log("Autoplay blocked. Music will start upon user interaction (click/link).");
+    });
+}
+
+// Function to force unlock music if user interacts (like clicking a promo link)
+function unlockMusic() {
+  if (!musicUnlocked && bgMusic) {
+    updateVolume();
+    bgMusic.play().catch(e => console.log("Failed final play attempt:", e));
+    musicUnlocked = true;
+  }
+}
+
+// --- PREVIOUS GAME LOGIC (Restored & Optimized) ---
 
 function flipCard() {
   if (lockBoard || this === firstCard) return;
 
+  // SFX and Game Timer trigger on first actual interaction/flip
   if (!timerStarted) {
-    updateVolume(); // Initialize volumes from UI
-    bgMusic.play().catch(e => console.log("Waiting for interaction..."));
+    // If music was still blocked, this interaction unlocks it.
+    unlockMusic();
+    
     startTimer();
     timerStarted = true;
   }
 
+  // Play Flip Sound (SFX Channel)
   if (flipSound) { 
     flipSound.currentTime = 0; 
     flipSound.play(); 
@@ -48,22 +126,24 @@ function flipCard() {
   checkForMatch();
 }
 
+// Independent volume control: Music vs SFX
 function updateVolume() {
   const musicVal = document.getElementById('music-vol').value;
   const sfxVal = document.getElementById('sfx-vol').value;
 
-  // Set Music
-  bgMusic.volume = musicVal;
+  // Set Background Music volume
+  if (bgMusic) bgMusic.volume = musicVal;
 
-  // Set SFX
-  [flipSound, matchSound, mismatchSound].forEach(sound => {
+  // Set Sound Effects volumes (SFX Channels)
+  const sfxChannels = [flipSound, matchSound, mismatchSound];
+  sfxChannels.forEach(sound => {
     if (sound) sound.volume = sfxVal;
   });
 }
 
 function toggleAudioSettings() {
   const modal = document.getElementById('audio-modal');
-  modal.style.display = (modal.style.display === 'none') ? 'flex' : 'none';
+  modal.style.display = (modal.style.display === 'none' || modal.style.display === '') ? 'flex' : 'none';
 }
 
 function checkForMatch() {
@@ -74,7 +154,9 @@ function checkForMatch() {
 }
 
 function disableCards() {
+  // Match Sound (SFX Channel)
   setTimeout(() => { if (matchSound) matchSound.play(); }, 300);
+  
   firstCard.removeEventListener('click', flipCard);
   secondCard.removeEventListener('click', flipCard);
   matchedPairs++;
@@ -89,7 +171,9 @@ function disableCards() {
 function unflipCards() {
   lockBoard = true;
   setTimeout(() => {
+    // Mismatch Sound (SFX Channel)
     if (mismatchSound) mismatchSound.play();
+    
     firstCard.classList.remove('flip');
     secondCard.classList.remove('flip');
     resetBoard();
