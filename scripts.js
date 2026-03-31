@@ -1,7 +1,8 @@
 /** ============================================================================== 
 PROJECT: Tradición Memory Match 2026
-BRIDGE THE GAP (BTG) VERSION: 3.2.2
-DESCRIPTION: Integrated 6s Countdown, corrected links, and Score Keeping.
+BRIDGE THE GAP (BTG) VERSION: 3.2.3
+DESCRIPTION: Logic for Intro Sequence, Score calculation, Volume Control, 
+and Final Celebration with Confetti.
 ============================================================================== */
 
 const cards = document.querySelectorAll('.memory-card');
@@ -20,6 +21,7 @@ let seconds = 0;
 let timerInterval;
 let currentScore = 1000;
 
+// Initialize Sequence
 window.addEventListener('load', runIntroSequence);
 
 function runIntroSequence() {
@@ -49,7 +51,7 @@ function flipCard() {
 
   if (!timerStarted) {
     updateVolume();
-    bgMusic.play().catch(() => console.log("Audio waiting..."));
+    bgMusic.play().catch(() => console.log("Audio waiting for interaction..."));
     startTimer();
     timerStarted = true;
   }
@@ -76,7 +78,6 @@ function checkForMatch() {
 }
 
 function calculateScore() {
-  // Score Formula: 1000 - (moves * 10) - (seconds * 2)
   currentScore = 1000 - (moves * 10) - (seconds * 2);
   if (currentScore < 100) currentScore = 100;
   document.getElementById('score-display').innerText = currentScore;
@@ -93,9 +94,23 @@ function disableCards() {
 
 function showWinScreen() {
   clearInterval(timerInterval);
-  document.getElementById('win-modal').style.display = 'flex';
-  document.getElementById('final-stats-text').innerText = `Finished in ${moves} moves and ${seconds} seconds.`;
-  document.getElementById('final-score-big').innerText = `Score: ${currentScore}`;
+  fireConfetti();
+  
+  const winModal = document.getElementById('win-modal');
+  winModal.style.display = 'flex';
+  document.getElementById('final-stats-text').innerHTML = `You completed the challenge in <b>${moves}</b> moves and <b>${seconds}</b> seconds.`;
+  document.getElementById('final-score-big').innerText = `Final Score: ${currentScore}`;
+}
+
+function fireConfetti() {
+  const count = 200;
+  const defaults = { origin: { y: 0.7 }, colors: ['#2c7a9b', '#f39c12', '#ffffff'] };
+  function fire(ratio, opts) {
+    confetti({ ...defaults, ...opts, particleCount: Math.floor(count * ratio) });
+  }
+  fire(0.25, { spread: 26, startVelocity: 55 });
+  fire(0.2, { spread: 60 });
+  fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
 }
 
 function unflipCards() {
