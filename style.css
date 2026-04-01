@@ -38,7 +38,6 @@ body {
   margin-bottom: 20px; 
 }
 
-/* INTRO CONTENT */
 .intro-box { 
   text-align: center; 
   color: white; 
@@ -83,7 +82,7 @@ body {
 
 /* --- BOARD & CARDS --- */
 .memory-game { 
-  width: 1000px; 
+  width: 920px; 
   max-width: 95%; 
   margin: 30px auto; 
   display: flex; 
@@ -93,20 +92,20 @@ body {
 }
 
 .memory-card { 
-  /* 25% Width = 4 cards per row */
-  width: calc(25% - 10px); 
-  height: 180px; 
+  /* Restore 6 per row */
+  width: calc(16.66% - 10px); 
+  height: 150px; 
   margin: 5px; 
   position: relative; 
   transform-style: preserve-3d; 
-  transition: transform .3s ease-in-out; 
+  transition: transform .4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
   cursor: pointer;
   box-sizing: border-box;
 }
 
 /* HOVER ANIMATION */
 .memory-card:not(.flip):hover {
-  transform: scale(1.05);
+  transform: scale(1.08);
   z-index: 10;
 }
 
@@ -117,7 +116,7 @@ body {
   width: 100%; 
   height: 100%; 
   position: absolute; 
-  border-radius: 8px; 
+  border-radius: 6px; 
   backface-visibility: hidden; 
 }
 
@@ -125,7 +124,7 @@ body {
 .front-face { 
   transform: rotateY(180deg); 
   background: #fff; 
-  /* REDUCED PADDING: Thinner clear border around dancers */
+  /* THIN CLEAR BORDER: 5px padding keeps the dancers centered */
   padding: 5px; 
   box-shadow: 1px 1px 5px rgba(0,0,0,0.3);
 }
@@ -136,14 +135,15 @@ body {
   object-fit: contain; 
 }
 
-/* BACK SIDE (Logo Side) */
+/* BACK SIDE (back-face.png) */
 .back-face { 
   background-color: transparent; 
   background-image: url('img/back-face.png'); 
-  /* ZERO PADDING: Image fills the entire card to the edges */
+  /* FULL COVER: Forces image to ignore padding and fill the card edges */
   background-size: 100% 100%; 
   background-position: center;
   background-repeat: no-repeat;
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle edge definition */
 }
 
 /* --- WIN SCREEN --- */
@@ -160,14 +160,14 @@ body {
 /* --- RESPONSIVE DESIGN --- */
 @media (max-width: 850px) { 
   .memory-card { 
-    width: calc(33.33% - 10px); /* 3 per row on tablets */
-    height: 150px; 
+    width: calc(25% - 10px); /* 4 per row on tablets */
+    height: 130px; 
   } 
 }
 
 @media (max-width: 480px) {
   .memory-card {
-    width: calc(50% - 10px); /* 2 per row on small phones */
-    height: 120px;
+    width: calc(33.33% - 10px); /* 3 per row on small phones */
+    height: 110px;
   }
 }
