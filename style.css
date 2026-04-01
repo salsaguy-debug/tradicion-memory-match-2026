@@ -1,4 +1,4 @@
-/* --- RESET & BASE --- */
+/* --- 1. RESET & BASE --- */
 * { 
   padding: 0; 
   margin: 0; 
@@ -9,22 +9,12 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: #2c7a9b;
+  background-color: #2c7a9b; /* Ocean Blue */
   font-family: sans-serif;
-  overflow: hidden;
+  overflow: hidden; /* Prevents unwanted scrolling */
 }
 
-/* --- FIX: LOADING LOGO SIZE --- */
-#intro-logo { 
-  /* This prevents the "Salsa Guy Richmond" logo from filling the whole screen */
-  max-width: 300px; 
-  width: 90%; 
-  height: auto; 
-  margin-bottom: 20px;
-  display: block;
-}
-
-/* --- FIX: AUDIO UI & OVERLAYS --- */
+/* --- 2. LOADING SCREEN & LOGO FIX --- */
 .overlay { 
   position: fixed; 
   top: 0; 
@@ -33,19 +23,37 @@ body {
   height: 100%; 
   background: rgba(10, 10, 10, 0.95); 
   display: flex; 
+  flex-direction: column; 
   justify-content: center; 
   align-items: center; 
   z-index: 9999; 
 }
 
-/* Ensure audio controls are visible and clickable above the background */
-.audio-controls {
-  position: relative;
-  z-index: 10000; 
-  margin-top: 15px;
+/* TARGET: Salsa Guy Richmond Logo */
+#intro-logo { 
+  width: 220px;       /* Fixed small width */
+  max-width: 70%;     /* Shrinks more on tiny screens */
+  height: auto; 
+  margin: 0 auto 25px auto; 
+  display: block; 
 }
 
-/* --- GAME BOARD & CARDS --- */
+.intro-box { 
+  text-align: center; 
+  color: white; 
+  max-width: 600px; 
+}
+
+/* --- 3. AUDIO UI FIX --- */
+.audio-controls {
+  margin-top: 30px;
+  display: flex;
+  gap: 15px;
+  position: relative;
+  z-index: 10001; /* High z-index ensures buttons are clickable */
+}
+
+/* --- 4. GAME BOARD & CARDS --- */
 .memory-game { 
   width: 1000px; 
   max-width: 95%; 
@@ -57,7 +65,7 @@ body {
 }
 
 .memory-card { 
-  /* Wider/Shorter Ratio fixed here */
+  /* WIDER & SHORTER: 23% width (~4 per row) and 130px height */
   width: calc(23% - 10px); 
   height: 130px; 
   margin: 5px; 
@@ -75,36 +83,63 @@ body {
   position: absolute; 
   border-radius: 4px; 
   backface-visibility: hidden; 
-  padding: 0 !important; /* Forces zero padding */
+  padding: 0 !important; /* ZERO PADDING ENFORCED */
 }
 
+/* FRONT SIDE (Dancers) */
 .front-face { 
   transform: rotateY(180deg); 
-  background: none !important; 
+  background: none !important; /* NO WHITE BOX */
 }
 
 .front-face img { 
   width: 100%; 
   height: 100%; 
-  object-fit: fill; /* Stretches dancer to edges */
+  object-fit: fill; /* Stretches dancer to the very edge of the wider card */
+  border-radius: 4px;
 }
 
+/* BACK SIDE (Salsa Guy Back Image) */
 .back-face { 
   background-image: url('img/back-face.png'); 
   background-size: 100% 100%; 
   background-position: center;
   background-repeat: no-repeat;
+  background-color: transparent;
 }
 
-/* --- UI COMPONENTS --- */
-.game-header { text-align: center; padding: 20px; color: white; z-index: 10; }
+/* --- 5. BUTTONS & TEXT --- */
 .btn-orange { 
   background: #f39c12; 
   color: white; 
   border: none; 
-  padding: 10px 25px; 
+  padding: 12px 30px; 
   border-radius: 5px; 
   cursor: pointer; 
   font-weight: bold; 
-  font-size: 1.1rem;
+  text-transform: uppercase;
+}
+
+.game-header { 
+  text-align: center; 
+  padding: 20px; 
+  color: white; 
+  background: rgba(0,0,0,0.1);
+}
+
+/* --- 6. MOBILE RESPONSIVENESS --- */
+@media (max-width: 850px) { 
+  #intro-logo { width: 160px; } /* Even smaller on tablets */
+  .memory-card { 
+    width: calc(30% - 10px); 
+    height: 115px; 
+  } 
+}
+
+@media (max-width: 480px) {
+  #intro-logo { width: 130px; } /* Smallest for phones */
+  .memory-card { 
+    width: calc(45% - 10px); 
+    height: 100px; 
+  }
 }
