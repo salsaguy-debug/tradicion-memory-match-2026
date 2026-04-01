@@ -33,7 +33,7 @@ function runIntroSequence() {
 
 function flipCard() {
   if (lockBoard || this === firstCard) return;
-  if (!timerStarted) { updateVolume(); bgMusic.play().catch(() => {}); startTimer(); timerStarted = true; }
+  if (!timerStarted) { bgMusic.play().catch(() => {}); startTimer(); timerStarted = true; }
   if (flipSound) { flipSound.currentTime = 0; flipSound.play(); }
   this.classList.add('flip');
   if (!hasFlippedCard) { hasFlippedCard = true; firstCard = this; return; }
@@ -97,17 +97,6 @@ function startTimer() {
     currentScore = Math.max(100, 1000 - (moves * 10) - (seconds * 2));
     document.getElementById('score-display').innerText = currentScore;
   }, 1000);
-}
-
-function updateVolume() {
-  bgMusic.volume = document.getElementById('music-vol').value;
-  const sfx = document.getElementById('sfx-vol').value;
-  [flipSound, matchSound, mismatchSound].forEach(s => s.volume = sfx);
-}
-
-function toggleAudioSettings() {
-  const modal = document.getElementById('audio-modal');
-  modal.style.display = (modal.style.display === 'none') ? 'flex' : 'none';
 }
 
 function resetGame() { location.reload(); }
