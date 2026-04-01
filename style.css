@@ -9,7 +9,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: #2c7a9b; /* This color will show through the transparent padding */
+  background-color: #2c7a9b; /* Ocean Blue */
   color: white;
   font-family: sans-serif;
   overflow-x: hidden;
@@ -29,6 +29,8 @@ body {
   z-index: 9999; 
 }
 
+#intro-logo { max-width: 180px; width: 100%; height: auto; margin-bottom: 20px; }
+
 /* --- BOARD & CARDS --- */
 .memory-game { 
   width: 920px; 
@@ -41,6 +43,7 @@ body {
 }
 
 .memory-card { 
+  /* 6 cards per row */
   width: calc(16.66% - 10px); 
   height: 150px; 
   margin: 5px; 
@@ -50,6 +53,7 @@ body {
   cursor: pointer;
 }
 
+.memory-card:not(.flip):hover { transform: scale(1.05); z-index: 10; }
 .memory-card.flip { transform: rotateY(180deg); }
 
 .front-face, .back-face { 
@@ -63,15 +67,12 @@ body {
 /* FRONT SIDE (Icon Side) */
 .front-face { 
   transform: rotateY(180deg); 
+  background: #fff; /* Solid white background */
   
-  /* UPDATED: Background is now transparent */
-  background-color: transparent; 
+  /* SMALL TIGHT PADDING: Only 4px to keep icons from touching the edges */
+  padding: 4px; 
   
-  /* Padding creates the "clear" space around the icon */
-  padding: 5px; 
-  
-  /* Optional: Remove box-shadow if you want it completely flat */
-  box-shadow: none; 
+  box-shadow: 1px 1px 5px rgba(0,0,0,0.3);
 }
 
 .front-face img { 
@@ -80,13 +81,19 @@ body {
   object-fit: contain; 
 }
 
-/* BACK SIDE (The Salsa Guy / Logo) */
+/* BACK SIDE (Logo Side) */
 .back-face { 
+  /* NO PADDING: Image fills the entire card to the edge */
+  padding: 0; 
   background-color: transparent; 
   background-image: url('img/back-face.png'); 
+  
+  /* This forces your logo to cover the entire Width and Height */
   background-size: 100% 100%; 
+  
   background-position: center;
   background-repeat: no-repeat;
+  border: 1px solid rgba(0,0,0,0.1);
 }
 
 /* --- UI COMPONENTS --- */
@@ -97,4 +104,8 @@ body {
 /* --- RESPONSIVE --- */
 @media (max-width: 850px) { 
   .memory-card { width: calc(25% - 10px); height: 130px; } 
+}
+
+@media (max-width: 480px) {
+  .memory-card { width: calc(33.33% - 10px); height: 110px; }
 }
