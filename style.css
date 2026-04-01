@@ -94,7 +94,7 @@ body {
 
 .memory-card { 
   /* UPDATED WIDTH: 25% creates a 4-card-wide row */
-  width: calc(50% - 8px); 
+  width: calc(50% - 15px); 
   /* UPDATED HEIGHT: Increased to match the wider look */
   height: 180px; 
   margin: 5px; 
