@@ -1,4 +1,4 @@
-/* RESET & BASE */
+/* --- RESET & BASE STYLES --- */
 * { 
   padding: 0; 
   margin: 0; 
@@ -15,7 +15,7 @@ body {
   overflow-x: hidden;
 }
 
-/* OVERLAYS (Intro, Win, Audio) */
+/* --- OVERLAYS --- */
 .overlay { 
   position: fixed; 
   top: 0; 
@@ -68,7 +68,7 @@ body {
 #countdown-display { margin-top: 20px; text-align: center; font-size: 1.2rem; }
 #count-num { font-size: 4rem; color: #f39c12; }
 
-/* GAME UI */
+/* --- GAME UI --- */
 .game-header { text-align: center; padding: 20px; background: rgba(0,0,0,0.2); }
 .stats-container { display: flex; justify-content: center; gap: 20px; margin-top: 10px; align-items: center; }
 .btn-orange { 
@@ -81,9 +81,9 @@ body {
   font-weight: bold; 
 }
 
-/* BOARD & CARDS */
+/* --- BOARD & CARDS --- */
 .memory-game { 
-  width: 1000px; /* Slightly wider board to accommodate wider cards */
+  width: 1000px; 
   max-width: 95%; 
   margin: 30px auto; 
   display: flex; 
@@ -93,18 +93,19 @@ body {
 }
 
 .memory-card { 
-  /* UPDATED WIDTH: Wider cards (approx 5 per row) */
-  width: calc(18% - 10px); 
-  height: 150px; 
+  /* UPDATED WIDTH: 25% creates a 4-card-wide row */
+  width: calc(25% - 10px); 
+  /* UPDATED HEIGHT: Increased to match the wider look */
+  height: 180px; 
   margin: 5px; 
   position: relative; 
   transform-style: preserve-3d; 
   transition: transform .3s ease-in-out; 
   cursor: pointer;
-  box-sizing: border-box;
+  box-sizing: border-box; /* Keeps padding from expanding the card size */
 }
 
-/* INTERACTIVE HOVER */
+/* HOVER ANIMATION */
 .memory-card:not(.flip):hover {
   transform: scale(1.05);
   z-index: 10;
@@ -117,34 +118,35 @@ body {
   width: 100%; 
   height: 100%; 
   position: absolute; 
-  border-radius: 6px; 
+  border-radius: 8px; /* Slightly softer corners for larger cards */
   backface-visibility: hidden; 
 }
 
-/* FRONT SIDE (The Icons/Dancers) */
+/* FRONT SIDE (Icon Side) */
 .front-face { 
   transform: rotateY(180deg); 
   background: #fff; 
-  padding: 10px; /* This is the "clear" area around your icons */
+  /* PADDING: This remains your "clear" space around the icons */
+  padding: 10px; 
   box-shadow: 1px 1px 5px rgba(0,0,0,0.3);
 }
 
 .front-face img { 
   width: 100%; 
   height: 100%; 
-  object-fit: contain; /* Prevents squashing in the new wider frame */
+  object-fit: contain; /* Keeps icons from looking stretched */
 }
 
-/* BACK SIDE (The back-face.png) */
+/* BACK SIDE (Logo Side) */
 .back-face { 
-  background-color: transparent; /* No more black padding */
+  background-color: transparent; /* Makes black padding invisible/clear */
   background-image: url('img/back-face.png'); 
-  background-size: 100% 100%; /* Image stretches to cover the new width exactly */
+  background-size: 100% 100%; /* Stretches logo to fill the full 25% width */
   background-position: center;
   background-repeat: no-repeat;
 }
 
-/* WIN CARD */
+/* --- WIN SCREEN --- */
 .win-card { 
   background: white; 
   color: #333; 
@@ -155,17 +157,17 @@ body {
   z-index: 10000; 
 }
 
-/* RESPONSIVE TABLETS/MOBILE */
+/* --- RESPONSIVE DESIGN --- */
 @media (max-width: 850px) { 
   .memory-card { 
-    width: calc(25% - 10px); /* 4 per row on tablets */
-    height: 130px; 
+    width: calc(33.33% - 10px); /* 3 per row on tablets */
+    height: 140px; 
   } 
 }
 
 @media (max-width: 480px) {
   .memory-card {
-    width: calc(33.33% - 10px); /* 3 per row on small phones */
-    height: 100px;
+    width: calc(50% - 10px); /* 2 per row on small phones */
+    height: 120px;
   }
 }
