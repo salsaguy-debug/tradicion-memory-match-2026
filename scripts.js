@@ -14,6 +14,7 @@ function runIntroSequence() {
   const instructions = document.getElementById('instructions-content'), countDisplay = document.getElementById('count-num');
   const board = document.getElementById('game-board'), header = document.querySelector('.game-header');
 
+  // Hide board during intro
   board.style.visibility = 'hidden';
   header.style.visibility = 'hidden';
 
