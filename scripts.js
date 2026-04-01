@@ -4,27 +4,16 @@ const flipSound = document.getElementById('sound-flip');
 const matchSound = document.getElementById('sound-match');
 const mismatchSound = document.getElementById('sound-mismatch');
 
-let hasFlippedCard = false;
-let lockBoard = false;
-let firstCard, secondCard;
-let moves = 0;
-let matchedPairs = 0;
-let timerStarted = false;
-let seconds = 0;
-let timerInterval;
-let currentScore = 1000;
+let hasFlippedCard = false, lockBoard = false, firstCard, secondCard;
+let moves = 0, matchedPairs = 0, timerStarted = false, seconds = 0, timerInterval, currentScore = 1000;
 
 window.addEventListener('load', runIntroSequence);
 
 function runIntroSequence() {
-  const intro = document.getElementById('intro-overlay');
-  const welcome = document.getElementById('welcome-content');
-  const instructions = document.getElementById('instructions-content');
-  const countDisplay = document.getElementById('count-num');
-  const board = document.getElementById('game-board');
-  const header = document.querySelector('.game-header');
+  const intro = document.getElementById('intro-overlay'), welcome = document.getElementById('welcome-content');
+  const instructions = document.getElementById('instructions-content'), countDisplay = document.getElementById('count-num');
+  const board = document.getElementById('game-board'), header = document.querySelector('.game-header');
 
-  // Prevent board from flashing during intro
   board.style.visibility = 'hidden';
   header.style.visibility = 'hidden';
 
@@ -32,13 +21,7 @@ function runIntroSequence() {
   const introInterval = setInterval(() => {
     countdown--;
     countDisplay.innerText = countdown;
-
-    // Swap from Welcome to Instructions at 3 seconds
-    if (countdown === 3) {
-      welcome.style.display = 'none';
-      instructions.style.display = 'block';
-    }
-
+    if (countdown === 3) { welcome.style.display = 'none'; instructions.style.display = 'block'; }
     if (countdown <= 0) {
       clearInterval(introInterval);
       intro.style.display = 'none';
@@ -50,19 +33,10 @@ function runIntroSequence() {
 
 function flipCard() {
   if (lockBoard || this === firstCard) return;
-  if (!timerStarted) {
-    updateVolume();
-    bgMusic.play().catch(() => {});
-    startTimer();
-    timerStarted = true;
-  }
+  if (!timerStarted) { updateVolume(); bgMusic.play().catch(() => {}); startTimer(); timerStarted = true; }
   if (flipSound) { flipSound.currentTime = 0; flipSound.play(); }
   this.classList.add('flip');
-  if (!hasFlippedCard) {
-    hasFlippedCard = true;
-    firstCard = this;
-    return;
-  }
+  if (!hasFlippedCard) { hasFlippedCard = true; firstCard = this; return; }
   secondCard = this;
   checkForMatch();
 }
@@ -93,10 +67,7 @@ function unflipCards() {
   }, 1000);
 }
 
-function resetBoard() {
-  [hasFlippedCard, lockBoard] = [false, false];
-  [firstCard, secondCard] = [null, null];
-}
+function resetBoard() { [hasFlippedCard, lockBoard] = [false, false]; [firstCard, secondCard] = [null, null]; }
 
 function showWinScreen() {
   clearInterval(timerInterval);
@@ -104,14 +75,13 @@ function showWinScreen() {
   setTimeout(() => {
     const winModal = document.getElementById('win-modal');
     winModal.style.display = 'flex';
-    document.getElementById('final-stats-text').innerHTML = `You completed the challenge in <b>${moves} moves</b> and <b>${seconds} seconds</b>.`;
-    document.getElementById('final-score-big').innerText = `Final Score: ${currentScore}`;
+    document.getElementById('final-stats-text').innerHTML = `Challenge completed in <b>${moves} moves</b> and <b>${seconds} seconds</b>.`;
+    document.getElementById('final-score-big').innerText = `Score: ${currentScore}`;
   }, 500);
 }
 
 function fireConfetti() {
-  const duration = 3 * 1000;
-  const end = Date.now() + duration;
+  const duration = 3000, end = Date.now() + duration;
   (function frame() {
     confetti({ particleCount: 4, angle: 60, spread: 55, origin: { x: 0 }, zIndex: 10001 });
     confetti({ particleCount: 4, angle: 120, spread: 55, origin: { x: 1 }, zIndex: 10001 });
@@ -122,8 +92,7 @@ function fireConfetti() {
 function startTimer() {
   timerInterval = setInterval(() => {
     seconds++;
-    let m = Math.floor(seconds / 60).toString().padStart(2, '0');
-    let s = (seconds % 60).toString().padStart(2, '0');
+    let m = Math.floor(seconds / 60).toString().padStart(2, '0'), s = (seconds % 60).toString().padStart(2, '0');
     document.getElementById('timer').innerText = `${m}:${s}`;
     currentScore = Math.max(100, 1000 - (moves * 10) - (seconds * 2));
     document.getElementById('score-display').innerText = currentScore;
