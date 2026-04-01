@@ -1,7 +1,8 @@
 /** ============================================================================== 
 PROJECT: Tradición Memory Match 2026
-BRIDGE THE GAP (BTG) VERSION: 3.2.7
-DESCRIPTION: Final Logic with Confetti and 1.5s delay before win modal.
+BRIDGE THE GAP (BTG) VERSION: 3.2.8
+DESCRIPTION: Logic updated for the merged Intro Overlay, handling the swap
+             between Welcome and Instructions content at the 3s mark.
 ============================================================================== */
 
 const cards = document.querySelectorAll('.memory-card');
@@ -22,8 +23,11 @@ let currentScore = 1000;
 
 window.addEventListener('load', runIntroSequence);
 
+// UPDATED: Handles swapping intro content
 function runIntroSequence() {
   const intro = document.getElementById('intro-overlay');
+  const welcome = document.getElementById('welcome-content');
+  const instructions = document.getElementById('instructions-content');
   const board = document.getElementById('game-board');
   const header = document.querySelector('.game-header');
   const countDisplay = document.getElementById('count-num');
@@ -35,6 +39,13 @@ function runIntroSequence() {
   const introInterval = setInterval(() => {
     countdown--;
     countDisplay.innerText = countdown;
+
+    // Merge Point: Swap from Welcome to How to Play at 3 seconds
+    if (countdown === 3) {
+      welcome.style.display = 'none';
+      instructions.style.display = 'block';
+    }
+
     if (countdown === 0) {
       clearInterval(introInterval);
       intro.style.display = 'none';
@@ -84,7 +95,6 @@ function disableCards() {
   matchedPairs++;
   
   if (matchedPairs === 12) {
-    // 1.5 second delay so the last card flip is fully visible
     setTimeout(showWinScreen, 1500);
   }
   resetBoard();
