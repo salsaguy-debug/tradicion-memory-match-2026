@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tradición Memory Match</title>
-  <link rel="stylesheet" href="style.css?v=1.1">
+  <link rel="stylesheet" href="style.css?v=1.2">
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
 <body>
@@ -12,18 +12,30 @@
   <div id="intro-overlay" class="overlay flex-column">
     <img src="img/sgrlogo.png" alt="Salsa Guy Richmond Logo" id="intro-logo">
     
-    <div class="message-content intro-instructions">
-      <h2 class="instr-title">HOW TO PLAY</h2>
+    <div id="welcome-content" class="message-content merged-text">
+      <h2>Welcome to Tradición Memory Match!</h2>
+      <p>Prepare your mind to match the vibrant heritage of Puerto Rico and beyond.</p>
+      <div class="promo-text">
+        Dance Lessons are available with the Salsa Guy: 
+        <a href="https://www.salsarichmond.com/" target="_blank">salsarichmond.com</a>
+        <br><br>
+        For performances, go to 
+        <a href="https://www.tradicion.org/" target="_blank">tradicion.org</a>
+      </div>
+    </div>
+
+    <div id="instructions-content" class="message-content merged-text" style="display: none;">
+      <h2 style="color: #f39c12; margin-bottom: 20px;">HOW TO PLAY</h2>
       <ul class="instr-list">
         <li><span>🎴</span> <b>FLIP:</b> Click any card to reveal a cultural icon.</li>
         <li><span>✨</span> <b>MATCH:</b> Find two of the same to clear them.</li>
         <li><span>🏆</span> <b>WIN:</b> Match all 12 pairs for the celebration!</li>
         <li><span>⏱️</span> <b>SCORE:</b> Faster moves earn higher points.</li>
       </ul>
+    </div>
 
-      <div id="countdown-display">
-        Game starting in: <b id="count-num">6</b>
-      </div>
+    <div id="countdown-display">
+      Game starting in: <b id="count-num">6</b>
     </div>
   </div>
 
@@ -87,7 +99,7 @@
     <div class="memory-card" data-framework="viejito"><img class="front-face" src="img/viejito.png"><div class="back-face"><img src="img/back-face.png"></div></div>
     <div class="memory-card" data-framework="salsaguy"><img class="front-face" src="img/salsa-guy.png"><div class="back-face"><img src="img/back-face.png"></div></div>
     <div class="memory-card" data-framework="salsaguy"><img class="front-face" src="img/salsa-guy.png"><div class="back-face"><img src="img/back-face.png"></div></div>
-    <div class="memory-card" data-framework="mex"><img class="front-face" src="img/mex.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="mex"><img class="front-face" src="img/mex.png"><div class="back-face"><img src="img/mex.png"><div class="back-face"><img src="img/back-face.png"></div></div>
     <div class="memory-card" data-framework="mex"><img class="front-face" src="img/mex.png"><div class="back-face"><img src="img/back-face.png"></div></div>
     <div class="memory-card" data-framework="tango"><img class="front-face" src="img/tango.png"><div class="back-face"><img src="img/back-face.png"></div></div>
     <div class="memory-card" data-framework="tango"><img class="front-face" src="img/tango.png"><div class="back-face"><img src="img/back-face.png"></div></div>
