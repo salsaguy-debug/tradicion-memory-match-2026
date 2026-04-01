@@ -18,18 +18,12 @@ body {
 }
 .flex-column { flex-direction: column; }
 
-#intro-logo { 
-  max-width: 180px; 
-  width: 100%;
-  height: auto;
-  margin-bottom: 20px; 
-}
+#intro-logo { max-width: 180px; width: 100%; height: auto; margin-bottom: 20px; }
 
 /* INTRO CONTENT */
 .intro-box { text-align: center; color: white; max-width: 600px; width: 90%; min-height: 320px; }
 .welcome-title { font-size: 2.2rem; margin-bottom: 15px; color: #f39c12; }
 .welcome-p { font-size: 1.2rem; margin-bottom: 25px; line-height: 1.5; }
-.promo-links p { margin-bottom: 10px; font-size: 1rem; }
 .promo-links a { color: #f39c12; font-weight: bold; text-decoration: underline; }
 
 .orange-text { color: #f39c12; letter-spacing: 2px; margin-bottom: 25px; font-size: 2rem; }
@@ -76,11 +70,10 @@ body {
   cursor: pointer; 
 }
 
-/* INTERACTIVE HOVER EFFECT */
+/* INTERACTIVE HOVER */
 .memory-card:not(.flip):hover {
-  transform: scale(1.08); 
+  transform: scale(1.05);
   z-index: 10;
-  filter: brightness(1.1); 
 }
 
 .memory-card:active { transform: scale(0.95); transition: transform .1s; }
@@ -92,24 +85,23 @@ body {
   position: absolute; 
   border-radius: 6px; 
   backface-visibility: hidden; 
-  box-shadow: 1px 1px 5px rgba(0,0,0,0.3);
 }
 
 /* Front side (Icon) */
-.front-face { transform: rotateY(180deg); background: #fff; padding: 10px; }
+.front-face { transform: rotateY(180deg); background: #fff; padding: 10px; box-shadow: 1px 1px 5px rgba(0,0,0,0.3); }
 .front-face img { width: 100%; height: 100%; object-fit: contain; }
 
-/* BACK SIDE LOGO (Using image as the full background) */
+/* BACK SIDE LOGO (Transparent Padding + Full Cover) */
 .back-face { 
-  background-color: #000; 
+  background-color: transparent; /* Makes black padding clear */
   background-image: url('img/back-face.png'); 
-  background-size: cover; /* This makes the image fill the entire div background */
+  background-size: 100% 100%; /* Forces image to cover the entire card area */
   background-position: center;
   background-repeat: no-repeat;
-  border: 1px solid #333;
+  /* Remove border if you want it completely seamless */
 }
 
 /* WIN CARD */
 .win-card { background: white; color: #333; padding: 40px; border-radius: 15px; text-align: center; max-width: 500px; z-index: 10000; }
 
-@media (max-width: 850px) { .memory-card { width: calc(25% - 10px); height: 130px; } .instr-item { width: 90%; } }
+@media (max-width: 850px) { .memory-card { width: calc(25% - 10px); height: 130px; } }
