@@ -1,6 +1,7 @@
 /** ============================================================================== 
 PROJECT: Tradición Memory Match 2026
-BRIDGE THE GAP (BTG) VERSION: 3.2.6
+BRIDGE THE GAP (BTG) VERSION: 3.2.7
+DESCRIPTION: Styling for instructions and layered overlays.
 ============================================================================== */
 
 * { padding: 0; margin: 0; box-sizing: border-box; }
@@ -31,16 +32,16 @@ canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-ev
 
 .message-content { background: white; color: #333; padding: 40px; border-radius: 12px; text-align: center; max-width: 550px; width: 90%; }
 
-/* INTRO SPECIFIC STYLES */
-.intro-instructions { background: transparent; color: white; border: none; }
-.instr-title { color: #f39c12; margin-bottom: 20px; font-size: 2rem; letter-spacing: 2px; }
-.instr-list { list-style: none; text-align: left; max-width: 420px; margin: 0 auto; }
-.instr-list li { font-size: 1.1rem; margin-bottom: 12px; padding: 10px 15px; background: rgba(255,255,255,0.1); border-left: 4px solid #f39c12; border-radius: 0 8px 8px 0; }
-.instr-list span { margin-right: 10px; font-size: 1.3rem; }
+/* INTRO INSTRUCTIONS STYLING */
+.intro-instructions { background: transparent !important; color: white !important; border: none !important; }
+.instr-title { color: #f39c12; margin-bottom: 20px; font-size: 2.2rem; font-weight: bold; }
+.instr-list { list-style: none; text-align: left; max-width: 440px; margin: 0 auto; }
+.instr-list li { font-size: 1.15rem; margin-bottom: 15px; padding: 12px 18px; background: rgba(255,255,255,0.15); border-left: 5px solid #f39c12; border-radius: 0 10px 10px 0; color: white !important; }
+.instr-list span { margin-right: 12px; font-size: 1.4rem; }
 
-#intro-logo { max-width: 280px; margin-bottom: 20px; }
-#countdown-display { margin-top: 30px; font-size: 1.2rem; }
-#count-num { font-size: 3.5rem; color: #f39c12; display: block; margin-top: 5px; }
+#intro-logo { max-width: 280px; margin-bottom: 25px; }
+#countdown-display { margin-top: 35px; font-size: 1.2rem; }
+#count-num { font-size: 4rem; color: #f39c12; display: block; margin-top: 10px; }
 
 #final-score-big { font-size: 3.5rem; color: #f39c12; margin: 20px 0; }
 
