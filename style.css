@@ -1,7 +1,8 @@
 /** ============================================================================== 
 PROJECT: Tradición Memory Match 2026
-BRIDGE THE GAP (BTG) VERSION: 3.2.7
-DESCRIPTION: Styling for instructions and layered overlays.
+BRIDGE THE GAP (BTG) VERSION: 3.2.8
+DESCRIPTION: Merged overlay styling to support both Welcome text and 
+             How to Play instructions during the countdown.
 ============================================================================== */
 
 * { padding: 0; margin: 0; box-sizing: border-box; }
@@ -32,14 +33,21 @@ canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-ev
 
 .message-content { background: white; color: #333; padding: 40px; border-radius: 12px; text-align: center; max-width: 550px; width: 90%; }
 
-/* INTRO INSTRUCTIONS STYLING */
-.intro-instructions { background: transparent !important; color: white !important; border: none !important; }
-.instr-title { color: #f39c12; margin-bottom: 20px; font-size: 2.2rem; font-weight: bold; }
+/* MERGED OVERLAY STYLING */
+.merged-text { background: transparent !important; color: white !important; border: none !important; }
+
+#welcome-content { line-height: 1.6; }
+#welcome-content h2 { margin-bottom: 15px; }
+
 .instr-list { list-style: none; text-align: left; max-width: 440px; margin: 0 auto; }
-.instr-list li { font-size: 1.15rem; margin-bottom: 15px; padding: 12px 18px; background: rgba(255,255,255,0.15); border-left: 5px solid #f39c12; border-radius: 0 10px 10px 0; color: white !important; }
-.instr-list span { margin-right: 12px; font-size: 1.4rem; }
+.instr-list li { font-size: 1.1rem; margin-bottom: 12px; padding: 12px 18px; background: rgba(255,255,255,0.15); border-left: 5px solid #f39c12; border-radius: 0 10px 10px 0; color: white !important; }
+.instr-list span { margin-right: 12px; font-size: 1.3rem; }
 
 #intro-logo { max-width: 280px; margin-bottom: 25px; }
+
+.promo-text { margin: 25px 0; line-height: 1.6; font-size: 1.1rem; }
+.promo-text a { color: #f39c12; font-weight: bold; text-decoration: underline; }
+
 #countdown-display { margin-top: 35px; font-size: 1.2rem; }
 #count-num { font-size: 4rem; color: #f39c12; display: block; margin-top: 10px; }
 
