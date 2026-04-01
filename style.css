@@ -70,6 +70,16 @@ body {
   cursor: pointer; 
 }
 
+/* Ensure the background image still covers the new dimensions */
+.back-face { 
+  background-color: transparent; 
+  background-image: url('img/back-face.png'); 
+  background-size: 100% 100%; /* Stretches to the new shorter width */
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 6px;
+}
+
 /* INTERACTIVE HOVER */
 .memory-card:not(.flip):hover {
   transform: scale(1.05);
