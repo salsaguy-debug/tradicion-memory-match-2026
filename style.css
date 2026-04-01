@@ -9,79 +9,87 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: #2c7a9b;
+  background-color: #2c7a9b; /* Ocean Blue for game board */
   font-family: sans-serif;
   overflow: hidden;
 }
 
-/* --- 2. INTRO OVERLAY & 6-SECOND COUNTER --- */
+/* --- 2. LOADING PAGE (WHITE BG / BLACK TEXT) --- */
 .overlay { 
   position: fixed; 
   top: 0; 
   left: 0; 
   width: 100%; 
   height: 100%; 
-  background: rgba(10, 10, 10, 0.95); 
+  /* UPDATED: White background for loading/intro */
+  background: rgba(255, 255, 255, 1.0); 
   display: flex; 
   flex-direction: column; 
   justify-content: center; 
   align-items: center; 
   z-index: 9999; 
+  /* UPDATED: Black lettering for messages */
+  color: #000000; 
+  text-align: center;
 }
 
 #intro-logo { 
   width: 220px; 
   height: auto; 
-  margin-bottom: 20px; 
+  margin-bottom: 25px; 
 }
 
-/* RE-INSTATED: Countdown Display Styles */
+.welcome-title {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+  color: #000; /* Black */
+}
+
+.welcome-p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  color: #333; /* Dark Gray/Black */
+}
+
+/* RE-INSTATED: 6-Second Counter Styles */
 #countdown-display {
   margin-top: 20px;
-  text-align: center;
-  color: white;
 }
 
 #count-num {
   display: block;
   font-size: 5rem;
   font-weight: bold;
-  color: #f39c12; /* Salsa Orange */
-  text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+  color: #f39c12; /* Salsa Orange - keeps the pop on white */
 }
 
-.welcome-p {
-  font-size: 1.2rem;
-  margin-bottom: 10px;
-  color: #ddd;
-}
-
-/* --- 3. AUDIO UI FIX --- */
-/* This ensures the Audio Settings container is on the top layer */
-.audio-controls, .audio-settings-container {
-  margin-top: 25px;
+/* --- 3. AUDIO SETTINGS FIX --- */
+.audio-settings-container, .audio-controls {
+  margin-top: 30px;
   display: flex;
   gap: 15px;
+  /* CRITICAL: Higher z-index and pointer-events ensure the button is clickable */
   position: relative;
-  z-index: 10005; /* Higher than the overlay */
+  z-index: 10005; 
+  pointer-events: auto;
 }
 
-/* Make sure buttons look and act clickable */
 .btn-audio {
-  background: #444;
+  background: #333;
   color: white;
   border: 2px solid #f39c12;
-  padding: 10px 15px;
+  padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
-  pointer-events: auto; /* Force clickability */
+  font-weight: bold;
+  transition: 0.2s;
 }
 
 .btn-audio:hover {
   background: #f39c12;
 }
 
-/* --- 4. GAME BOARD & CARDS --- */
+/* --- 4. GAME BOARD & WIDE CARDS --- */
 .memory-game { 
   width: 1000px; 
   max-width: 95%; 
@@ -110,7 +118,7 @@ body {
   position: absolute; 
   border-radius: 4px; 
   backface-visibility: hidden; 
-  padding: 0 !important;
+  padding: 0 !important; /* ZERO PADDING ENFORCED */
 }
 
 .front-face { 
@@ -121,8 +129,7 @@ body {
 .front-face img { 
   width: 100%; 
   height: 100%; 
-  object-fit: fill; 
-  border-radius: 4px;
+  object-fit: fill; /* Stretches dancer to edges */
 }
 
 .back-face { 
@@ -132,21 +139,18 @@ body {
   background-repeat: no-repeat;
 }
 
-/* --- 5. GENERAL UI --- */
+/* --- 5. BUTTONS & RESPONSIVE --- */
 .btn-orange { 
   background: #f39c12; 
   color: white; 
   border: none; 
-  padding: 12px 30px; 
+  padding: 12px 35px; 
   border-radius: 5px; 
   cursor: pointer; 
   font-weight: bold;
   z-index: 10005;
 }
 
-.game-header { text-align: center; padding: 20px; color: white; }
-
-/* --- 6. RESPONSIVE --- */
 @media (max-width: 850px) { 
   #intro-logo { width: 160px; }
   .memory-card { width: calc(30% - 10px); height: 115px; } 
