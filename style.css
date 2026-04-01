@@ -15,7 +15,7 @@ body {
   overflow-x: hidden;
 }
 
-/* --- OVERLAYS --- */
+/* --- OVERLAYS (Intro, Win, Audio) --- */
 .overlay { 
   position: fixed; 
   top: 0; 
@@ -93,16 +93,15 @@ body {
 }
 
 .memory-card { 
-  /* UPDATED WIDTH: 25% creates a 4-card-wide row */
-  width: calc(50% - 15px); 
-  /* UPDATED HEIGHT: Increased to match the wider look */
+  /* 25% Width = 4 cards per row */
+  width: calc(25% - 10px); 
   height: 180px; 
   margin: 5px; 
   position: relative; 
   transform-style: preserve-3d; 
   transition: transform .3s ease-in-out; 
   cursor: pointer;
-  box-sizing: border-box; /* Keeps padding from expanding the card size */
+  box-sizing: border-box;
 }
 
 /* HOVER ANIMATION */
@@ -118,7 +117,7 @@ body {
   width: 100%; 
   height: 100%; 
   position: absolute; 
-  border-radius: 8px; /* Slightly softer corners for larger cards */
+  border-radius: 8px; 
   backface-visibility: hidden; 
 }
 
@@ -126,22 +125,23 @@ body {
 .front-face { 
   transform: rotateY(180deg); 
   background: #fff; 
-  /* PADDING: This remains your "clear" space around the icons */
-  padding: 10px; 
+  /* REDUCED PADDING: Thinner clear border around dancers */
+  padding: 5px; 
   box-shadow: 1px 1px 5px rgba(0,0,0,0.3);
 }
 
 .front-face img { 
   width: 100%; 
   height: 100%; 
-  object-fit: contain; /* Keeps icons from looking stretched */
+  object-fit: contain; 
 }
 
 /* BACK SIDE (Logo Side) */
 .back-face { 
-  background-color: transparent; /* Makes black padding invisible/clear */
+  background-color: transparent; 
   background-image: url('img/back-face.png'); 
-  background-size: 100% 100%; /* Stretches logo to fill the full 25% width */
+  /* ZERO PADDING: Image fills the entire card to the edges */
+  background-size: 100% 100%; 
   background-position: center;
   background-repeat: no-repeat;
 }
@@ -161,7 +161,7 @@ body {
 @media (max-width: 850px) { 
   .memory-card { 
     width: calc(33.33% - 10px); /* 3 per row on tablets */
-    height: 140px; 
+    height: 150px; 
   } 
 }
 
