@@ -95,7 +95,7 @@ body {
 .back-face { 
   background-color: transparent; /* Makes black padding clear */
   background-image: url('img/back-face.png'); 
-  background-size: 150% 100%; /* Forces image to cover the entire card area */
+  background-size: 100% 100%; /* Forces image to cover the entire card area */
   background-position: center;
   background-repeat: no-repeat;
   /* Remove border if you want it completely seamless */
