@@ -1,7 +1,7 @@
 /** ============================================================================== 
 PROJECT: Tradición Memory Match 2026
-BRIDGE THE GAP (BTG) VERSION: 3.2.6
-DESCRIPTION: Final Logic with 6s Instructions Overlay and Confetti Finale.
+BRIDGE THE GAP (BTG) VERSION: 3.2.7
+DESCRIPTION: Final Logic with Confetti and 1.5s delay before win modal.
 ============================================================================== */
 
 const cards = document.querySelectorAll('.memory-card');
@@ -84,6 +84,7 @@ function disableCards() {
   matchedPairs++;
   
   if (matchedPairs === 12) {
+    // 1.5 second delay so the last card flip is fully visible
     setTimeout(showWinScreen, 1500);
   }
   resetBoard();
