@@ -1,7 +1,7 @@
 /** ============================================================================== 
 PROJECT: Tradición Memory Match 2026
-BRIDGE THE GAP (BTG) VERSION: 3.2.5
-DESCRIPTION: Finalized timing for game-end and high-visibility confetti cannons.
+BRIDGE THE GAP (BTG) VERSION: 3.2.6
+DESCRIPTION: Final Logic with 6s Instructions Overlay and Confetti Finale.
 ============================================================================== */
 
 const cards = document.querySelectorAll('.memory-card');
@@ -27,8 +27,10 @@ function runIntroSequence() {
   const board = document.getElementById('game-board');
   const header = document.querySelector('.game-header');
   const countDisplay = document.getElementById('count-num');
+  
   board.style.visibility = 'hidden';
   header.style.visibility = 'hidden';
+
   let countdown = 6;
   const introInterval = setInterval(() => {
     countdown--;
@@ -82,7 +84,6 @@ function disableCards() {
   matchedPairs++;
   
   if (matchedPairs === 12) {
-    // WAIT 1.5 SECONDS before showing results so player sees the last match
     setTimeout(showWinScreen, 1500);
   }
   resetBoard();
@@ -90,11 +91,8 @@ function disableCards() {
 
 function showWinScreen() {
   clearInterval(timerInterval);
-  
-  // 1. Launch Confetti
   fireConfetti();
-
-  // 2. Show Modal after a tiny delay so it doesn't block the initial burst
+  
   setTimeout(() => {
     const winModal = document.getElementById('win-modal');
     winModal.style.display = 'flex';
@@ -109,26 +107,9 @@ function fireConfetti() {
   const colors = ['#2c7a9b', '#f39c12', '#ffffff'];
 
   (function frame() {
-    confetti({
-      particleCount: 4,
-      angle: 60,
-      spread: 55,
-      origin: { x: 0 },
-      colors: colors,
-      zIndex: 10001
-    });
-    confetti({
-      particleCount: 4,
-      angle: 120,
-      spread: 55,
-      origin: { x: 1 },
-      colors: colors,
-      zIndex: 10001
-    });
-
-    if (Date.now() < end) {
-      requestAnimationFrame(frame);
-    }
+    confetti({ particleCount: 4, angle: 60, spread: 55, origin: { x: 0 }, colors: colors, zIndex: 10001 });
+    confetti({ particleCount: 4, angle: 120, spread: 55, origin: { x: 1 }, colors: colors, zIndex: 10001 });
+    if (Date.now() < end) requestAnimationFrame(frame);
   }());
 }
 
