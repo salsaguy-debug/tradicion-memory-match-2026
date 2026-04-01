@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tradición Memory Match</title>
-  <link rel="stylesheet" href="style.css?v=1.3">
+  <link rel="stylesheet" href="style.css?v=1.4">
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
 <body>
@@ -12,9 +12,9 @@
   <div id="intro-overlay" class="overlay flex-column">
     <img src="img/sgrlogo.png" alt="Salsa Guy Richmond Logo" id="intro-logo">
     
-    <div id="welcome-content" class="message-content intro-box">
-      <h2>Welcome to Tradición Memory Match!</h2>
-      <p>Prepare your mind to match the vibrant heritage of Puerto Rico and beyond.</p>
+    <div id="welcome-content" class="intro-box">
+      <h2 class="welcome-title">Welcome to Tradición Memory Match!</h2>
+      <p class="welcome-p">Prepare your mind to match the vibrant heritage of Puerto Rico and beyond.</p>
       <div class="promo-links">
         <p>Dance Lessons available with the Salsa Guy: <br>
         <a href="https://salsarichmond.com" target="_blank">salsarichmond.com</a></p>
@@ -23,7 +23,7 @@
       </div>
     </div>
 
-    <div id="instructions-content" class="message-content intro-box" style="display: none;">
+    <div id="instructions-content" class="intro-box" style="display: none;">
       <h2 class="orange-text">HOW TO PLAY</h2>
       <div class="instr-item"><span>🎴</span> <b>FLIP:</b> Click any card to reveal a cultural icon.</div>
       <div class="instr-item"><span>✨</span> <b>MATCH:</b> Find two of the same to clear them.</div>
@@ -61,7 +61,51 @@
   </div>
 
   <section class="memory-game" id="game-board">
-    </section>
+    <div class="memory-card" data-framework="bomba"><img class="front-face" src="img/bomba.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="bomba"><img class="front-face" src="img/bomba.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="azul"><img class="front-face" src="img/Azul Transparent.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="azul"><img class="front-face" src="img/Azul Transparent.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="musician"><img class="front-face" src="img/bomba-musician.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="musician"><img class="front-face" src="img/bomba-musician.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="edna"><img class="front-face" src="img/cabezudos-edna-gabriel.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="edna"><img class="front-face" src="img/cabezudos-edna-gabriel.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="cano"><img class="front-face" src="img/cano-barracuda.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="cano"><img class="front-face" src="img/cano-barracuda.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="comalera"><img class="front-face" src="img/comalera.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="comalera"><img class="front-face" src="img/comalera.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="mapale"><img class="front-face" src="img/mapale.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="mapale"><img class="front-face" src="img/mapale.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="viejito"><img class="front-face" src="img/viejito.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="viejito"><img class="front-face" src="img/viejito.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="salsaguy"><img class="front-face" src="img/salsa-guy.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="salsaguy"><img class="front-face" src="img/salsa-guy.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="mex"><img class="front-face" src="img/mex.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="mex"><img class="front-face" src="img/mex.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="tango"><img class="front-face" src="img/tango.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="tango"><img class="front-face" src="img/tango.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="barril"><img class="front-face" src="img/barril.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+    <div class="memory-card" data-framework="barril"><img class="front-face" src="img/barril.png"><div class="back-face"><img src="img/back-face.png"></div></div>
+  </section>
+
+  <audio id="bg-music" src="audio/bg-music.mp3" loop></audio>
+  <audio id="sound-flip" src="audio/flip.mp3"></audio>
+  <audio id="sound-match" src="audio/match.mp3"></audio>
+  <audio id="sound-mismatch" src="audio/mismatch.mp3"></audio>
+
+  <div id="audio-modal" class="overlay" style="display: none;">
+    <div class="message-content win-card">
+      <h2>Audio Settings</h2>
+      <div class="volume-control">
+        <label>Music Volume</label>
+        <input type="range" id="music-vol" min="0" max="1" step="0.1" value="0.3" oninput="updateVolume()">
+      </div>
+      <div class="volume-control">
+        <label>SFX Volume</label>
+        <input type="range" id="sfx-vol" min="0" max="1" step="0.1" value="0.7" oninput="updateVolume()">
+      </div>
+      <button class="btn-orange" onclick="toggleAudioSettings()">Close</button>
+    </div>
+  </div>
 
   <script src="scripts.js"></script>
 </body>
