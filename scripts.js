@@ -1,3 +1,19 @@
+const cards = document.querySelectorAll('.memory-card');
+const bgMusic = document.getElementById('bg-music');
+const flipSound = document.getElementById('sound-flip');
+const matchSound = document.getElementById('sound-match');
+const mismatchSound = document.getElementById('sound-mismatch');
+
+let hasFlippedCard = false;
+let lockBoard = false;
+let firstCard, secondCard;
+let moves = 0;
+let matchedPairs = 0;
+let timerStarted = false;
+let seconds = 0;
+let timerInterval;
+let currentScore = 1000;
+
 window.addEventListener('load', runIntroSequence);
 
 function runIntroSequence() {
@@ -8,7 +24,7 @@ function runIntroSequence() {
   const board = document.getElementById('game-board');
   const header = document.querySelector('.game-header');
 
-  // Hide board during intro
+  // Prevent board from flashing during intro
   board.style.visibility = 'hidden';
   header.style.visibility = 'hidden';
 
@@ -17,7 +33,7 @@ function runIntroSequence() {
     countdown--;
     countDisplay.innerText = countdown;
 
-    // SWAP CONTENT AT 3 SECONDS
+    // Swap from Welcome to Instructions at 3 seconds
     if (countdown === 3) {
       welcome.style.display = 'none';
       instructions.style.display = 'block';
@@ -32,15 +48,100 @@ function runIntroSequence() {
   }, 1000);
 }
 
-// Ensure the Win Screen is layered correctly
+function flipCard() {
+  if (lockBoard || this === firstCard) return;
+  if (!timerStarted) {
+    updateVolume();
+    bgMusic.play().catch(() => {});
+    startTimer();
+    timerStarted = true;
+  }
+  if (flipSound) { flipSound.currentTime = 0; flipSound.play(); }
+  this.classList.add('flip');
+  if (!hasFlippedCard) {
+    hasFlippedCard = true;
+    firstCard = this;
+    return;
+  }
+  secondCard = this;
+  checkForMatch();
+}
+
+function checkForMatch() {
+  let isMatch = firstCard.dataset.framework === secondCard.dataset.framework;
+  isMatch ? disableCards() : unflipCards();
+  moves++;
+  document.getElementById('move-counter').innerText = moves;
+}
+
+function disableCards() {
+  setTimeout(() => { if (matchSound) matchSound.play(); }, 300);
+  firstCard.removeEventListener('click', flipCard);
+  secondCard.removeEventListener('click', flipCard);
+  matchedPairs++;
+  if (matchedPairs === 12) setTimeout(showWinScreen, 1500);
+  resetBoard();
+}
+
+function unflipCards() {
+  lockBoard = true;
+  setTimeout(() => {
+    if (mismatchSound) mismatchSound.play();
+    firstCard.classList.remove('flip');
+    secondCard.classList.remove('flip');
+    resetBoard();
+  }, 1000);
+}
+
+function resetBoard() {
+  [hasFlippedCard, lockBoard] = [false, false];
+  [firstCard, secondCard] = [null, null];
+}
+
 function showWinScreen() {
   clearInterval(timerInterval);
   fireConfetti();
-  
   setTimeout(() => {
     const winModal = document.getElementById('win-modal');
-    winModal.style.display = 'flex'; // Uses flex to center the card
+    winModal.style.display = 'flex';
     document.getElementById('final-stats-text').innerHTML = `You completed the challenge in <b>${moves} moves</b> and <b>${seconds} seconds</b>.`;
-    document.getElementById('final-score-big').innerText = currentScore;
+    document.getElementById('final-score-big').innerText = `Final Score: ${currentScore}`;
   }, 500);
 }
+
+function fireConfetti() {
+  const duration = 3 * 1000;
+  const end = Date.now() + duration;
+  (function frame() {
+    confetti({ particleCount: 4, angle: 60, spread: 55, origin: { x: 0 }, zIndex: 10001 });
+    confetti({ particleCount: 4, angle: 120, spread: 55, origin: { x: 1 }, zIndex: 10001 });
+    if (Date.now() < end) requestAnimationFrame(frame);
+  }());
+}
+
+function startTimer() {
+  timerInterval = setInterval(() => {
+    seconds++;
+    let m = Math.floor(seconds / 60).toString().padStart(2, '0');
+    let s = (seconds % 60).toString().padStart(2, '0');
+    document.getElementById('timer').innerText = `${m}:${s}`;
+    currentScore = Math.max(100, 1000 - (moves * 10) - (seconds * 2));
+    document.getElementById('score-display').innerText = currentScore;
+  }, 1000);
+}
+
+function updateVolume() {
+  bgMusic.volume = document.getElementById('music-vol').value;
+  const sfx = document.getElementById('sfx-vol').value;
+  [flipSound, matchSound, mismatchSound].forEach(s => s.volume = sfx);
+}
+
+function toggleAudioSettings() {
+  const modal = document.getElementById('audio-modal');
+  modal.style.display = (modal.style.display === 'none') ? 'flex' : 'none';
+}
+
+function resetGame() { location.reload(); }
+function shuffle() { cards.forEach(c => c.style.order = Math.floor(Math.random() * 24)); }
+shuffle();
+cards.forEach(c => c.addEventListener('click', flipCard));
