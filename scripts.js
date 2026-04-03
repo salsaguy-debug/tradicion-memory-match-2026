@@ -6,6 +6,12 @@ const mismatchSound = document.getElementById('sound-mismatch');
 
 let hasFlippedCard = false, lockBoard = false, firstCard, secondCard;
 let moves = 0, matchedPairs = 0, timerStarted = false, seconds = 0, timerInterval, currentScore = 1000;
+let isMuted = false;
+
+// UI Elements for Audio
+const bgmSlider = document.getElementById('bgm-slider');
+const sfxSlider = document.getElementById('sfx-slider');
+const masterSlider = document.getElementById('master-slider');
 
 window.addEventListener('load', runIntroSequence);
 
@@ -39,10 +45,41 @@ function runIntroSequence() {
   }, 1000);
 }
 
+// AUDIO LOGIC
+function toggleAudioModal() {
+  const modal = document.getElementById('audio-modal');
+  modal.style.display = modal.style.display === 'none' ? 'flex' : 'none';
+}
+
+function updateVolumes() {
+  const master = masterSlider.value;
+  bgMusic.volume = isMuted ? 0 : bgmSlider.value * master;
+  const sfxVol = isMuted ? 0 : sfxSlider.value * master;
+  flipSound.volume = sfxVol;
+  matchSound.volume = sfxVol;
+  mismatchSound.volume = sfxVol;
+}
+
+function toggleMute() {
+  isMuted = !isMuted;
+  document.getElementById('mute-btn').innerText = isMuted ? "Mute All: ON" : "Mute All: OFF";
+  updateVolumes();
+}
+
+[bgmSlider, sfxSlider, masterSlider].forEach(s => s.addEventListener('input', updateVolumes));
+
+// GAME LOGIC
 function flipCard() {
   if (lockBoard || this === firstCard) return;
-  if (!timerStarted) { bgMusic.play().catch(() => {}); startTimer(); timerStarted = true; }
-  if (flipSound) { flipSound.currentTime = 0; flipSound.play(); }
+  if (!timerStarted) { 
+    bgMusic.play().catch(() => {}); 
+    updateVolumes();
+    startTimer(); 
+    timerStarted = true; 
+  }
+  
+  flipSound.currentTime = 0;
+  flipSound.play();
   
   this.classList.add('flip');
   if (!hasFlippedCard) { hasFlippedCard = true; firstCard = this; return; }
@@ -59,7 +96,7 @@ function checkForMatch() {
 }
 
 function disableCards() {
-  setTimeout(() => { if (matchSound) matchSound.play(); }, 300);
+  setTimeout(() => matchSound.play(), 300);
   firstCard.removeEventListener('click', flipCard);
   secondCard.removeEventListener('click', flipCard);
   matchedPairs++;
@@ -70,7 +107,7 @@ function disableCards() {
 function unflipCards() {
   lockBoard = true;
   setTimeout(() => {
-    if (mismatchSound) mismatchSound.play();
+    mismatchSound.play();
     firstCard.classList.remove('flip');
     secondCard.classList.remove('flip');
     resetBoard();
@@ -81,15 +118,11 @@ function resetBoard() { [hasFlippedCard, lockBoard] = [false, false]; [firstCard
 
 function showWinScreen() {
   clearInterval(timerInterval);
-  fireConfetti();
+  confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
   const winModal = document.getElementById('win-modal');
   winModal.style.display = 'flex';
   document.getElementById('final-stats-text').innerHTML = `Completed in <b>${moves} moves</b> and <b>${seconds} seconds</b>.`;
   document.getElementById('final-score-big').innerText = `Score: ${currentScore}`;
-}
-
-function fireConfetti() {
-  confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
 }
 
 function startTimer() {
@@ -103,6 +136,5 @@ function startTimer() {
 }
 
 function resetGame() { location.reload(); }
-function shuffle() { cards.forEach(c => c.style.order = Math.floor(Math.random() * 24)); }
-shuffle();
+(function shuffle() { cards.forEach(c => c.style.order = Math.floor(Math.random() * 24)); })();
 cards.forEach(c => c.addEventListener('click', flipCard));
