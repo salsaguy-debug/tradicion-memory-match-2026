@@ -8,7 +8,7 @@ let hasFlippedCard = false, lockBoard = false, firstCard, secondCard;
 let moves = 0, matchedPairs = 0, timerStarted = false, seconds = 0, timerInterval, currentScore = 1000;
 let isMuted = false;
 
-// UI Elements for Audio
+// Audio Sliders
 const bgmSlider = document.getElementById('bgm-slider');
 const sfxSlider = document.getElementById('sfx-slider');
 const masterSlider = document.getElementById('master-slider');
@@ -30,12 +30,10 @@ function runIntroSequence() {
   const introInterval = setInterval(() => {
     countdown--;
     countDisplay.innerText = countdown;
-
     if (countdown === 3) {
       welcome.style.display = 'none';
       instructions.style.display = 'block';
     }
-
     if (countdown <= 0) {
       clearInterval(introInterval);
       intro.style.display = 'none';
@@ -45,7 +43,7 @@ function runIntroSequence() {
   }, 1000);
 }
 
-// AUDIO LOGIC
+// AUDIO SETTINGS FUNCTIONS
 function toggleAudioModal() {
   const modal = document.getElementById('audio-modal');
   modal.style.display = modal.style.display === 'none' ? 'flex' : 'none';
@@ -68,7 +66,7 @@ function toggleMute() {
 
 [bgmSlider, sfxSlider, masterSlider].forEach(s => s.addEventListener('input', updateVolumes));
 
-// GAME LOGIC
+// GAMEPLAY
 function flipCard() {
   if (lockBoard || this === firstCard) return;
   if (!timerStarted) { 
@@ -77,13 +75,10 @@ function flipCard() {
     startTimer(); 
     timerStarted = true; 
   }
-  
   flipSound.currentTime = 0;
   flipSound.play();
-  
   this.classList.add('flip');
   if (!hasFlippedCard) { hasFlippedCard = true; firstCard = this; return; }
-  
   secondCard = this;
   checkForMatch();
 }
