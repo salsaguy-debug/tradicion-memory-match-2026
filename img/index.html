@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tradición Memory Match</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="game-header">
+    <h1>Tradición Memory Match</h1>
+    <div class="stats-container">
+      <span>Time: <b id="timer">00:00</b></span>
+      <span style="margin-left: 20px;">Moves: <b id="move-counter">0</b></span>
+      <span style="margin-left: 20px;">Best: <b id="best-score">-</b></span>
+    </div>
+  </div>
+
+  <section class="memory-game">
+    <div class="memory-card" data-framework="bomba"><img class="front-face" src="img/bomba.png"><img class="back-face" src="img/card-back.png"></div>
+    <div class="memory-card" data-framework="bomba"><img class="front-face" src="img/bomba.png"><img class="back-face" src="img/card-back.png"></div>
+
+    <div class="memory-card" data-framework="azul"><img class="front-face" src="img/Azul Transparent.png"><img class="back-face" src="img/card-back.png"></div>
+    <div class="memory-card" data-framework="azul"><img class="front-face" src="img/Azul Transparent.png"><img class="back-face" src="img/card-back.png"></div>
+
+    <div class="memory-card" data-framework="musician"><img class="front-face" src="img/Bomba Musician.png"><img class="back-face" src="img/card-back.png"></div>
+    <div class="memory-card" data-framework="musician"><img class="front-face" src="img/Bomba Musician.png"><img class="back-face" src="img/card-back.png"></div>
+
+    <div class="memory-card" data-framework="edna"><img class="front-face" src="img/Cabezudos Edna Gabriel.png"><img class="back-face" src="img/card-back.png"></div>
+    <div class="memory-card" data-framework="edna"><img class="front-face" src="img/Cabezudos Edna Gabriel.png"><img class="back-face" src="img/card-back.png"></div>
+
+    <div class="memory-card" data-framework="cano"><img class="front-face" src="img/Cano Barracuda.png"><img class="back-face" src="img/card-back.png"></div>
+    <div class="memory-card" data-framework="cano"><img class="front-face" src="img/Cano Barracuda.png"><img class="back-face" src="img/card-back.png"></div>
+
+    <div class="memory-card" data-framework="comalera"><img class="front-face" src="img/Comalera.png"><img class="back-face" src="img/card-back.png"></div>
+    <div class="memory-card" data-framework="comalera"><img class="front-face" src="img/Comalera.png"><img class="back-face" src="img/card-back.png"></div>
+
+    <div class="memory-card" data-framework="mapale"><img class="front-face" src="img/Mapale.png"><img class="back-face" src="img/card-back.png"></div>
+    <div class="memory-card" data-framework="mapale"><img class="front-face" src="img/Mapale.png"><img class="back-face" src="img/card-back.png"></div>
+
+    <div class="memory-card" data-framework="viejito"><img class="front-face" src="img/Viejito.png"><img class="back-face" src="img/card-back.png"></div>
+    <div class="memory-card" data-framework="viejito"><img class="front-face" src="img/Viejito.png"><img class="back-face" src="img/card-back.png"></div>
+
+    <div class="memory-card" data-framework="guiro"><img class="front-face" src="img/img9.png"><img class="back-face" src="img/card-back.png"></div>
+    <div class="memory-card" data-framework="guiro"><img class="front-face" src="img/img9.png"><img class="back-face" src="img/card-back.png"></div>
+
+    <div class="memory-card" data-framework="maraca"><img class="front-face" src="img/img10.png"><img class="back-face" src="img/card-back.png"></div>
+    <div class="memory-card" data-framework="maraca"><img class="front-face" src="img/img10.png"><img class="back-face" src="img/card-back.png"></div>
+
+    <div class="memory-card" data-framework="bailadora"><img class="front-face" src="img/img11.png"><img class="back-face" src="img/card-back.png"></div>
+    <div class="memory-card" data-framework="bailadora"><img class="front-face" src="img/img11.png"><img class="back-face" src="img/card-back.png"></div>
+
+    <div class="memory-card" data-framework="pava"><img class="front-face" src="img/img12.png"><img class="back-face" src="img/card-back.png"></div>
+    <div class="memory-card" data-framework="pava"><img class="front-face" src="img/img12.png"><img class="back-face" src="img/card-back.png"></div>
+  </section>
+
+  <div id="win-message" class="overlay">
+    <div class="message-content">
+      <h2>¡Felicidades!</h2>
+      <p id="final-stats"></p>
+      <button onclick="location.reload()">Play Again</button>
+    </div>
+  </div>
+
+  <script src="scripts.js"></script>
+</body>
+</html>
