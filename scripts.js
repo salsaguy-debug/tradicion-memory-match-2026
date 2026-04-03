@@ -8,7 +8,6 @@ let hasFlippedCard = false, lockBoard = false, firstCard, secondCard;
 let moves = 0, matchedPairs = 0, timerStarted = false, seconds = 0, timerInterval, currentScore = 1000;
 let isMuted = false;
 
-// Audio Sliders
 const bgmSlider = document.getElementById('bgm-slider');
 const sfxSlider = document.getElementById('sfx-slider');
 const masterSlider = document.getElementById('master-slider');
@@ -43,7 +42,6 @@ function runIntroSequence() {
   }, 1000);
 }
 
-// AUDIO SETTINGS FUNCTIONS
 function toggleAudioModal() {
   const modal = document.getElementById('audio-modal');
   modal.style.display = modal.style.display === 'none' ? 'flex' : 'none';
@@ -66,7 +64,6 @@ function toggleMute() {
 
 [bgmSlider, sfxSlider, masterSlider].forEach(s => s.addEventListener('input', updateVolumes));
 
-// GAMEPLAY
 function flipCard() {
   if (lockBoard || this === firstCard) return;
   if (!timerStarted) { 
