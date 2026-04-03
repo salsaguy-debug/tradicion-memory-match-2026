@@ -5,15 +5,15 @@ const countNum = document.getElementById('count-num');
 
 let countdown = 6;
 
-// AUDIO SETTING BUTTON - FIXED LOGIC
+// Audio Setting Button Logic
 audioBtn.addEventListener('click', (e) => {
-    e.stopPropagation(); // Prevents the click from hitting the overlay behind it
+    e.stopPropagation(); 
     alert("Audio Settings: Music is active! Adjust volume on your device.");
 });
 
-// START BUTTON & 6-SECOND COUNTDOWN
+// Start Button & 6-Second Countdown
 startBtn.addEventListener('click', () => {
-    startBtn.style.display = 'none'; // Hide button once clicked
+    startBtn.style.display = 'none'; 
     
     const timer = setInterval(() => {
         countdown--;
@@ -21,13 +21,13 @@ startBtn.addEventListener('click', () => {
         
         if (countdown <= 0) {
             clearInterval(timer);
-            introOverlay.style.display = 'none'; // Fade out loading screen
-            initGame(); // Call your card shuffle function here
+            introOverlay.style.display = 'none'; 
+            initGame(); 
         }
     }, 1000);
 });
 
 function initGame() {
-    console.log("Tradición Memory Match: Game Initialized!");
-    // PASTE YOUR CARD GENERATION LOGIC HERE
+    console.log("Game Initialized!");
+    // Insert your card shuffle and matching logic here
 }
