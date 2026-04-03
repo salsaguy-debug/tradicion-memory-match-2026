@@ -4,28 +4,30 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tradición Memory Match</title>
-  <link rel="stylesheet" href="style.css?v=2.3">
+  <link rel="stylesheet" href="style.css?v=3.0">
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
 <body>
 
-  <div id="intro-overlay" class="overlay flex-column">
+  <div id="intro-overlay" class="overlay">
     <img src="img/sgrlogo.png" alt="Salsa Guy Richmond Logo" id="intro-logo">
     
     <div id="welcome-content" class="intro-box">
       <h2 class="welcome-title">Welcome to Tradición Memory Match!</h2>
-      <p class="welcome-p">Prepare your mind to match the vibrant heritage of Puerto Rico and beyond.</p>
+      <p class="welcome-p">Match the vibrant heritage of Puerto Rico and beyond.</p>
       <div class="promo-links">
-        <p>Dance Lessons: <a href="https://salsarichmond.com" target="_blank">salsarichmond.com</a></p>
+        <p>Lessons: <a href="https://salsarichmond.com" target="_blank">salsarichmond.com</a></p>
         <p>Performances: <a href="https://tradicion.org" target="_blank">tradicion.org</a></p>
       </div>
     </div>
 
     <div id="instructions-content" class="intro-box" style="display: none;">
-      <h2 class="orange-text">HOW TO PLAY</h2>
-      <div class="instr-item"><span>🎴</span> <b>FLIP:</b> Click cards to reveal iconic cultural images.</div>
-      <div class="instr-item"><span>✨</span> <b>MATCH:</b> Find two identical cards to clear them.</div>
-      <div class="instr-item"><span>🏆</span> <b>WIN:</b> Match all 12 pairs!</div>
+      <h2 class="orange-text" style="color: #f39c12; margin-bottom: 10px;">HOW TO PLAY</h2>
+      <ul style="list-style: none; line-height: 1.6;">
+        <li>🎴 <b>FLIP:</b> Click cards to reveal icons.</li>
+        <li>✨ <b>MATCH:</b> Find two identical icons.</li>
+        <li>🏆 <b>WIN:</b> Clear all 12 pairs to win!</li>
+      </ul>
     </div>
 
     <div id="countdown-display">
@@ -40,7 +42,29 @@
       <span>Time: <b id="timer">00:00</b></span>
       <span>Moves: <b id="move-counter">0</b></span>
       <span>Score: <b id="score-display">1000</b></span>
+      <button class="btn-orange" onclick="toggleAudioModal()">Audio Settings</button>
       <button class="btn-orange" onclick="resetGame()">Reset Game</button>
+    </div>
+  </div>
+
+  <div id="audio-modal" class="modal-overlay" style="display: none;">
+    <div class="audio-card">
+      <h2 style="margin-bottom: 15px;">Audio Settings</h2>
+      <div class="control-group">
+        <label>Background Music</label>
+        <input type="range" id="bgm-slider" min="0" max="1" step="0.1" value="0.5">
+      </div>
+      <div class="control-group">
+        <label>SFX (Flip/Match)</label>
+        <input type="range" id="sfx-slider" min="0" max="1" step="0.1" value="0.7">
+      </div>
+      <div class="control-group">
+        <label>Master Volume</label>
+        <input type="range" id="master-slider" min="0" max="1" step="0.1" value="1">
+      </div>
+      <button id="mute-btn" class="btn-mute" onclick="toggleMute()">Mute All: OFF</button>
+      <br>
+      <button class="btn-close" onclick="toggleAudioModal()">Close</button>
     </div>
   </div>
 
