@@ -8,10 +8,10 @@ let countdown = 6;
 // Audio Setting logic
 audioBtn.addEventListener('click', (e) => {
     e.stopPropagation();
-    alert("Audio Settings: Music is ON.");
+    alert("Audio Settings: Music is currently ON.");
 });
 
-// Start Button & 6-Second Counter
+// Start Button & 6-Second Counter Sequence
 startBtn.addEventListener('click', () => {
     startBtn.style.display = 'none';
     
@@ -28,5 +28,6 @@ startBtn.addEventListener('click', () => {
 });
 
 function initGame() {
-    console.log("Original Game Started!");
+    console.log("Memory Game Initialized.");
+    // Your existing shuffle and card display logic goes here
 }
