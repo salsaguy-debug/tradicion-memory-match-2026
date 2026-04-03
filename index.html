@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,24 +16,21 @@
       <h2 class="welcome-title">Welcome to Tradición Memory Match!</h2>
       <p class="welcome-p">Prepare your mind to match the vibrant heritage of Puerto Rico and beyond.</p>
       <div class="promo-links">
-        <p>Dance Lessons available with the Salsa Guy: <br>
-        <a href="https://salsarichmond.com" target="_blank">salsarichmond.com</a></p>
-        <p>For performances, go to: <br>
-        <a href="https://tradicion.org" target="_blank">tradicion.org</a></p>
+        <p>Dance Lessons: <a href="https://salsarichmond.com" target="_blank">salsarichmond.com</a></p>
+        <p>Performances: <a href="https://tradicion.org" target="_blank">tradicion.org</a></p>
       </div>
     </div>
 
     <div id="instructions-content" class="intro-box" style="display: none;">
-      <h2 class="orange-text">HOW TO PLAY</h2>
-      <div class="instr-item"><span>🎴</span> <b>FLIP:</b> Click any card to reveal a cultural icon.</div>
-      <div class="instr-item"><span>✨</span> <b>MATCH:</b> Find two of the same to clear them.</div>
-      <div class="instr-item"><span>🏆</span> <b>WIN:</b> Match all 12 pairs for the celebration!</div>
-      <div class="instr-item"><span>⏱️</span> <b>SCORE:</b> Faster moves earn higher points.</div>
+      <h2 class="orange-text" style="color: #f39c12; margin-bottom: 10px;">HOW TO PLAY</h2>
+      <div class="instr-item"><span>🎴</span> <b>FLIP:</b> Click cards to reveal icons.</div>
+      <div class="instr-item"><span>✨</span> <b>MATCH:</b> Find two same icons to clear.</div>
+      <div class="instr-item"><span>🏆</span> <b>WIN:</b> Match all 12 pairs!</div>
     </div>
 
-    <div id="countdown-display">
+    <div id="countdown-display" style="margin-top: 20px; font-weight: bold;">
       Game starting in: <br>
-      <b id="count-num">6</b>
+      <b id="count-num" style="font-size: 5rem; color: #f39c12;">6</b>
     </div>
   </div>
 
@@ -44,7 +40,6 @@
       <span>Time: <b id="timer">00:00</b></span>
       <span>Moves: <b id="move-counter">0</b></span>
       <span>Score: <b id="score-display">1000</b></span>
-      <button class="btn-orange" onclick="toggleAudioSettings()">Audio Settings</button>
       <button class="btn-orange" onclick="resetGame()">Reset Game</button>
     </div>
   </div>
@@ -54,9 +49,6 @@
       <h2>¡Felicidades!</h2>
       <p id="final-stats-text"></p>
       <h1 id="final-score-big">0</h1>
-      <div class="promo-links-dark">
-        <a href="https://salsarichmond.com" target="_blank">salsarichmond.com</a> | <a href="https://tradicion.org" target="_blank">tradicion.org</a>
-      </div>
       <button class="btn-orange" onclick="resetGame()">Play Again</button>
     </div>
   </div>
