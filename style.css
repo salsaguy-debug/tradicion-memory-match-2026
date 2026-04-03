@@ -1,116 +1,71 @@
-/* --- 1. RESET & BASE --- */
-* { 
-  padding: 0; 
-  margin: 0; 
-  box-sizing: border-box; 
-}
+* { padding: 0; margin: 0; box-sizing: border-box; }
 
 body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  /* Updated to apply the background image to the main game area */
+  /* Apply background image to the whole body */
   background-image: url('img/game_background.png');
   background-size: cover;
   background-position: center;
+  background-attachment: fixed;
   font-family: sans-serif;
   overflow-x: hidden;
 }
 
-/* --- 2. THE WHITE INTRO OVERLAY --- */
+/* --- UPDATED OVERLAY FOR WELCOME PAGE --- */
 .overlay { 
   position: fixed; 
-  top: 0; 
-  left: 0; 
-  width: 100%; 
-  height: 100%; 
-  background: rgba(255, 255, 255, 1.0); /* Solid white, hiding the background initially */
+  top: 0; left: 0; width: 100%; height: 100%; 
+  /* Using the background image here too so it shows on the Welcome Page */
+  background-image: linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)), url('img/game_background.png');
+  background-size: cover;
+  background-position: center;
   display: flex; 
   flex-direction: column; 
   justify-content: center; 
   align-items: center; 
   z-index: 9999; 
-  color: #000000; 
+  color: #000; 
   text-align: center;
 }
 
-#intro-logo { 
-  width: 220px; 
-  height: auto; 
-  margin-bottom: 25px; 
-}
+#intro-logo { width: 220px; height: auto; margin-bottom: 25px; }
 
-/* Style for the countdown on white background */
 #count-num {
   display: block;
   font-size: 5rem;
   font-weight: bold;
-  color: #f39c12; /* Salsa Orange is the primary color */
+  color: #f39c12;
 }
 
-/* --- 3. UI ELEMENTS --- */
-.btn-orange { 
-  background: #f39c12; 
-  color: white; 
-  border: none; 
-  padding: 10px 20px; 
-  border-radius: 5px; 
-  cursor: pointer; 
-  font-weight: bold;
-  z-index: 10005; /* Ensures clickability above the standard layered board */
-}
-
-.game-header { text-align: center; padding: 15px; color: white; }
-.stats-container { display: flex; justify-content: center; gap: 20px; }
-
-/* --- 4. GAME BOARD & CARDS --- */
+/* --- GAME BOARD --- */
 .memory-game { 
-  width: 1000px; 
-  max-width: 95%; 
-  margin: 30px auto; 
-  display: flex; 
-  flex-wrap: wrap; 
-  perspective: 1000px; 
-  justify-content: center; 
+  width: 1000px; max-width: 95%; margin: 30px auto; 
+  display: flex; flex-wrap: wrap; perspective: 1000px; justify-content: center; 
 }
 
 .memory-card { 
-  /* Square logic for a 6 per row layout */
-  width: calc(16.6% - 10px); 
-  height: 130px; 
-  margin: 5px; 
-  position: relative; 
-  transform-style: preserve-3d; 
-  transition: transform .4s; 
-  cursor: pointer;
+  width: calc(16.6% - 10px); height: 130px; margin: 5px; 
+  position: relative; transform-style: preserve-3d; transition: transform .4s; cursor: pointer;
 }
 
 .memory-card.flip { transform: rotateY(180deg); }
 
 .front-face, .back-face { 
-  width: 100%; 
-  height: 100%; 
-  position: absolute; 
-  border-radius: 4px; 
-  backface-visibility: hidden; 
-  padding: 0 !important; /* Zero padding is enforced */
+  width: 100%; height: 100%; position: absolute; border-radius: 4px; 
+  backface-visibility: hidden; padding: 0 !important;
 }
 
-.front-face { 
-  transform: rotateY(180deg); 
-  background: none !important; 
-}
-
-.front-face img { 
-  width: 100%; 
-  height: 100%; 
-  object-fit: fill; /* Edge-to-edge, designed for square photos */
-}
+.front-face { transform: rotateY(180deg); background: white; }
+.front-face img { width: 100%; height: 100%; object-fit: fill; }
 
 .back-face { 
   background-image: url('img/back-face.png'); 
-  background-size: 100% 100%; 
-  background-position: center;
-  background-repeat: no-repeat;
-  background-color: #f39c12; /* Fallback primary color */
+  background-size: 100% 100%; background-position: center; background-repeat: no-repeat;
+  background-color: #f39c12;
 }
+
+.btn-orange { background: #f39c12; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+.game-header { text-align: center; padding: 15px; color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+.stats-container { display: flex; justify-content: center; gap: 20px; font-weight: bold; }
