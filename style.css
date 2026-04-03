@@ -4,7 +4,6 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  /* Apply background image to the whole body */
   background-image: url('img/game_background.png');
   background-size: cover;
   background-position: center;
@@ -13,47 +12,34 @@ body {
   overflow-x: hidden;
 }
 
-/* --- UPDATED OVERLAY FOR WELCOME PAGE --- */
+/* OVERLAY (Used for Welcome Page & Win Screen) */
 .overlay { 
-  position: fixed; 
-  top: 0; left: 0; width: 100%; height: 100%; 
-  /* Using the background image here too so it shows on the Welcome Page */
-  background-image: linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)), url('img/game_background.png');
-  background-size: cover;
-  background-position: center;
-  display: flex; 
-  flex-direction: column; 
-  justify-content: center; 
-  align-items: center; 
-  z-index: 9999; 
-  color: #000; 
-  text-align: center;
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+  /* Welcome background with transparent overlay for readability */
+  background: linear-gradient(rgba(255,255,255,0.8), rgba(255,255,255,0.8)), url('img/game_background.png');
+  background-size: cover; background-position: center;
+  display: flex; flex-direction: column; justify-content: center; align-items: center; 
+  z-index: 9999; color: black; text-align: center;
 }
 
-#intro-logo { width: 220px; height: auto; margin-bottom: 25px; }
+#intro-logo { width: 200px; margin-bottom: 20px; }
+#count-num { display: block; font-size: 5rem; color: #f39c12; font-weight: bold; }
 
-#count-num {
-  display: block;
-  font-size: 5rem;
-  font-weight: bold;
-  color: #f39c12;
-}
-
-/* --- GAME BOARD --- */
+/* GAME BOARD GRID */
 .memory-game { 
-  width: 1000px; max-width: 95%; margin: 30px auto; 
+  width: 900px; max-width: 95%; margin: 20px auto; 
   display: flex; flex-wrap: wrap; perspective: 1000px; justify-content: center; 
 }
 
 .memory-card { 
-  width: calc(16.6% - 10px); height: 130px; margin: 5px; 
+  width: calc(16.6% - 10px); height: 120px; margin: 5px; 
   position: relative; transform-style: preserve-3d; transition: transform .4s; cursor: pointer;
 }
 
 .memory-card.flip { transform: rotateY(180deg); }
 
 .front-face, .back-face { 
-  width: 100%; height: 100%; position: absolute; border-radius: 4px; 
+  width: 100%; height: 100%; position: absolute; border-radius: 5px; 
   backface-visibility: hidden; padding: 0 !important;
 }
 
@@ -62,10 +48,23 @@ body {
 
 .back-face { 
   background-image: url('img/back-face.png'); 
-  background-size: 100% 100%; background-position: center; background-repeat: no-repeat;
+  background-size: 100% 100%; background-repeat: no-repeat;
   background-color: #f39c12;
 }
 
-.btn-orange { background: #f39c12; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; }
-.game-header { text-align: center; padding: 15px; color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
-.stats-container { display: flex; justify-content: center; gap: 20px; font-weight: bold; }
+/* UI BUTTONS */
+.btn-orange { background: #f39c12; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; margin: 5px; }
+.game-header { text-align: center; color: white; padding: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+.stats-container { display: flex; justify-content: center; align-items: center; gap: 15px; }
+
+/* AUDIO MODAL STYLES */
+.modal-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.7); display: flex; justify-content: center; align-items: center; z-index: 10010;
+}
+.audio-card { background: #222; border: 2px solid #f39c12; border-radius: 15px; padding: 25px; width: 320px; color: white; text-align: center; }
+.control-group { margin-bottom: 15px; }
+.control-group label { display: block; margin-bottom: 5px; font-size: 0.9rem; }
+input[type=range] { width: 100%; accent-color: #3498db; }
+.btn-mute { background: #e74c3c; color: white; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; margin-bottom: 10px; }
+.btn-close { background: #555; color: white; border: none; padding: 5px 15px; border-radius: 20px; cursor: pointer; }
