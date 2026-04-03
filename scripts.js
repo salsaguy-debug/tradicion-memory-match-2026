@@ -9,7 +9,6 @@ let moves = 0, matchedPairs = 0, timerStarted = false, seconds = 0, timerInterva
 
 window.addEventListener('load', runIntroSequence);
 
-// THE INTRO & 6-SECOND COUNTDOWN LOGIC (Fixed)
 function runIntroSequence() {
   const intro = document.getElementById('intro-overlay');
   const welcome = document.getElementById('welcome-content');
@@ -18,7 +17,6 @@ function runIntroSequence() {
   const board = document.getElementById('game-board');
   const header = document.querySelector('.game-header');
 
-  // Standard Layering: Board and header hidden at start
   board.style.visibility = 'hidden';
   header.style.visibility = 'hidden';
 
@@ -27,34 +25,23 @@ function runIntroSequence() {
     countdown--;
     countDisplay.innerText = countdown;
 
-    // Switch view halfway through
     if (countdown === 3) {
       welcome.style.display = 'none';
       instructions.style.display = 'block';
     }
 
-    // Countdown hits zero, reveal board
     if (countdown <= 0) {
       clearInterval(introInterval);
-      intro.style.display = 'none'; // Kills the white background screen
-      board.style.visibility = 'visible'; // Board with beach background is revealed
+      intro.style.display = 'none';
+      board.style.visibility = 'visible';
       header.style.visibility = 'visible';
     }
   }, 1000);
 }
 
-// THE CARD LOGIC
 function flipCard() {
   if (lockBoard || this === firstCard) return;
-  
-  // Game triggers on the first successful flip
-  if (!timerStarted) { 
-    bgMusic.play().catch(() => {}); // Play music (catch required due to browser autoplay policies)
-    startTimer(); 
-    timerStarted = true; 
-  }
-  
-  // Sound triggers
+  if (!timerStarted) { bgMusic.play().catch(() => {}); startTimer(); timerStarted = true; }
   if (flipSound) { flipSound.currentTime = 0; flipSound.play(); }
   
   this.classList.add('flip');
@@ -76,7 +63,7 @@ function disableCards() {
   firstCard.removeEventListener('click', flipCard);
   secondCard.removeEventListener('click', flipCard);
   matchedPairs++;
-  if (matchedPairs === 12) setTimeout(showWinScreen, 1500); // Wait for the animation to complete
+  if (matchedPairs === 12) setTimeout(showWinScreen, 1500);
   resetBoard();
 }
 
@@ -97,12 +84,11 @@ function showWinScreen() {
   fireConfetti();
   const winModal = document.getElementById('win-modal');
   winModal.style.display = 'flex';
-  document.getElementById('final-stats-text').innerHTML = `Challenge completed in <b>${moves} moves</b> and <b>${seconds} seconds</b>.`;
+  document.getElementById('final-stats-text').innerHTML = `Completed in <b>${moves} moves</b> and <b>${seconds} seconds</b>.`;
   document.getElementById('final-score-big').innerText = `Score: ${currentScore}`;
 }
 
 function fireConfetti() {
-  // Configurable confetti blast using canvas-confetti library
   confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
 }
 
@@ -111,16 +97,12 @@ function startTimer() {
     seconds++;
     let m = Math.floor(seconds / 60).toString().padStart(2, '0'), s = (seconds % 60).toString().padStart(2, '0');
     document.getElementById('timer').innerText = `${m}:${s}`;
-    
-    // Dynamic score (decreases over time and with moves, floors at 100)
     currentScore = Math.max(100, 1000 - (moves * 10) - (seconds * 2));
     document.getElementById('score-display').innerText = currentScore;
   }, 1000);
 }
 
 function resetGame() { location.reload(); }
-
-// SHUFFLE & INITIALIZE
 function shuffle() { cards.forEach(c => c.style.order = Math.floor(Math.random() * 24)); }
 shuffle();
 cards.forEach(c => c.addEventListener('click', flipCard));
