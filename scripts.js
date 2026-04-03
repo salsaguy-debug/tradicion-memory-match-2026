@@ -5,15 +5,15 @@ const countNum = document.getElementById('count-num');
 
 let countdown = 6;
 
-// Audio Setting Button Logic
+// AUDIO SETTING BUTTON - FIXED LOGIC
 audioBtn.addEventListener('click', (e) => {
-    e.stopPropagation(); // Prevents click from hitting the overlay
-    alert("Audio Settings: Music is ON. Adjust your device volume for best experience!");
+    e.stopPropagation(); // Prevents the click from hitting the overlay behind it
+    alert("Audio Settings: Music is active! Adjust volume on your device.");
 });
 
-// Start Game and Countdown Sequence
+// START BUTTON & 6-SECOND COUNTDOWN
 startBtn.addEventListener('click', () => {
-    startBtn.style.display = 'none'; // Hide the start button
+    startBtn.style.display = 'none'; // Hide button once clicked
     
     const timer = setInterval(() => {
         countdown--;
@@ -21,13 +21,13 @@ startBtn.addEventListener('click', () => {
         
         if (countdown <= 0) {
             clearInterval(timer);
-            introOverlay.style.display = 'none'; // Remove the white overlay
-            initGame(); // Call your existing function to shuffle and show cards
+            introOverlay.style.display = 'none'; // Fade out loading screen
+            initGame(); // Call your card shuffle function here
         }
     }, 1000);
 });
 
 function initGame() {
-    console.log("Game Started on the Beach Background!");
-    // Add your card generation/shuffling logic here
+    console.log("Tradición Memory Match: Game Initialized!");
+    // PASTE YOUR CARD GENERATION LOGIC HERE
 }
