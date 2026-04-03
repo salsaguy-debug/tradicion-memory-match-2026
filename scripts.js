@@ -5,15 +5,15 @@ const countNum = document.getElementById('count-num');
 
 let countdown = 6;
 
-// Audio Setting Button Logic
+// Audio Setting logic
 audioBtn.addEventListener('click', (e) => {
-    e.stopPropagation(); 
-    alert("Audio Settings: Music is active! Adjust volume on your device.");
+    e.stopPropagation();
+    alert("Audio Settings: Music is ON.");
 });
 
-// Start Button & 6-Second Countdown
+// Start Button & 6-Second Counter
 startBtn.addEventListener('click', () => {
-    startBtn.style.display = 'none'; 
+    startBtn.style.display = 'none';
     
     const timer = setInterval(() => {
         countdown--;
@@ -21,13 +21,12 @@ startBtn.addEventListener('click', () => {
         
         if (countdown <= 0) {
             clearInterval(timer);
-            introOverlay.style.display = 'none'; 
-            initGame(); 
+            introOverlay.style.display = 'none';
+            initGame();
         }
     }, 1000);
 });
 
 function initGame() {
-    console.log("Game Initialized!");
-    // Insert your card shuffle and matching logic here
+    console.log("Original Game Started!");
 }
