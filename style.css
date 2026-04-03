@@ -9,7 +9,6 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  /* NEW TROPICAL BACKGROUND */
   background-image: url('img/game_background.png');
   background-size: cover;
   background-position: center;
@@ -19,11 +18,11 @@ body {
   overflow-x: hidden;
 }
 
-/* --- 2. GAME CENTER (HEADER STATS) --- */
+/* --- 2. GAME CENTER (HEADER) --- */
 .game-header { 
   text-align: center; 
   padding: 15px; 
-  background: rgba(255, 255, 255, 0.95); /* Slight transparency for beach look */
+  background: rgba(255, 255, 255, 0.95); 
   color: #000000; 
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
   position: relative;
@@ -42,10 +41,7 @@ body {
   justify-content: center; 
   gap: 25px; 
   font-weight: bold;
-  font-size: 1.1rem;
 }
-
-.stat-item span { color: #f39c12; }
 
 /* --- 3. LOADING PAGE (WHITE BG / BLACK TEXT) --- */
 .overlay { 
@@ -60,7 +56,6 @@ body {
   justify-content: center; 
   align-items: center; 
   z-index: 9999; 
-  color: #000000; 
 }
 
 #intro-logo { 
@@ -76,12 +71,12 @@ body {
   color: #f39c12;
 }
 
-/* --- 4. AUDIO SETTINGS FIX (CRITICAL) --- */
+/* --- 4. AUDIO SETTINGS FIX --- */
 .audio-settings-container {
   margin-top: 25px;
   position: relative; 
-  z-index: 10010 !important; /* Punches through the white overlay */
-  pointer-events: auto !important; /* Forces the click to register */
+  z-index: 10010 !important; 
+  pointer-events: auto !important; 
 }
 
 .btn-audio {
@@ -93,12 +88,9 @@ body {
   cursor: pointer;
   font-weight: bold;
   text-transform: uppercase;
-  transition: 0.2s;
 }
 
-.btn-audio:hover { background: #f39c12; }
-
-/* --- 5. THE GAME BOARD (500x500 SQUARE CARDS) --- */
+/* --- 5. THE GAME BOARD (SQUARE CARDS) --- */
 .memory-game { 
   width: 900px; 
   max-width: 95%; 
@@ -110,7 +102,6 @@ body {
 }
 
 .memory-card { 
-  /* Square layout logic for 6 per row */
   width: calc(16.66% - 10px); 
   height: 140px; 
   margin: 5px; 
@@ -128,19 +119,13 @@ body {
   position: absolute; 
   border-radius: 6px; 
   backface-visibility: hidden; 
-  padding: 0 !important; /* KILLS WHITE PADDING */
-}
-
-.front-face { 
-  transform: rotateY(180deg); 
-  background: #ffffff; 
+  padding: 0 !important; 
 }
 
 .front-face img { 
   width: 100%; 
   height: 100%; 
-  object-fit: cover; /* Edge-to-edge for square images */
-  border-radius: 6px;
+  object-fit: cover; 
 }
 
 .back-face { 
@@ -148,10 +133,9 @@ body {
   background-size: 100% 100%; 
   background-position: center;
   background-repeat: no-repeat;
-  box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
 }
 
-/* --- 6. BUTTONS & UI --- */
+/* --- 6. BUTTONS --- */
 .btn-orange { 
   background: #f39c12; 
   color: white; 
@@ -160,14 +144,4 @@ body {
   border-radius: 5px; 
   cursor: pointer; 
   font-weight: bold;
-  z-index: 10010;
-}
-
-/* --- 7. RESPONSIVE --- */
-@media (max-width: 800px) { 
-  .memory-card { width: calc(25% - 10px); height: 120px; } 
-}
-
-@media (max-width: 450px) {
-  .memory-card { width: calc(33.33% - 10px); height: 100px; }
 }
