@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tradición Memory Match</title>
-  <link rel="stylesheet" href="style.css?v=4.0">
+  <link rel="stylesheet" href="style.css?v=5.0">
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
 <body>
@@ -22,7 +22,7 @@
     </div>
 
     <div id="instructions-content" class="intro-box" style="display: none;">
-      <h2 class="orange-text" style="color: #f39c12; margin-bottom: 10px;">HOW TO PLAY</h2>
+      <h2 style="color: #f39c12; margin-bottom: 10px;">HOW TO PLAY</h2>
       <ul style="list-style: none; line-height: 1.6;">
         <li>🎴 <b>FLIP:</b> Click cards to reveal icons.</li>
         <li>✨ <b>MATCH:</b> Find two identical icons.</li>
@@ -50,22 +50,18 @@
   <div id="audio-modal" class="modal-overlay" style="display: none;">
     <div class="audio-card">
       <h2 style="margin-bottom: 20px; font-family: serif;">Audio Settings</h2>
-      
       <div class="control-group">
         <label>Background Music</label>
         <input type="range" id="bgm-slider" min="0" max="1" step="0.1" value="0.5">
       </div>
-
       <div class="control-group">
         <label>SFX (Flip/Match)</label>
         <input type="range" id="sfx-slider" min="0" max="1" step="0.1" value="0.7">
       </div>
-
       <div class="control-group">
         <label>Master Volume</label>
         <input type="range" id="master-slider" min="0" max="1" step="0.1" value="1">
       </div>
-
       <button id="mute-btn" class="btn-mute" onclick="toggleMute()">Mute All: OFF</button>
       <br>
       <button class="btn-close" onclick="toggleAudioModal()">Close</button>
