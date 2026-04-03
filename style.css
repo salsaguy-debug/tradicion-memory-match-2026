@@ -9,9 +9,9 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: #2c7a9b; /* Ocean Blue for game board */
+  background-color: #2c7a9b; /* Ocean Blue */
   font-family: sans-serif;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 /* --- 2. LOADING PAGE (WHITE BG / BLACK TEXT) --- */
@@ -21,79 +21,60 @@ body {
   left: 0; 
   width: 100%; 
   height: 100%; 
-  /* UPDATED: White background for loading/intro */
-  background: rgba(255, 255, 255, 1.0); 
+  background: #ffffff; /* Solid White */
   display: flex; 
   flex-direction: column; 
   justify-content: center; 
   align-items: center; 
   z-index: 9999; 
-  /* UPDATED: Black lettering for messages */
-  color: #000000; 
+  color: #000000; /* Black Lettering */
   text-align: center;
 }
 
 #intro-logo { 
-  width: 220px; 
+  width: 200px; /* Small logo for loading page */
   height: auto; 
-  margin-bottom: 25px; 
+  margin-bottom: 20px; 
 }
 
-.welcome-title {
-  font-size: 2.2rem;
-  margin-bottom: 10px;
-  color: #000; /* Black */
-}
+.welcome-title { font-size: 2rem; margin-bottom: 10px; color: #000; }
+.welcome-p { font-size: 1.1rem; margin-bottom: 20px; color: #333; }
 
-.welcome-p {
-  font-size: 1.2rem;
-  margin-bottom: 20px;
-  color: #333; /* Dark Gray/Black */
-}
-
-/* RE-INSTATED: 6-Second Counter Styles */
-#countdown-display {
-  margin-top: 20px;
-}
-
+/* 6-Second Counter */
 #count-num {
   display: block;
   font-size: 5rem;
   font-weight: bold;
-  color: #f39c12; /* Salsa Orange - keeps the pop on white */
+  color: #f39c12; /* Salsa Orange for visibility */
 }
 
 /* --- 3. AUDIO SETTINGS FIX --- */
 .audio-settings-container, .audio-controls {
-  margin-top: 30px;
+  margin-top: 25px;
   display: flex;
-  gap: 15px;
-  /* CRITICAL: Higher z-index and pointer-events ensure the button is clickable */
+  gap: 12px;
   position: relative;
-  z-index: 10005; 
-  pointer-events: auto;
+  z-index: 10010; /* Ensures it is above everything else */
+  pointer-events: auto; /* Forces clickability */
 }
 
 .btn-audio {
-  background: #333;
-  color: white;
+  background: #000;
+  color: #fff;
   border: 2px solid #f39c12;
-  padding: 10px 20px;
-  border-radius: 5px;
+  padding: 8px 16px;
+  border-radius: 4px;
   cursor: pointer;
   font-weight: bold;
-  transition: 0.2s;
 }
 
-.btn-audio:hover {
-  background: #f39c12;
-}
+.btn-audio:hover { background: #f39c12; }
 
-/* --- 4. GAME BOARD & WIDE CARDS --- */
+/* --- 4. GAME BOARD & SQUARE CARDS --- */
 .memory-game { 
-  width: 1000px; 
+  width: 900px; 
   max-width: 95%; 
-  margin: 30px auto; 
+  margin: 20px auto; 
   display: flex; 
   flex-wrap: wrap; 
   perspective: 1000px; 
@@ -101,8 +82,9 @@ body {
 }
 
 .memory-card { 
-  width: calc(23% - 10px); 
-  height: 130px; 
+  /* SQUARE RATIO: Width and Height are now equal to match 500x500 images */
+  width: calc(16.66% - 10px); 
+  height: 140px; /* Fixed height to match the width roughly for 6 per row */
   margin: 5px; 
   position: relative; 
   transform-style: preserve-3d; 
@@ -118,9 +100,10 @@ body {
   position: absolute; 
   border-radius: 4px; 
   backface-visibility: hidden; 
-  padding: 0 !important; /* ZERO PADDING ENFORCED */
+  padding: 0 !important; /* ZERO PADDING */
 }
 
+/* FRONT SIDE (Dancers) */
 .front-face { 
   transform: rotateY(180deg); 
   background: none !important; 
@@ -129,29 +112,43 @@ body {
 .front-face img { 
   width: 100%; 
   height: 100%; 
-  object-fit: fill; /* Stretches dancer to edges */
+  object-fit: cover; /* Since images are 500x500, this will fill the card perfectly */
 }
 
+/* BACK SIDE (Salsa Guy Logo) */
 .back-face { 
   background-image: url('img/back-face.png'); 
   background-size: 100% 100%; 
   background-position: center;
   background-repeat: no-repeat;
+  background-color: transparent;
 }
 
-/* --- 5. BUTTONS & RESPONSIVE --- */
+/* --- 5. UI BUTTONS --- */
 .btn-orange { 
   background: #f39c12; 
   color: white; 
   border: none; 
-  padding: 12px 35px; 
+  padding: 10px 25px; 
   border-radius: 5px; 
   cursor: pointer; 
   font-weight: bold;
-  z-index: 10005;
+  z-index: 10010;
 }
 
-@media (max-width: 850px) { 
-  #intro-logo { width: 160px; }
-  .memory-card { width: calc(30% - 10px); height: 115px; } 
+.game-header { text-align: center; padding: 15px; color: white; }
+
+/* --- 6. RESPONSIVE (Maintaining Squares) --- */
+@media (max-width: 800px) { 
+  .memory-card { 
+    width: calc(25% - 10px); 
+    height: 120px; 
+  } 
+}
+
+@media (max-width: 450px) {
+  .memory-card { 
+    width: calc(33.33% - 10px); 
+    height: 100px; 
+  }
 }
