@@ -98,15 +98,11 @@ function disableCards() {
 
 function unflipCards() {
   lockBoard = true;
-  
-  // Add shake animation
   firstCard.classList.add('shake');
   secondCard.classList.add('shake');
 
   setTimeout(() => {
     mismatchSound.play();
-    
-    // Remove flip and shake together
     firstCard.classList.remove('flip', 'shake');
     secondCard.classList.remove('flip', 'shake');
     resetBoard();
