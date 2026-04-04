@@ -34,10 +34,9 @@ body {
 
 .memory-card.flip { transform: rotateY(180deg); }
 
-/* --- SHAKE ANIMATION FOR MISMATCH --- */
+/* SHAKE ANIMATION */
 .memory-card.shake {
   animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
-  transform: translate3d(0, 0, 0);
 }
 
 @keyframes shake {
@@ -50,10 +49,16 @@ body {
 .front-face, .back-face { 
   width: 100%; height: 100%; position: absolute; border-radius: 5px; 
   backface-visibility: hidden;
+  padding: 0; /* ELIMINATED WHITE PADDING */
+  overflow: hidden;
 }
 
 .front-face { transform: rotateY(180deg); background: white; }
-.front-face img { width: 100%; height: 100%; object-fit: fill; }
+.front-face img { 
+  width: 100%; height: 100%; 
+  object-fit: cover; /* ENSURES IMAGE FILLS CARD */
+  display: block;
+}
 
 .back-face { 
   background-image: url('img/back-face.png'); 
