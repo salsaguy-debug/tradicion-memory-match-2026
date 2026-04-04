@@ -96,21 +96,19 @@ function disableCards() {
   resetBoard();
 }
 
-// UPDATED TO INCLUDE SHAKE CLASS
 function unflipCards() {
   lockBoard = true;
   
-  // Add the shake animation class
+  // Add shake animation
   firstCard.classList.add('shake');
   secondCard.classList.add('shake');
 
   setTimeout(() => {
     mismatchSound.play();
     
-    // Remove both flip and shake classes
+    // Remove flip and shake together
     firstCard.classList.remove('flip', 'shake');
     secondCard.classList.remove('flip', 'shake');
-    
     resetBoard();
   }, 1000);
 }
