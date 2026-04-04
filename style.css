@@ -11,6 +11,7 @@ body {
   font-family: sans-serif;
 }
 
+/* OVERLAYS */
 .overlay { 
   position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
   background: linear-gradient(rgba(255,255,255,0.8), rgba(255,255,255,0.8)), url('img/game_background.png');
@@ -22,6 +23,7 @@ body {
 #intro-logo { width: 200px; margin-bottom: 20px; }
 #count-num { display: block; font-size: 5rem; color: #f39c12; font-weight: bold; }
 
+/* BOARD & CARDS */
 .memory-game { 
   width: 900px; max-width: 95%; margin: 20px auto; 
   display: flex; flex-wrap: wrap; perspective: 1000px; justify-content: center; 
@@ -34,7 +36,7 @@ body {
 
 .memory-card.flip { transform: rotateY(180deg); }
 
-/* SHAKE ANIMATION */
+/* SHAKE ANIMATION FOR MISMATCH */
 .memory-card.shake {
   animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
 }
@@ -49,14 +51,18 @@ body {
 .front-face, .back-face { 
   width: 100%; height: 100%; position: absolute; border-radius: 5px; 
   backface-visibility: hidden;
-  padding: 0; /* ELIMINATED WHITE PADDING */
+  padding: 0; /* NO WHITE PADDING */
   overflow: hidden;
 }
 
-.front-face { transform: rotateY(180deg); background: white; }
+.front-face { 
+  transform: rotateY(180deg); 
+  background: none; /* TRANSPARENT BACKGROUND */
+}
+
 .front-face img { 
   width: 100%; height: 100%; 
-  object-fit: cover; /* ENSURES IMAGE FILLS CARD */
+  object-fit: cover; /* FILL CARD COMPLETELY */
   display: block;
 }
 
@@ -67,6 +73,10 @@ body {
   background-color: transparent; 
 }
 
+/* UI ELEMENTS */
+.game-header { text-align: center; color: white; padding: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.6); }
+.stats-container { display: flex; justify-content: center; align-items: center; gap: 15px; }
+
 .modal-overlay {
   position: fixed; top: 0; left: 0; width: 100%; height: 100%;
   background: rgba(0,0,0,0.8); display: flex; justify-content: center; align-items: center; z-index: 10010;
@@ -76,12 +86,7 @@ body {
   padding: 30px; width: 340px; color: white; text-align: center; 
 }
 .control-group { margin-bottom: 20px; }
-.control-group label { display: block; margin-bottom: 8px; font-weight: bold; }
-input[type=range] { width: 100%; accent-color: #3498db; cursor: pointer; }
-
 .btn-orange { background: #f39c12; color: white; border: none; padding: 10px 18px; border-radius: 5px; cursor: pointer; font-weight: bold; margin: 5px; }
 .btn-mute { background: #e74c3c; color: white; border: none; padding: 10px 20px; border-radius: 20px; cursor: pointer; margin-bottom: 15px; font-weight: bold; }
 .btn-close { background: #444; color: white; border: none; padding: 8px 25px; border-radius: 20px; cursor: pointer; }
-
-.game-header { text-align: center; color: white; padding: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.6); }
-.stats-container { display: flex; justify-content: center; align-items: center; gap: 15px; }
+input[type=range] { width: 100%; accent-color: #3498db; cursor: pointer; }
